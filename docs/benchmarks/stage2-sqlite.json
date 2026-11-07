@@ -1,0 +1,74 @@
+{
+  "environment": "Isolated synthetic local SQLite, warm repeated queries; not production D1 or browser latency",
+  "results": [
+    {
+      "products": 1000,
+      "ingestion_seconds": 0.017,
+      "products_per_second": 58533,
+      "database_bytes": 643072,
+      "queries": {
+        "old_category": {
+          "median_ms": 0.578,
+          "max_ms": 0.836,
+          "rows": 24
+        },
+        "indexed_category": {
+          "median_ms": 0.014,
+          "max_ms": 0.16,
+          "rows": 24
+        },
+        "broad_fts": {
+          "median_ms": 0.602,
+          "max_ms": 0.783,
+          "rows": 24
+        }
+      }
+    },
+    {
+      "products": 10000,
+      "ingestion_seconds": 0.213,
+      "products_per_second": 46877,
+      "database_bytes": 4698112,
+      "queries": {
+        "old_category": {
+          "median_ms": 7.473,
+          "max_ms": 7.96,
+          "rows": 24
+        },
+        "indexed_category": {
+          "median_ms": 0.014,
+          "max_ms": 0.099,
+          "rows": 24
+        },
+        "broad_fts": {
+          "median_ms": 7.622,
+          "max_ms": 10.542,
+          "rows": 24
+        }
+      }
+    },
+    {
+      "products": 100000,
+      "ingestion_seconds": 2.415,
+      "products_per_second": 41407,
+      "database_bytes": 47865856,
+      "queries": {
+        "old_category": {
+          "median_ms": 85.435,
+          "max_ms": 88.375,
+          "rows": 24
+        },
+        "indexed_category": {
+          "median_ms": 0.015,
+          "max_ms": 0.122,
+          "rows": 24
+        },
+        "broad_fts": {
+          "median_ms": 94.725,
+          "max_ms": 109.12,
+          "rows": 24
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+export const sourceHours:Record<string,number>={'Sanrio UCP':.25,eBay:1,Bonanza:1,'Rakuten Japan':1,Schylling:6,ToyWiz:2,Toynk:6,'Sanrio Japan':6,'Narumiya Online':6,'Super Monkey':6,Walmart:1};
+export const freshOfferSql=(a='l')=>`${a}.availability='available' AND ${a}.verification='observed' AND julianday(${a}.observed_at)<=julianday('now') AND julianday(${a}.observed_at)>julianday('now')-(CASE ${a}.source ${Object.entries(sourceHours).map(([k,h])=>"WHEN '"+k+"' THEN "+h/24).join(' ')} ELSE 1 END)`;

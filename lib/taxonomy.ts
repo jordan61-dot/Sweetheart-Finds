@@ -17,7 +17,7 @@ export const interests: Interest[] = [
 ];
 export const productTypes=['Figures','Dolls','Miniatures','Playsets','Plush','Apparel','Shoes','Jewelry','Bags','Accessories','Stationery','Beauty','Homeware','Bedding','Electronics','Books','Other'];
 export const aesthetics=['Pastel','Kawaii','Nostalgic','Gothic cute','Cozy','Vintage','Y2K','Romantic','Rainbow'];
-export const currencies=['USD','JPY','GBP','EUR','CAD','AUD'];
+export const currencies=['USD','JPY','GBP','EUR','CAD','AUD','KWD'];
 export const byId=(id:string)=>interests.find(x=>x.id===id);
 export function parentCategories(ids:string[]) {return [...new Set(ids.flatMap(id=>[id,...(byId(id)?.parent?[byId(id)!.parent!]:[])]))];}
 export function classify(text:string):string[]{const s=normalize(text);return parentCategories(interests.filter(c=>[c.name,...c.aliases].some(a=>s.includes(normalize(a)))).map(c=>c.id));}
