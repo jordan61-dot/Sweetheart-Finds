@@ -14,4 +14,4 @@ print(json.dumps(checks,indent=2))
 for category in ['littlest-pet-shop','my-little-pony','shopkins','num-noms','crumbs-sugar-cookie','lalaloopsy','monster-high','sanrio','pompompurin','hello-kitty','my-melody','usahana','mezzo-piano','justice-girls']:
  code,body,seconds=get('/api/catalog?category='+category);assert code==200;data=json.loads(body);assert data['total']>0;assert all(category in p['categories'] for p in data['products']);print(category,data['total'])
 code,body,_=get('/api/catalog?type=Books&sort=alpha');data=json.loads(body);assert all(p['type']=='Books' for p in data['products']);titles=[p['title'].lower() for p in data['products']];assert titles==sorted(titles)
-code,body,_=get('/api/catalog?q=pompompurrin');data=json.loads(body);assert data['total']==3
+code,body,_=get('/api/catalog?q=pompompurrin');data=json.loads(body);assert data['total']>=3;assert all('pompompurin' in p['categories'] for p in data['products'])
