@@ -33,5 +33,20 @@
       ]
     },
     "payment_handlers": {}
-  }
+  },
+  "keys": [
+    {
+      "key_ops": [
+        "verify"
+      ],
+      "ext": true,
+      "kty": "EC",
+      "x": "S3q8uy14YtgO9dukfs_nnm8GZv7AtiYOT1QmV-vgSq8",
+      "y": "HO5dVMA1JRQ7ZbDtzON-WyqR4tp9k_Sbd8DcZiLwWgo",
+      "crv": "P-256",
+      "kid": "ScfB2fvKR2TXtZzAaJShJNxNbpLP10pDPH790jpNxTY",
+      "use": "sig",
+      "alg": "ES256"
+    }
+  ]
 }
