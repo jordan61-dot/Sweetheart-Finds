@@ -1,0 +1,2037 @@
+{
+  "schylling-products.json": {
+    "schemaVersion": 1,
+    "collectedAt": "2026-11-07T08:53:24.988854+00:00",
+    "records": [
+      {
+        "id": "schylling-500",
+        "title": "Littlest Pet Shop - Pet Surprise",
+        "categories": [
+          "littlest-pet-shop"
+        ],
+        "brand": "Littlest Pet Shop",
+        "type": "Figures",
+        "source": "Schylling",
+        "sourceUrl": "https://schylling.com/product/littlest-pet-shop-pet-surprise/",
+        "sourceId": "500",
+        "recordStatus": "recently-observed",
+        "verifiedAt": "2026-11-07T08:51:59.420766+00:00",
+        "identificationConfidence": "high",
+        "price": 5.99,
+        "currency": "USD",
+        "availability": "unavailable",
+        "availabilityNote": "Retailer has paused new orders; a cart control or structured InStock flag does not establish a purchasable listing.",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; source artwork deliberately omitted",
+        "description": "Official distributor record. Check the source for the current product selection and order status.",
+        "collector": {
+          "sku": "500"
+        },
+        "provenance": {
+          "method": "public Product JSON-LD; only factual identifiers and offer observations retained",
+          "robotsUrl": "https://schylling.com/robots.txt",
+          "crawlDelaySeconds": 3,
+          "termsReview": "No separate general terms link found in current public footer; recheck policies before recurring ingestion.",
+          "sourceContentHash": "673a106857def2d52cc87f22f9aa5bac3ff77f63acdda22e8d8c7e221618e410"
+        }
+      },
+      {
+        "id": "schylling-560-Parent",
+        "title": "Littlest Pet Shop - Petfluencers Assortment",
+        "categories": [
+          "littlest-pet-shop"
+        ],
+        "brand": "Littlest Pet Shop",
+        "type": "Figures",
+        "source": "Schylling",
+        "sourceUrl": "https://schylling.com/product/littlest-pet-shop-petfluencers-assortment/",
+        "sourceId": "560-Parent",
+        "recordStatus": "recently-observed",
+        "verifiedAt": "2026-11-07T08:52:07.560922+00:00",
+        "identificationConfidence": "high",
+        "price": 16.99,
+        "currency": "USD",
+        "availability": "unavailable",
+        "availabilityNote": "Retailer has paused new orders; a cart control or structured InStock flag does not establish a purchasable listing.",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; source artwork deliberately omitted",
+        "description": "Official distributor record. Check the source for the current product selection and order status.",
+        "collector": {
+          "sku": "560-Parent"
+        },
+        "provenance": {
+          "method": "public Product JSON-LD; only factual identifiers and offer observations retained",
+          "robotsUrl": "https://schylling.com/robots.txt",
+          "crawlDelaySeconds": 3,
+          "termsReview": "No separate general terms link found in current public footer; recheck policies before recurring ingestion.",
+          "sourceContentHash": "42b319f910c87d5de78b64e341fec5a01c57d6584deb227072aef349d9ee4846"
+        }
+      },
+      {
+        "id": "schylling-524",
+        "title": "Littlest Pet Shop - Safari Play Pack",
+        "categories": [
+          "littlest-pet-shop"
+        ],
+        "brand": "Littlest Pet Shop",
+        "type": "Playsets",
+        "source": "Schylling",
+        "sourceUrl": "https://schylling.com/product/littlest-pet-shop-safari-play-pack/",
+        "sourceId": "524",
+        "recordStatus": "recently-observed",
+        "verifiedAt": "2026-11-07T08:52:15.792407+00:00",
+        "identificationConfidence": "high",
+        "price": 19.99,
+        "currency": "USD",
+        "availability": "unavailable",
+        "availabilityNote": "Retailer has paused new orders; a cart control or structured InStock flag does not establish a purchasable listing.",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; source artwork deliberately omitted",
+        "description": "Official distributor record. Check the source for the current product selection and order status.",
+        "collector": {
+          "sku": "524"
+        },
+        "provenance": {
+          "method": "public Product JSON-LD; only factual identifiers and offer observations retained",
+          "robotsUrl": "https://schylling.com/robots.txt",
+          "crawlDelaySeconds": 3,
+          "termsReview": "No separate general terms link found in current public footer; recheck policies before recurring ingestion.",
+          "sourceContentHash": "349e9ecdb804819bab0e17cc58c22c7f041d2fabbb39f8549a54b4caa534df33"
+        }
+      },
+      {
+        "id": "schylling-670-Parent",
+        "title": "Littlest Pet Shop Cuddle Plush Pet",
+        "categories": [
+          "littlest-pet-shop"
+        ],
+        "brand": "Littlest Pet Shop",
+        "type": "Plush toys",
+        "source": "Schylling",
+        "sourceUrl": "https://schylling.com/product/littlest-pet-shop-cuddle-plush-pet/",
+        "sourceId": "670-Parent",
+        "recordStatus": "recently-observed",
+        "verifiedAt": "2026-11-07T08:52:25.367872+00:00",
+        "identificationConfidence": "high",
+        "price": 12.99,
+        "currency": "USD",
+        "availability": "unavailable",
+        "availabilityNote": "Retailer has paused new orders; a cart control or structured InStock flag does not establish a purchasable listing.",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; source artwork deliberately omitted",
+        "description": "Official distributor record. Check the source for the current product selection and order status.",
+        "collector": {
+          "sku": "670-Parent"
+        },
+        "provenance": {
+          "method": "public Product JSON-LD; only factual identifiers and offer observations retained",
+          "robotsUrl": "https://schylling.com/robots.txt",
+          "crawlDelaySeconds": 3,
+          "termsReview": "No separate general terms link found in current public footer; recheck policies before recurring ingestion.",
+          "sourceContentHash": "c9527cae91721125943ad988b8feabb8faee515650b5a15b00cbf8bb0133cb16"
+        }
+      },
+      {
+        "id": "schylling-636",
+        "title": "Littlest Pet Shop Diner Dash Play Pack",
+        "categories": [
+          "littlest-pet-shop"
+        ],
+        "brand": "Littlest Pet Shop",
+        "type": "Playsets",
+        "source": "Schylling",
+        "sourceUrl": "https://schylling.com/product/littlest-pet-shop-diner-dash-play-pack/",
+        "sourceId": "636",
+        "recordStatus": "recently-observed",
+        "verifiedAt": "2026-11-07T08:52:32.772035+00:00",
+        "identificationConfidence": "high",
+        "price": 20.49,
+        "currency": "USD",
+        "availability": "unavailable",
+        "availabilityNote": "Retailer has paused new orders; a cart control or structured InStock flag does not establish a purchasable listing.",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; source artwork deliberately omitted",
+        "description": "Official distributor record. Check the source for the current product selection and order status.",
+        "collector": {
+          "sku": "636"
+        },
+        "provenance": {
+          "method": "public Product JSON-LD; only factual identifiers and offer observations retained",
+          "robotsUrl": "https://schylling.com/robots.txt",
+          "crawlDelaySeconds": 3,
+          "termsReview": "No separate general terms link found in current public footer; recheck policies before recurring ingestion.",
+          "sourceContentHash": "4d98031342c0c66a73efee8b53269637fdf96dfddce6f39c16b94c5e97c4e787"
+        }
+      },
+      {
+        "id": "schylling-638",
+        "title": "Littlest Pet Shop Grooming Spa Play Pack",
+        "categories": [
+          "littlest-pet-shop"
+        ],
+        "brand": "Littlest Pet Shop",
+        "type": "Playsets",
+        "source": "Schylling",
+        "sourceUrl": "https://schylling.com/product/littlest-pet-shop-grooming-spa-play-pack/",
+        "sourceId": "638",
+        "recordStatus": "recently-observed",
+        "verifiedAt": "2026-11-07T08:52:40.423938+00:00",
+        "identificationConfidence": "high",
+        "price": 17.99,
+        "currency": "USD",
+        "availability": "unavailable",
+        "availabilityNote": "Retailer has paused new orders; a cart control or structured InStock flag does not establish a purchasable listing.",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; source artwork deliberately omitted",
+        "description": "Official distributor record. Check the source for the current product selection and order status.",
+        "collector": {
+          "sku": "638"
+        },
+        "provenance": {
+          "method": "public Product JSON-LD; only factual identifiers and offer observations retained",
+          "robotsUrl": "https://schylling.com/robots.txt",
+          "crawlDelaySeconds": 3,
+          "termsReview": "No separate general terms link found in current public footer; recheck policies before recurring ingestion.",
+          "sourceContentHash": "ed31d1ee1d78259451141758eb88470550c9261b5414d38ca3fcbf5a56f84cda"
+        }
+      },
+      {
+        "id": "schylling-620-Parent",
+        "title": "Littlest Pet Shop Pet Pairs - Series 2",
+        "categories": [
+          "littlest-pet-shop"
+        ],
+        "brand": "Littlest Pet Shop",
+        "type": "Figures",
+        "source": "Schylling",
+        "sourceUrl": "https://schylling.com/product/littlest-pet-shop-pet-pairs-series-2/",
+        "sourceId": "620-Parent",
+        "recordStatus": "recently-observed",
+        "verifiedAt": "2026-11-07T08:52:50.020098+00:00",
+        "identificationConfidence": "high",
+        "price": 10.99,
+        "currency": "USD",
+        "availability": "unavailable",
+        "availabilityNote": "Retailer has paused new orders; a cart control or structured InStock flag does not establish a purchasable listing.",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; source artwork deliberately omitted",
+        "description": "Official distributor record. Check the source for the current product selection and order status.",
+        "collector": {
+          "sku": "620-Parent"
+        },
+        "provenance": {
+          "method": "public Product JSON-LD; only factual identifiers and offer observations retained",
+          "robotsUrl": "https://schylling.com/robots.txt",
+          "crawlDelaySeconds": 3,
+          "termsReview": "No separate general terms link found in current public footer; recheck policies before recurring ingestion.",
+          "sourceContentHash": "f146d9567d01398227baaa00bbeebcdcb7b97545a49f8c990809f4c8e12ce966"
+        }
+      },
+      {
+        "id": "schylling-621-Parent",
+        "title": "Littlest Pet Shop Pet Trio - Series 2",
+        "categories": [
+          "littlest-pet-shop"
+        ],
+        "brand": "Littlest Pet Shop",
+        "type": "Figures",
+        "source": "Schylling",
+        "sourceUrl": "https://schylling.com/product/littlest-pet-shop-pet-trio-series-2/",
+        "sourceId": "621-Parent",
+        "recordStatus": "recently-observed",
+        "verifiedAt": "2026-11-07T08:52:59.639945+00:00",
+        "identificationConfidence": "high",
+        "price": 13.99,
+        "currency": "USD",
+        "availability": "unavailable",
+        "availabilityNote": "Retailer has paused new orders; a cart control or structured InStock flag does not establish a purchasable listing.",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; source artwork deliberately omitted",
+        "description": "Official distributor record. Check the source for the current product selection and order status.",
+        "collector": {
+          "sku": "621-Parent"
+        },
+        "provenance": {
+          "method": "public Product JSON-LD; only factual identifiers and offer observations retained",
+          "robotsUrl": "https://schylling.com/robots.txt",
+          "crawlDelaySeconds": 3,
+          "termsReview": "No separate general terms link found in current public footer; recheck policies before recurring ingestion.",
+          "sourceContentHash": "f550b3772895a74b4a725e192f6fdbe27a3bcd2812543fe7efaef62d7f64a44a"
+        }
+      },
+      {
+        "id": "schylling-51646",
+        "title": "Mash'ems My Little Pony™",
+        "categories": [
+          "my-little-pony"
+        ],
+        "brand": "Mash'ems",
+        "type": "Figures",
+        "source": "Schylling",
+        "sourceUrl": "https://schylling.com/product/mashems-my-little-pony/",
+        "sourceId": "51646",
+        "recordStatus": "recently-observed",
+        "verifiedAt": "2026-11-07T08:53:07.529654+00:00",
+        "identificationConfidence": "high",
+        "price": 4.99,
+        "currency": "USD",
+        "availability": "unavailable",
+        "availabilityNote": "Retailer has paused new orders; a cart control or structured InStock flag does not establish a purchasable listing.",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; source artwork deliberately omitted",
+        "description": "Official distributor record. Check the source for the current product selection and order status.",
+        "collector": {
+          "sku": "51646"
+        },
+        "provenance": {
+          "method": "public Product JSON-LD; only factual identifiers and offer observations retained",
+          "robotsUrl": "https://schylling.com/robots.txt",
+          "crawlDelaySeconds": 3,
+          "termsReview": "No separate general terms link found in current public footer; recheck policies before recurring ingestion.",
+          "sourceContentHash": "396e94ce6e5e8868ed3c789f1a2ab6db6b4dee025c3a3799190526c1177f9fca"
+        }
+      },
+      {
+        "id": "schylling-35320-Parent",
+        "title": "My Little Pony Classic 4\" Collectible 40th Anniversary Ponies",
+        "categories": [
+          "my-little-pony"
+        ],
+        "brand": "My Little Pony",
+        "type": "Figures",
+        "source": "Schylling",
+        "sourceUrl": "https://schylling.com/product/my-little-pony-40th-anniversary-original-pony/",
+        "sourceId": "35320-Parent",
+        "recordStatus": "recently-observed",
+        "verifiedAt": "2026-11-07T08:53:17.225735+00:00",
+        "identificationConfidence": "high",
+        "price": 16.99,
+        "currency": "USD",
+        "availability": "unavailable",
+        "availabilityNote": "Retailer has paused new orders; a cart control or structured InStock flag does not establish a purchasable listing.",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; source artwork deliberately omitted",
+        "description": "Official distributor record. Check the source for the current product selection and order status.",
+        "collector": {
+          "sku": "35320-Parent"
+        },
+        "provenance": {
+          "method": "public Product JSON-LD; only factual identifiers and offer observations retained",
+          "robotsUrl": "https://schylling.com/robots.txt",
+          "crawlDelaySeconds": 3,
+          "termsReview": "No separate general terms link found in current public footer; recheck policies before recurring ingestion.",
+          "sourceContentHash": "b05c5291188ea081a787ef616bcdbb3491da81f3a65b382176b0e57892d9f408"
+        }
+      },
+      {
+        "id": "schylling-35335",
+        "title": "My Little Pony- Surprise Figures",
+        "categories": [
+          "my-little-pony"
+        ],
+        "brand": "My Little Pony",
+        "type": "Figures",
+        "source": "Schylling",
+        "sourceUrl": "https://schylling.com/product/my-little-pony-surprise-figures/",
+        "sourceId": "35335",
+        "recordStatus": "recently-observed",
+        "verifiedAt": "2026-11-07T08:53:24.988355+00:00",
+        "identificationConfidence": "high",
+        "price": null,
+        "currency": null,
+        "availability": "unavailable",
+        "availabilityNote": "Retailer has paused new orders; a cart control or structured InStock flag does not establish a purchasable listing.",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; source artwork deliberately omitted",
+        "description": "Official distributor record. Check the source for the current product selection and order status.",
+        "collector": {
+          "sku": "35335"
+        },
+        "provenance": {
+          "method": "public Product JSON-LD; only factual identifiers and offer observations retained",
+          "robotsUrl": "https://schylling.com/robots.txt",
+          "crawlDelaySeconds": 3,
+          "termsReview": "No separate general terms link found in current public footer; recheck policies before recurring ingestion.",
+          "sourceContentHash": "44367edef72b6aac4a8a90e2b3827b8abddb8edf1850b9129dab2494421f8981"
+        },
+        "priceNote": "Currency conflict: category page showed USD 4.99; fetched product JSON-LD stated USD 6.97 while visible indexed detail showed CAD 6.97. Price withheld pending source correction."
+      }
+    ],
+    "errors": []
+  },
+  "book-reference-selected.json": {
+    "schemaVersion": 1,
+    "records": [
+      {
+        "id": "openlibrary-OL8116230W",
+        "title": "Rapunzel (Littlest Pet Shop)",
+        "categories": [
+          "littlest-pet-shop"
+        ],
+        "brand": "",
+        "type": "Books",
+        "source": "Open Library",
+        "sourceUrl": "https://openlibrary.org/works/OL8116230W",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T08:52:11.058382+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; copyrighted covers deliberately omitted",
+        "description": "Bibliographic reference. This is a book record, not an active seller offer.",
+        "releaseYear": 2008,
+        "collector": {
+          "authors": [
+            "Samantha Brooke"
+          ],
+          "isbns": [
+            "054500795X",
+            "9780545007955"
+          ],
+          "publishers": [
+            "Scholastic Inc."
+          ]
+        },
+        "provenance": {
+          "method": "Open Library public search API; user-requested interest lookup cached once",
+          "apiUrl": "https://openlibrary.org/search.json?title=%22Littlest+Pet+Shop%22&limit=8&fields=key%2Ctitle%2Csubtitle%2Cauthor_name%2Cfirst_publish_year%2Cisbn%2Cpublisher%2Cedition_key",
+          "apiPolicy": "https://openlibrary.org/developers/api",
+          "licensing": "https://openlibrary.org/developers/licensing"
+        }
+      },
+      {
+        "id": "openlibrary-OL15155018W",
+        "title": "Littlest Pet Shop: The ultimate handbook 2",
+        "categories": [
+          "littlest-pet-shop"
+        ],
+        "brand": "",
+        "type": "Books",
+        "source": "Open Library",
+        "sourceUrl": "https://openlibrary.org/works/OL15155018W",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T08:52:11.058409+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; copyrighted covers deliberately omitted",
+        "description": "Bibliographic reference. This is a book record, not an active seller offer.",
+        "releaseYear": 2007,
+        "collector": {
+          "authors": [
+            "Samantha Brooke"
+          ],
+          "isbns": [
+            "0439919045",
+            "9780439919043"
+          ],
+          "publishers": [
+            "Scholastic",
+            "Scholastic Inc."
+          ]
+        },
+        "provenance": {
+          "method": "Open Library public search API; user-requested interest lookup cached once",
+          "apiUrl": "https://openlibrary.org/search.json?title=%22Littlest+Pet+Shop%22&limit=8&fields=key%2Ctitle%2Csubtitle%2Cauthor_name%2Cfirst_publish_year%2Cisbn%2Cpublisher%2Cedition_key",
+          "apiPolicy": "https://openlibrary.org/developers/api",
+          "licensing": "https://openlibrary.org/developers/licensing"
+        }
+      },
+      {
+        "id": "openlibrary-OL8115800W",
+        "title": "Littlest Pet Shop Trading Card Book Volume 2",
+        "categories": [
+          "littlest-pet-shop"
+        ],
+        "brand": "",
+        "type": "Books",
+        "source": "Open Library",
+        "sourceUrl": "https://openlibrary.org/works/OL8115800W",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T08:52:11.058428+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; copyrighted covers deliberately omitted",
+        "description": "Bibliographic reference. This is a book record, not an active seller offer.",
+        "releaseYear": 2007,
+        "collector": {
+          "authors": [
+            "Scholastic Inc."
+          ],
+          "isbns": [
+            "0545034337",
+            "0545034345",
+            "9780545034333",
+            "9780545034340"
+          ],
+          "publishers": [
+            "Scholastic Inc."
+          ]
+        },
+        "provenance": {
+          "method": "Open Library public search API; user-requested interest lookup cached once",
+          "apiUrl": "https://openlibrary.org/search.json?title=%22Littlest+Pet+Shop%22&limit=8&fields=key%2Ctitle%2Csubtitle%2Cauthor_name%2Cfirst_publish_year%2Cisbn%2Cpublisher%2Cedition_key",
+          "apiPolicy": "https://openlibrary.org/developers/api",
+          "licensing": "https://openlibrary.org/developers/licensing"
+        }
+      },
+      {
+        "id": "openlibrary-OL21116258W",
+        "title": "Lights, Camera, Shopkins!",
+        "categories": [
+          "shopkins"
+        ],
+        "brand": "",
+        "type": "Books",
+        "source": "Open Library",
+        "sourceUrl": "https://openlibrary.org/works/OL21116258W",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T08:52:21.967742+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; copyrighted covers deliberately omitted",
+        "description": "Bibliographic reference. This is a book record, not an active seller offer.",
+        "releaseYear": 2016,
+        "collector": {
+          "authors": [
+            "Scholastic Staff",
+            "Meredith Rusu"
+          ],
+          "isbns": [
+            "1484470451",
+            "9780545940412",
+            "9781484470459",
+            "0545940419"
+          ],
+          "publishers": [
+            "Scholastic, Incorporated"
+          ]
+        },
+        "provenance": {
+          "method": "Open Library public search API; user-requested interest lookup cached once",
+          "apiUrl": "https://openlibrary.org/search.json?title=%22Shopkins%22&limit=8&fields=key%2Ctitle%2Csubtitle%2Cauthor_name%2Cfirst_publish_year%2Cisbn%2Cpublisher%2Cedition_key",
+          "apiPolicy": "https://openlibrary.org/developers/api",
+          "licensing": "https://openlibrary.org/developers/licensing"
+        }
+      },
+      {
+        "id": "openlibrary-OL21282165W",
+        "title": "Shopkins House Party",
+        "categories": [
+          "shopkins"
+        ],
+        "brand": "",
+        "type": "Books",
+        "source": "Open Library",
+        "sourceUrl": "https://openlibrary.org/works/OL21282165W",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T08:52:21.967756+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; copyrighted covers deliberately omitted",
+        "description": "Bibliographic reference. This is a book record, not an active seller offer.",
+        "releaseYear": 2016,
+        "collector": {
+          "authors": [
+            "little bee little bee books",
+            "BuzzPop"
+          ],
+          "isbns": [
+            "1499803567",
+            "9781499803563"
+          ],
+          "publishers": [
+            "Little Bee Books Inc."
+          ]
+        },
+        "provenance": {
+          "method": "Open Library public search API; user-requested interest lookup cached once",
+          "apiUrl": "https://openlibrary.org/search.json?title=%22Shopkins%22&limit=8&fields=key%2Ctitle%2Csubtitle%2Cauthor_name%2Cfirst_publish_year%2Cisbn%2Cpublisher%2Cedition_key",
+          "apiPolicy": "https://openlibrary.org/developers/api",
+          "licensing": "https://openlibrary.org/developers/licensing"
+        }
+      },
+      {
+        "id": "openlibrary-OL17400503W",
+        "title": "Lalaloopsy Ultimate Collectors Guide",
+        "categories": [
+          "lalaloopsy"
+        ],
+        "brand": "",
+        "type": "Books",
+        "source": "Open Library",
+        "sourceUrl": "https://openlibrary.org/works/OL17400503W",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T08:52:26.682109+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; copyrighted covers deliberately omitted",
+        "description": "Bibliographic reference. This is a book record, not an active seller offer.",
+        "releaseYear": 2013,
+        "collector": {
+          "authors": [
+            "Amy Ackelsberg"
+          ],
+          "isbns": [
+            "0545477700",
+            "9780545477703"
+          ],
+          "publishers": [
+            "Scholastic Inc."
+          ]
+        },
+        "provenance": {
+          "method": "Open Library public search API; user-requested interest lookup cached once",
+          "apiUrl": "https://openlibrary.org/search.json?title=%22Lalaloopsy%22&limit=8&fields=key%2Ctitle%2Csubtitle%2Cauthor_name%2Cfirst_publish_year%2Cisbn%2Cpublisher%2Cedition_key",
+          "apiPolicy": "https://openlibrary.org/developers/api",
+          "licensing": "https://openlibrary.org/developers/licensing"
+        }
+      },
+      {
+        "id": "openlibrary-OL17389720W",
+        "title": "Lalaloopsy The Ballet Recital",
+        "categories": [
+          "lalaloopsy"
+        ],
+        "brand": "",
+        "type": "Books",
+        "source": "Open Library",
+        "sourceUrl": "https://openlibrary.org/works/OL17389720W",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T08:52:26.682112+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; copyrighted covers deliberately omitted",
+        "description": "Bibliographic reference. This is a book record, not an active seller offer.",
+        "releaseYear": 2012,
+        "collector": {
+          "authors": [
+            "Prescott Hill"
+          ],
+          "isbns": [
+            "9780545392167",
+            "0545392160"
+          ],
+          "publishers": [
+            "Scholastic Inc."
+          ]
+        },
+        "provenance": {
+          "method": "Open Library public search API; user-requested interest lookup cached once",
+          "apiUrl": "https://openlibrary.org/search.json?title=%22Lalaloopsy%22&limit=8&fields=key%2Ctitle%2Csubtitle%2Cauthor_name%2Cfirst_publish_year%2Cisbn%2Cpublisher%2Cedition_key",
+          "apiPolicy": "https://openlibrary.org/developers/api",
+          "licensing": "https://openlibrary.org/developers/licensing"
+        }
+      },
+      {
+        "id": "openlibrary-OL19086822W",
+        "title": "Monster High: I Only Have Eye for You: An Original Graphic Novel",
+        "categories": [
+          "monster-high"
+        ],
+        "brand": "",
+        "type": "Books",
+        "source": "Open Library",
+        "sourceUrl": "https://openlibrary.org/works/OL19086822W",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T08:52:32.029128+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; copyrighted covers deliberately omitted",
+        "description": "Bibliographic reference. This is a book record, not an active seller offer.",
+        "releaseYear": 2014,
+        "collector": {
+          "authors": [
+            "Heather Nuhfer"
+          ],
+          "isbns": [
+            "9780316282864",
+            "0316282863"
+          ],
+          "publishers": [
+            "Little, Brown Books for Young Readers"
+          ]
+        },
+        "provenance": {
+          "method": "Open Library public search API; user-requested interest lookup cached once",
+          "apiUrl": "https://openlibrary.org/search.json?title=%22Monster+High%22&limit=8&fields=key%2Ctitle%2Csubtitle%2Cauthor_name%2Cfirst_publish_year%2Cisbn%2Cpublisher%2Cedition_key",
+          "apiPolicy": "https://openlibrary.org/developers/api",
+          "licensing": "https://openlibrary.org/developers/licensing"
+        }
+      },
+      {
+        "id": "openlibrary-OL16262987W",
+        "title": "Monster High 4: Back And Deader Than Ever",
+        "categories": [
+          "monster-high"
+        ],
+        "brand": "",
+        "type": "Books",
+        "source": "Open Library",
+        "sourceUrl": "https://openlibrary.org/works/OL16262987W",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T08:52:32.029184+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; copyrighted covers deliberately omitted",
+        "description": "Bibliographic reference. This is a book record, not an active seller offer.",
+        "releaseYear": 2012,
+        "collector": {
+          "authors": [
+            "Lisi Harrison"
+          ],
+          "isbns": [
+            "0316099171",
+            "9780316099172"
+          ],
+          "publishers": [
+            "Little, Brown"
+          ]
+        },
+        "provenance": {
+          "method": "Open Library public search API; user-requested interest lookup cached once",
+          "apiUrl": "https://openlibrary.org/search.json?title=%22Monster+High%22&limit=8&fields=key%2Ctitle%2Csubtitle%2Cauthor_name%2Cfirst_publish_year%2Cisbn%2Cpublisher%2Cedition_key",
+          "apiPolicy": "https://openlibrary.org/developers/api",
+          "licensing": "https://openlibrary.org/developers/licensing"
+        }
+      },
+      {
+        "id": "openlibrary-OL4322863W",
+        "title": "Hello Kitty, Hello Love! (Hello Kitty)",
+        "categories": [
+          "hello-kitty",
+          "sanrio"
+        ],
+        "brand": "",
+        "type": "Books",
+        "source": "Open Library",
+        "sourceUrl": "https://openlibrary.org/works/OL4322863W",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T08:52:36.517295+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "imageRights": "not-established; copyrighted covers deliberately omitted",
+        "description": "Bibliographic reference. This is a book record, not an active seller offer.",
+        "releaseYear": 2005,
+        "collector": {
+          "authors": [
+            "Jean Hirashima"
+          ],
+          "isbns": [
+            "0810992256",
+            "9780810992252"
+          ],
+          "publishers": [
+            "Abrams Books for Young Readers"
+          ]
+        },
+        "provenance": {
+          "method": "Open Library public search API; user-requested interest lookup cached once",
+          "apiUrl": "https://openlibrary.org/search.json?title=%22Hello+Kitty%22&limit=8&fields=key%2Ctitle%2Csubtitle%2Cauthor_name%2Cfirst_publish_year%2Cisbn%2Cpublisher%2Cedition_key",
+          "apiPolicy": "https://openlibrary.org/developers/api",
+          "licensing": "https://openlibrary.org/developers/licensing"
+        }
+      }
+    ],
+    "errors": []
+  },
+  "additional.json": {
+    "schemaVersion": 1,
+    "createdAt": "2026-11-07T09:02:04.846772+00:00",
+    "records": [
+      {
+        "id": "ref-89ce002ac4ccedda",
+        "title": "Mezzo Piano Ballerina Character Cardigan (2026)",
+        "categories": [
+          "mezzo-piano",
+          "sanrio",
+          "my-melody"
+        ],
+        "brand": "mezzo piano",
+        "type": "Clothing",
+        "source": "Narumiya International / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000370.000066361.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Narumiya announced this design in its February 2026 collaboration.",
+        "releaseYear": 2026,
+        "characters": [
+          "My Melody",
+          "My Sweet Piano"
+        ],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2026-02-05",
+          "announcementMSRP": {
+            "amount": 19580,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          }
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Ballerina collaboration 2026",
+        "variations": [
+          "My Melody / My Sweet Piano designs; confirm exact character before purchase"
+        ]
+      },
+      {
+        "id": "ref-7ff20b082cbaf3e1",
+        "title": "Mezzo Piano Ballerina Print Dress (2026)",
+        "categories": [
+          "mezzo-piano",
+          "sanrio",
+          "my-melody"
+        ],
+        "brand": "mezzo piano",
+        "type": "Clothing",
+        "source": "Narumiya International / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000370.000066361.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Narumiya announced this design in its February 2026 collaboration.",
+        "releaseYear": 2026,
+        "characters": [
+          "My Melody",
+          "My Sweet Piano"
+        ],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2026-02-05",
+          "announcementMSRP": {
+            "amount": 28380,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          }
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Ballerina collaboration 2026",
+        "variations": [
+          "My Melody / My Sweet Piano designs; confirm exact character before purchase"
+        ]
+      },
+      {
+        "id": "ref-fe0fd13254a62c61",
+        "title": "Mezzo Piano Ballerina Character Plush Shoulder Bag (2026)",
+        "categories": [
+          "mezzo-piano",
+          "sanrio",
+          "my-melody"
+        ],
+        "brand": "mezzo piano",
+        "type": "Bags",
+        "source": "Narumiya International / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000370.000066361.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Narumiya announced this design in its February 2026 collaboration.",
+        "releaseYear": 2026,
+        "characters": [
+          "My Melody",
+          "My Sweet Piano"
+        ],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2026-02-05",
+          "announcementMSRP": {
+            "amount": 16280,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          }
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Ballerina collaboration 2026",
+        "variations": [
+          "My Melody / My Sweet Piano designs; confirm exact character before purchase"
+        ]
+      },
+      {
+        "id": "ref-530c55ee2189dd4c",
+        "title": "Mezzo Piano Ballerina Character Pouch Charm (2026)",
+        "categories": [
+          "mezzo-piano",
+          "sanrio",
+          "my-melody"
+        ],
+        "brand": "mezzo piano",
+        "type": "Accessories",
+        "source": "Narumiya International / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000370.000066361.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Narumiya announced this design in its February 2026 collaboration.",
+        "releaseYear": 2026,
+        "characters": [
+          "My Melody",
+          "My Sweet Piano"
+        ],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2026-02-05",
+          "announcementMSRP": {
+            "amount": 8690,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          }
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Ballerina collaboration 2026",
+        "variations": [
+          "My Melody / My Sweet Piano designs; confirm exact character before purchase"
+        ]
+      },
+      {
+        "id": "ref-cc731ab4645cac39",
+        "title": "Mezzo Piano My Melody & Kuromi Two-way Sailor Dress",
+        "categories": [
+          "mezzo-piano",
+          "sanrio",
+          "my-melody"
+        ],
+        "brand": "mezzo piano",
+        "type": "Clothing",
+        "source": "Narumiya International / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000322.000066361.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "high",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Narumiya identified this style in its September 2025 announcement.",
+        "releaseYear": 2025,
+        "characters": [
+          "My Melody",
+          "Kuromi"
+        ],
+        "collector": {
+          "sku": "6053332",
+          "announcementDate": "2025-09-30",
+          "announcementMSRP": {
+            "amount": 23980,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          }
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Birthday Party 2025",
+        "variations": [
+          "My Melody / Kuromi designs; source uses a shared style number"
+        ]
+      },
+      {
+        "id": "ref-6bc43912c2b77495",
+        "title": "Mezzo Piano My Melody & Kuromi Plush Charm",
+        "categories": [
+          "mezzo-piano",
+          "sanrio",
+          "my-melody"
+        ],
+        "brand": "mezzo piano",
+        "type": "Accessories",
+        "source": "Narumiya International / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000322.000066361.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "high",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Narumiya identified this style in its September 2025 announcement.",
+        "releaseYear": 2025,
+        "characters": [
+          "My Melody",
+          "Kuromi"
+        ],
+        "collector": {
+          "sku": "6053463",
+          "announcementDate": "2025-09-30",
+          "announcementMSRP": {
+            "amount": 10780,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          }
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Birthday Party 2025",
+        "variations": [
+          "My Melody / Kuromi designs; source uses a shared style number"
+        ]
+      },
+      {
+        "id": "ref-51d60c2dea1c53b8",
+        "title": "Mezzo Piano My Melody & Kuromi Two-way Plush Backpack",
+        "categories": [
+          "mezzo-piano",
+          "sanrio",
+          "my-melody"
+        ],
+        "brand": "mezzo piano",
+        "type": "Bags",
+        "source": "Narumiya International / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000322.000066361.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "high",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Narumiya identified this style in its September 2025 announcement.",
+        "releaseYear": 2025,
+        "characters": [
+          "My Melody",
+          "Kuromi"
+        ],
+        "collector": {
+          "sku": "6053462",
+          "announcementDate": "2025-09-30",
+          "announcementMSRP": {
+            "amount": 18480,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          }
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Birthday Party 2025",
+        "variations": [
+          "My Melody / Kuromi designs; source uses a shared style number"
+        ]
+      },
+      {
+        "id": "ref-3f97b8d1199ede5b",
+        "title": "Mezzo Piano My Melody & Kuromi Ribbon Headband",
+        "categories": [
+          "mezzo-piano",
+          "sanrio",
+          "my-melody"
+        ],
+        "brand": "mezzo piano",
+        "type": "Accessories",
+        "source": "Narumiya International / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000322.000066361.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "high",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Narumiya identified this style in its September 2025 announcement.",
+        "releaseYear": 2025,
+        "characters": [
+          "My Melody",
+          "Kuromi"
+        ],
+        "collector": {
+          "sku": "6053466",
+          "announcementDate": "2025-09-30",
+          "announcementMSRP": {
+            "amount": 6490,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          }
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Birthday Party 2025",
+        "variations": [
+          "My Melody / Kuromi designs; source uses a shared style number"
+        ]
+      },
+      {
+        "id": "ref-15fb946635c1e6aa",
+        "title": "Mezzo Piano Sanrio Sailor Dress (2025)",
+        "categories": [
+          "mezzo-piano",
+          "sanrio",
+          "my-melody"
+        ],
+        "brand": "mezzo piano",
+        "type": "Clothing",
+        "source": "Narumiya International / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000249.000066361.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Narumiya included this style in its March 2025 announcement.",
+        "releaseYear": 2025,
+        "characters": [
+          "My Melody",
+          "Cinnamoroll"
+        ],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2025-03-27",
+          "announcementMSRP": {
+            "amount": 22880,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          }
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Sanrio school-inspired collaboration 2025",
+        "variations": [
+          "My Melody / Cinnamoroll designs; confirm exact character before purchase"
+        ]
+      },
+      {
+        "id": "ref-c8b16f20ab67a4de",
+        "title": "Mezzo Piano Sanrio Face Boston Bag (2025)",
+        "categories": [
+          "mezzo-piano",
+          "sanrio",
+          "my-melody"
+        ],
+        "brand": "mezzo piano",
+        "type": "Bags",
+        "source": "Narumiya International / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000249.000066361.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Narumiya included this style in its March 2025 announcement.",
+        "releaseYear": 2025,
+        "characters": [
+          "My Melody",
+          "Cinnamoroll"
+        ],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2025-03-27",
+          "announcementMSRP": {
+            "amount": 16280,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          }
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Sanrio school-inspired collaboration 2025",
+        "variations": [
+          "My Melody / Cinnamoroll designs; confirm exact character before purchase"
+        ]
+      },
+      {
+        "id": "ref-4228eb631ae161f7",
+        "title": "Mezzo Piano Sanrio School-bag-style Pouch (2025)",
+        "categories": [
+          "mezzo-piano",
+          "sanrio",
+          "my-melody"
+        ],
+        "brand": "mezzo piano",
+        "type": "Accessories",
+        "source": "Narumiya International / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000249.000066361.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Narumiya included this style in its March 2025 announcement.",
+        "releaseYear": 2025,
+        "characters": [
+          "My Melody",
+          "Cinnamoroll"
+        ],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2025-03-27",
+          "announcementMSRP": {
+            "amount": 7590,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          }
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Sanrio school-inspired collaboration 2025",
+        "variations": [
+          "My Melody / Cinnamoroll designs; confirm exact character before purchase"
+        ]
+      },
+      {
+        "id": "ref-61dd79934d79fdd3",
+        "title": "Mezzo Piano Sanrio Sailor-collar T-shirt (2025)",
+        "categories": [
+          "mezzo-piano",
+          "sanrio",
+          "my-melody"
+        ],
+        "brand": "mezzo piano",
+        "type": "Clothing",
+        "source": "Narumiya International / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000249.000066361.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Narumiya included this style in its March 2025 announcement.",
+        "releaseYear": 2025,
+        "characters": [
+          "My Melody",
+          "Cinnamoroll"
+        ],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2025-03-27",
+          "announcementMSRP": {
+            "amount": 14080,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          }
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Sanrio school-inspired collaboration 2025",
+        "variations": [
+          "My Melody / Cinnamoroll designs; confirm exact character before purchase"
+        ]
+      },
+      {
+        "id": "ref-837713c7ef0b307d",
+        "title": "Usahana Mascot — KThingS September 2026 Announcement",
+        "categories": [
+          "usahana",
+          "sanrio"
+        ],
+        "brand": "KThingS",
+        "type": "Plush toys",
+        "source": "KThingS / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000322.000092073.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "KThingS named this item in a September 2026 retail announcement.",
+        "releaseYear": null,
+        "characters": [
+          "Usahana"
+        ],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2026-09-15",
+          "announcementMSRP": {
+            "amount": 2310,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          },
+          "announcementYear": 2026
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Usahana multi-series launch September 2026",
+        "aliases": [
+          "ウサハナ",
+          "U*SA*HA*NA"
+        ]
+      },
+      {
+        "id": "ref-a5dccfa1006ff103",
+        "title": "Usahana Multi-clip Set — KThingS September 2026 Announcement",
+        "categories": [
+          "usahana",
+          "sanrio"
+        ],
+        "brand": "KThingS",
+        "type": "Accessories",
+        "source": "KThingS / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000322.000092073.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "KThingS named this item in a September 2026 retail announcement.",
+        "releaseYear": null,
+        "characters": [
+          "Usahana"
+        ],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2026-09-15",
+          "announcementMSRP": {
+            "amount": 1980,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          },
+          "announcementYear": 2026
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Usahana multi-series launch September 2026",
+        "aliases": [
+          "ウサハナ",
+          "U*SA*HA*NA"
+        ]
+      },
+      {
+        "id": "ref-e5b39022100e1d25",
+        "title": "Usahana Face Hair-tie Set — KThingS September 2026 Announcement",
+        "categories": [
+          "usahana",
+          "sanrio"
+        ],
+        "brand": "KThingS",
+        "type": "Accessories",
+        "source": "KThingS / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000322.000092073.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "KThingS named this item in a September 2026 retail announcement.",
+        "releaseYear": null,
+        "characters": [
+          "Usahana"
+        ],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2026-09-15",
+          "announcementMSRP": {
+            "amount": 1980,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          },
+          "announcementYear": 2026
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Usahana multi-series launch September 2026",
+        "aliases": [
+          "ウサハナ",
+          "U*SA*HA*NA"
+        ]
+      },
+      {
+        "id": "ref-599edebc5ad71dc3",
+        "title": "Usahana Shell-shaped Pouch — KThingS September 2026 Announcement",
+        "categories": [
+          "usahana",
+          "sanrio"
+        ],
+        "brand": "KThingS",
+        "type": "Bags",
+        "source": "KThingS / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000322.000092073.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "KThingS named this item in a September 2026 retail announcement.",
+        "releaseYear": null,
+        "characters": [
+          "Usahana"
+        ],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2026-09-15",
+          "announcementMSRP": {
+            "amount": 2420,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          },
+          "announcementYear": 2026
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Usahana multi-series launch September 2026",
+        "aliases": [
+          "ウサハナ",
+          "U*SA*HA*NA"
+        ]
+      },
+      {
+        "id": "ref-cc4d1f43bf0330c0",
+        "title": "SAMANTHAVEGA Pompompurin Handbag (2026)",
+        "categories": [
+          "pompompurin",
+          "sanrio"
+        ],
+        "brand": "SAMANTHAVEGA",
+        "type": "Bags",
+        "source": "Samantha Thavasa Japan / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000474.000047990.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "The brand announced this Pompompurin collaboration item in April 2026.",
+        "releaseYear": 2026,
+        "characters": [
+          "Pompompurin"
+        ],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2026-04-16",
+          "announcementMSRP": {
+            "amount": 24200,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          }
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Pompompurin 30th anniversary 2026"
+      },
+      {
+        "id": "ref-91508022e1c69c8c",
+        "title": "SAMANTHAVEGA Pompompurin Folding Wallet (2026)",
+        "categories": [
+          "pompompurin",
+          "sanrio"
+        ],
+        "brand": "SAMANTHAVEGA",
+        "type": "Accessories",
+        "source": "Samantha Thavasa Japan / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000474.000047990.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "The brand announced this Pompompurin collaboration item in April 2026.",
+        "releaseYear": 2026,
+        "characters": [
+          "Pompompurin"
+        ],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2026-04-16",
+          "announcementMSRP": {
+            "amount": 16280,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          }
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Pompompurin 30th anniversary 2026"
+      },
+      {
+        "id": "ref-3e979a9685cc127d",
+        "title": "SAMANTHAVEGA Pompompurin Two-way Bag Charm (2026)",
+        "categories": [
+          "pompompurin",
+          "sanrio"
+        ],
+        "brand": "SAMANTHAVEGA",
+        "type": "Accessories",
+        "source": "Samantha Thavasa Japan / PR TIMES",
+        "sourceUrl": "https://prtimes.jp/main/html/rd/p/000000474.000047990.html",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "The brand announced this Pompompurin collaboration item in April 2026.",
+        "releaseYear": 2026,
+        "characters": [
+          "Pompompurin"
+        ],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2026-04-16",
+          "announcementMSRP": {
+            "amount": 5500,
+            "currency": "JPY",
+            "kind": "historical announced price; not current asking price"
+          }
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "Japan",
+        "official": "official",
+        "collection": "Pompompurin 30th anniversary 2026"
+      },
+      {
+        "id": "ref-249d0f8e55c5acc9",
+        "title": "NASCAR x Justice Bomber Jacket",
+        "categories": [
+          "justice-girls"
+        ],
+        "brand": "Justice",
+        "type": "Clothing",
+        "source": "NASCAR official announcement",
+        "sourceUrl": "https://www.nascar.com/news-media/2026/01/07/nascar-justice-shift-into-high-gear-with-new-collaboration/amp/",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "NASCAR named this Justice collaboration style in January 2026.",
+        "releaseYear": 2026,
+        "characters": [],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2026-01-07"
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "United States",
+        "official": "official",
+        "collection": "NASCAR x Justice 2026"
+      },
+      {
+        "id": "ref-47ec7dab81cfae3e",
+        "title": "NASCAR x Justice Flare Denim",
+        "categories": [
+          "justice-girls"
+        ],
+        "brand": "Justice",
+        "type": "Clothing",
+        "source": "NASCAR official announcement",
+        "sourceUrl": "https://www.nascar.com/news-media/2026/01/07/nascar-justice-shift-into-high-gear-with-new-collaboration/amp/",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "NASCAR named this Justice collaboration style in January 2026.",
+        "releaseYear": 2026,
+        "characters": [],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2026-01-07"
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "United States",
+        "official": "official",
+        "collection": "NASCAR x Justice 2026"
+      },
+      {
+        "id": "ref-26ccec55c1981dbd",
+        "title": "NASCAR x Justice White Oversized Graphic Tee",
+        "categories": [
+          "justice-girls"
+        ],
+        "brand": "Justice",
+        "type": "Clothing",
+        "source": "NASCAR official announcement",
+        "sourceUrl": "https://www.nascar.com/news-media/2026/01/07/nascar-justice-shift-into-high-gear-with-new-collaboration/amp/",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "NASCAR named this Justice collaboration style in January 2026.",
+        "releaseYear": 2026,
+        "characters": [],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2026-01-07"
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "United States",
+        "official": "official",
+        "collection": "NASCAR x Justice 2026"
+      },
+      {
+        "id": "ref-154bc27ae486c6ce",
+        "title": "NASCAR x Justice Heather Fleece Hoodie and Jogger Set",
+        "categories": [
+          "justice-girls"
+        ],
+        "brand": "Justice",
+        "type": "Clothing",
+        "source": "NASCAR official announcement",
+        "sourceUrl": "https://www.nascar.com/news-media/2026/01/07/nascar-justice-shift-into-high-gear-with-new-collaboration/amp/",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "medium",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "NASCAR named this Justice collaboration style in January 2026.",
+        "releaseYear": 2026,
+        "characters": [],
+        "collector": {
+          "sku": null,
+          "announcementDate": "2026-01-07"
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "region": "United States",
+        "official": "official",
+        "collection": "NASCAR x Justice 2026"
+      },
+      {
+        "id": "ref-e01dc1541d3750c2",
+        "title": "Lalaloopsy Silly Hair — Crumbs Sugar Cookie (2011)",
+        "categories": [
+          "crumbs-sugar-cookie",
+          "lalaloopsy"
+        ],
+        "brand": "MGA Entertainment",
+        "type": "Dolls",
+        "source": "The Strong National Museum of Play / Google Arts & Culture",
+        "sourceUrl": "https://artsandculture.google.com/asset/doll-lalaloopsy-silly-hair-crumbs-sugar-cookie-mga-entertainment/DwGtn-XieHWG0g",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "high",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Museum reference identifies this Crumbs doll as a 2011 release.",
+        "releaseYear": 2011,
+        "characters": [
+          "Crumbs Sugar Cookie"
+        ],
+        "collector": {
+          "museumObjectId": "112.5934",
+          "manufacturer": "MGA Entertainment"
+        },
+        "provenance": {
+          "method": "Manually researched factual identity; original English editorial reference. No seller description, stock assertion or retailer artwork copied.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "collection": "Lalaloopsy Silly Hair",
+        "official": "official"
+      },
+      {
+        "id": "ref-b0b072e0baf73006",
+        "title": "Hello Kitty Clicking Camera",
+        "categories": [
+          "hello-kitty",
+          "sanrio"
+        ],
+        "brand": "",
+        "type": "Electronics",
+        "source": "Smithsonian National Museum of American History",
+        "sourceUrl": "https://www.si.edu/object/nmah_1854789",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "high",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Museum collection record identifies a pink plastic toy camera.",
+        "releaseYear": null,
+        "characters": [
+          "Hello Kitty"
+        ],
+        "collector": {
+          "museumCatalogNumber": "2017.0037.0082"
+        },
+        "provenance": {
+          "method": "CC0 metadata in indexed primary Smithsonian record; direct page retrieval returned HTTP 520 during research.",
+          "titleNote": "English identification label; may differ from official retail title.",
+          "stockVerified": false
+        },
+        "metadataLicense": "CC0"
+      },
+      {
+        "id": "ref-dd6db3f0e539beaf",
+        "title": "Num Noms Collector's Tin",
+        "categories": [
+          "num-noms"
+        ],
+        "brand": "Parragon",
+        "type": "Books",
+        "source": "Open Library",
+        "sourceUrl": "https://openlibrary.org/works/OL20217914W",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "high",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Bibliographic reference; current retail price and availability are unverified.",
+        "releaseYear": 2017,
+        "characters": [],
+        "collector": {
+          "isbn": [
+            "1474871437",
+            "9781474871433"
+          ],
+          "authors": [
+            "Parragon"
+          ]
+        },
+        "provenance": {
+          "method": "Bounded user-requested Open Library public API lookup, cached once",
+          "apiPolicy": "https://openlibrary.org/developers/api",
+          "stockVerified": false
+        }
+      },
+      {
+        "id": "ref-91af778cece49a8d",
+        "title": "Num Noms Collector's Guide",
+        "categories": [
+          "num-noms"
+        ],
+        "brand": "Parragon",
+        "type": "Books",
+        "source": "Open Library",
+        "sourceUrl": "https://openlibrary.org/works/OL20217956W",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "high",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Bibliographic reference; current retail price and availability are unverified.",
+        "releaseYear": 2017,
+        "characters": [],
+        "collector": {
+          "isbn": [
+            "1474833985",
+            "9781474833981"
+          ],
+          "authors": [
+            "Parragon"
+          ]
+        },
+        "provenance": {
+          "method": "Bounded user-requested Open Library public API lookup, cached once",
+          "apiPolicy": "https://openlibrary.org/developers/api",
+          "stockVerified": false
+        }
+      },
+      {
+        "id": "ref-739e0bf43e77f626",
+        "title": "Num Noms Stacks of Coloring",
+        "categories": [
+          "num-noms"
+        ],
+        "brand": "Parragon",
+        "type": "Books",
+        "source": "Open Library",
+        "sourceUrl": "https://openlibrary.org/works/OL31440581W",
+        "recordStatus": "historical-reference",
+        "verifiedAt": "2026-11-07T09:02:04.846772+00:00",
+        "identificationConfidence": "high",
+        "price": null,
+        "currency": null,
+        "availability": "unknown",
+        "condition": "unknown",
+        "shipping": null,
+        "images": [],
+        "description": "Bibliographic reference; current retail price and availability are unverified.",
+        "releaseYear": 2017,
+        "characters": [],
+        "collector": {
+          "isbn": [
+            "9781474888141",
+            "1474888143"
+          ],
+          "authors": [
+            "Parragon"
+          ]
+        },
+        "provenance": {
+          "method": "Bounded user-requested Open Library public API lookup, cached once",
+          "apiPolicy": "https://openlibrary.org/developers/api",
+          "stockVerified": false
+        }
+      }
+    ],
+    "note": "Reference records only. Announced MSRP is stored separately and must not appear as a current seller price. PR TIMES factual references use original editorial descriptions, attribution and source links under its reporting/personal quotation scope. No bulk collector or artwork reuse license is asserted.",
+    "rightsPolicy": "https://prtimes.jp/main/html/kiyaku",
+    "duplicatePolicy": "Shared style numbers retain character/color/size variations within one product identity."
+  }
+}

@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import { normalizeBooks } from '../lib/discovery/openlibrary.ts';
+const at='2026-11-07T12:00:00.000Z';
+test('real-source adapter normalizes only relevant canonical works, not unrelated collisions',()=>{const products=normalizeBooks({docs:[{key:'/works/OL12345W',title:'My Little Pony: Friendship',author_name:['Fixture author'],first_publish_year:2018,cover_i:123},{key:'/works/OL1W',title:'Monster High',first_publish_year:1960},{key:'/works/OL2W',title:'Unrelated guide'},{key:'javascript:alert(1)',title:'Hello Kitty'}]},at);assert.equal(products.length,1);assert.equal(products[0].id,'openlibrary-OL12345W');assert.equal(products[0].status,'historical');assert.equal(products[0].listings.length,0);assert.ok(products[0].images[0].url.includes('/id/123-M.jpg'));});
+test('source fields do not invent cover images, authors, sale prices or stock',()=>{const [p]=normalizeBooks({docs:[{key:'/works/OL123W',title:'Lalaloopsy Guide'}]},at);assert.equal(p.brand,'Unknown');assert.equal(p.year,null);assert.equal(p.images.length,0);assert.equal(p.listings.length,0);});
