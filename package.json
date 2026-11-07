@@ -1,6 +1,6 @@
 {
   "name": "sweetheart-finds",
-  "version": "1.1.0",
+  "version": "2.0.0-stage2.1",
   "private": true,
   "engines": {
     "node": ">=22.13.0"
@@ -13,7 +13,10 @@
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate",
     "test": "node --experimental-strip-types --test tests/*.test.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:database": "python3 tests/database.test.py",
+    "benchmark": "python3 scripts/benchmark_catalog.py",
+    "diagnose:sources": "python3 scripts/check_source_profiles.py"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

@@ -29,7 +29,9 @@
       "series": "Season 11 Mini Packs",
       "lastVerificationAttemptAt": "2026-11-07T22:36:12.410999+00:00",
       "previousObservationAt": "2026-11-07T18:09:28.667917+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:09:33 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:09:33 GMT",
+      "previousObservedPrice": 11.99,
+      "previousObservedCurrency": "USD"
     },
     "aliases": [],
     "images": [],
@@ -83,7 +85,9 @@
       "sourceHttpDate": "Sat, 07 Nov 2026 22:36:36 GMT",
       "lastVerificationAttemptAt": "2026-11-07T22:36:32.292659+00:00",
       "previousObservationAt": "2026-11-07T18:09:43.752181+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:09:47 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:09:47 GMT",
+      "previousObservedPrice": 44.99,
+      "previousObservedCurrency": "USD"
     },
     "aliases": [],
     "images": [],
@@ -140,7 +144,9 @@
       "species": "Giraffe, Sloth",
       "lastVerificationAttemptAt": "2026-11-07T22:36:46.459571+00:00",
       "previousObservationAt": "2026-11-07T18:09:57.981671+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:10:02 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:10:02 GMT",
+      "previousObservedPrice": 12.99,
+      "previousObservedCurrency": "USD"
     },
     "aliases": [],
     "images": [],
@@ -197,7 +203,9 @@
       "series": "Equestria Girls 9 Inch Basic",
       "lastVerificationAttemptAt": "2026-11-07T22:37:01.294027+00:00",
       "previousObservationAt": "2026-11-07T18:10:12.668286+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:10:17 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:10:17 GMT",
+      "previousObservedPrice": 79.99,
+      "previousObservedCurrency": "USD"
     },
     "aliases": [],
     "images": [],
@@ -254,7 +262,9 @@
       "series": "2026 Fang Vote",
       "lastVerificationAttemptAt": "2026-11-07T22:37:15.676185+00:00",
       "previousObservationAt": "2026-11-07T18:10:27.351063+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:10:33 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:10:33 GMT",
+      "previousObservedPrice": 269.99,
+      "previousObservedCurrency": "USD"
     },
     "aliases": [],
     "images": [],
@@ -309,7 +319,9 @@
       "series": "Series 3.2",
       "lastVerificationAttemptAt": "2026-11-07T22:37:35.563076+00:00",
       "previousObservationAt": "2026-11-07T18:11:16.683895+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:11:22 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:11:22 GMT",
+      "previousObservedPrice": 19.99,
+      "previousObservedCurrency": "USD"
     },
     "aliases": [],
     "images": [],
@@ -368,7 +380,9 @@
       "shippingNote": "Source advertises free contiguous-US shipping; Alaska and Hawaii excluded. Other destinations unverified.",
       "lastVerificationAttemptAt": "2026-11-07T22:36:12.411754+00:00",
       "previousObservationAt": "2026-11-07T18:09:36.088961+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:09:40 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:09:40 GMT",
+      "previousObservedPrice": 30.59,
+      "previousObservedCurrency": "USD"
     },
     "aliases": [],
     "images": [],
@@ -428,7 +442,9 @@
       "originNote": "Japan storefront and market; country of manufacture and United States shipping eligibility not established.",
       "lastVerificationAttemptAt": "2026-11-07T22:36:12.412234+00:00",
       "previousObservationAt": "2026-11-07T18:09:28.665632+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:09:34 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:09:34 GMT",
+      "previousObservedPrice": 3696,
+      "previousObservedCurrency": "JPY"
     },
     "aliases": [
       "ぬいぐるみ（ずっと大好きウサハナ）"
@@ -488,7 +504,9 @@
       "originNote": "Japan storefront and market; country of manufacture and United States shipping eligibility not established.",
       "lastVerificationAttemptAt": "2026-11-07T22:36:22.471056+00:00",
       "previousObservationAt": "2026-11-07T18:09:36.502102+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:09:41 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:09:41 GMT",
+      "previousObservedPrice": 3993,
+      "previousObservedCurrency": "JPY"
     },
     "aliases": [
       "ぬいぐるみ（カラフルドレス）"
@@ -545,7 +563,9 @@
       "originNote": "Japan storefront and market; country of manufacture and United States shipping eligibility not established.",
       "lastVerificationAttemptAt": "2026-11-07T22:36:12.412945+00:00",
       "previousObservationAt": "2026-11-07T18:11:31.899957+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:11:39 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:11:39 GMT",
+      "previousObservedPrice": 990,
+      "previousObservedCurrency": "JPY"
     },
     "aliases": [
       "【大人メゾピアノ】うさぎ柄クリアポーチ"
@@ -606,7 +626,9 @@
       "originNote": "Japan storefront and market; country of manufacture and United States shipping eligibility not established.",
       "lastVerificationAttemptAt": "2026-11-07T22:36:32.226679+00:00",
       "previousObservationAt": "2026-11-07T18:15:10.671287+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:15:16 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:15:16 GMT",
+      "previousObservedPrice": 2794,
+      "previousObservedCurrency": "JPY"
     },
     "aliases": [
       "マスコットバッグチャーム（メルヘンパーティ）"
@@ -667,7 +689,9 @@
       "originNote": "Japan storefront and market; country of manufacture and United States shipping eligibility not established.",
       "lastVerificationAttemptAt": "2026-11-07T22:36:40.038213+00:00",
       "previousObservationAt": "2026-11-07T18:15:18.896438+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:15:26 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:15:26 GMT",
+      "previousObservedPrice": 2310,
+      "previousObservedCurrency": "JPY"
     },
     "aliases": [
       "ぬいどりドールSS（ぴたっとふれんず）"
@@ -727,7 +751,9 @@
       "originNote": "Japan storefront and market; country of manufacture and United States shipping eligibility not established.",
       "lastVerificationAttemptAt": "2026-11-07T22:36:49.456260+00:00",
       "previousObservationAt": "2026-11-07T18:15:28.261933+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:15:34 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:15:34 GMT",
+      "previousObservedPrice": 3696,
+      "previousObservedCurrency": "JPY"
     },
     "aliases": [
       "ぬいぐるみM"
@@ -787,7 +813,9 @@
       "originNote": "Japan storefront and market; country of manufacture and United States shipping eligibility not established.",
       "lastVerificationAttemptAt": "2026-11-07T22:36:56.771571+00:00",
       "previousObservationAt": "2026-11-07T18:15:36.693750+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:15:44 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:15:44 GMT",
+      "previousObservedPrice": 2970,
+      "previousObservedCurrency": "JPY"
     },
     "aliases": [
       "ぬいぐるみS"
@@ -848,7 +876,9 @@
       "originNote": "Japan storefront and market; country of manufacture and United States shipping eligibility not established.",
       "lastVerificationAttemptAt": "2026-11-07T22:37:04.025272+00:00",
       "previousObservationAt": "2026-11-07T18:15:46.231536+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:15:50 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:15:50 GMT",
+      "previousObservedPrice": 1793,
+      "previousObservedCurrency": "JPY"
     },
     "aliases": [
       "ミニポーチ（I LOVE SANRIO CHARACTERS）"
@@ -908,7 +938,9 @@
       "originNote": "Japan storefront and market; country of manufacture and United States shipping eligibility not established.",
       "lastVerificationAttemptAt": "2026-11-07T22:37:10.638468+00:00",
       "previousObservationAt": "2026-11-07T18:15:53.060677+00:00",
-      "sourceHttpDate": "Sat, 07 Nov 2026 22:37:20 GMT"
+      "sourceHttpDate": "Sat, 07 Nov 2026 22:37:20 GMT",
+      "previousObservedPrice": 1793,
+      "previousObservedCurrency": "JPY"
     },
     "aliases": [
       "ペンケース（I Love Hello Kitty）"
@@ -968,7 +1000,9 @@
       "sourceHttpDate": "Sat, 07 Nov 2026 22:36:40 GMT",
       "lastVerificationAttemptAt": "2026-11-07T22:36:12.413443+00:00",
       "previousObservationAt": "2026-11-07T18:15:10.673416+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:15:34 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:15:34 GMT",
+      "previousObservedPrice": 17.95,
+      "previousObservedCurrency": "KWD"
     },
     "aliases": [
       "LALALOOPSY LARGE DOLL- CRUMBS SUGAR COOKIE"
@@ -1079,7 +1113,9 @@
       "sourceHttpDate": "Sat, 07 Nov 2026 22:38:03 GMT",
       "lastVerificationAttemptAt": "2026-11-07T22:37:59.314299+00:00",
       "previousObservationAt": "2026-11-07T18:16:20.780714+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:16:29 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:16:29 GMT",
+      "previousObservedPrice": 32.29,
+      "previousObservedCurrency": "USD"
     },
     "aliases": [],
     "images": [],
@@ -1138,7 +1174,9 @@
       "series": "Surprise in a Jar",
       "lastVerificationAttemptAt": "2026-11-07T22:38:13.260862+00:00",
       "previousObservationAt": "2026-11-07T18:16:39.822417+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:16:44 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:16:44 GMT",
+      "previousObservedPrice": 49.99,
+      "previousObservedCurrency": "USD"
     },
     "aliases": [],
     "images": [],
@@ -1193,7 +1231,9 @@
       "series": "Lost Luggage",
       "lastVerificationAttemptAt": "2026-11-07T22:38:27.847174+00:00",
       "previousObservationAt": "2026-11-07T18:16:54.406824+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:16:58 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:16:58 GMT",
+      "previousObservedPrice": 109.99,
+      "previousObservedCurrency": "USD"
     },
     "aliases": [],
     "images": [],
@@ -1248,7 +1288,9 @@
       "series": "Little Frights",
       "lastVerificationAttemptAt": "2026-11-07T22:38:44.547734+00:00",
       "previousObservationAt": "2026-11-07T18:17:08.527716+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:17:13 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:17:13 GMT",
+      "previousObservedPrice": 18.99,
+      "previousObservedCurrency": "USD"
     },
     "aliases": [],
     "images": [],
@@ -1303,7 +1345,9 @@
       "currencySellerFollowUpHttpDate": "Sat, 07 Nov 2026 18:20:19 GMT",
       "lastVerificationAttemptAt": "2026-11-07T22:36:12.413900+00:00",
       "previousObservationAt": "2026-11-07T18:16:04.872587+00:00",
-      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:16:09 GMT"
+      "previousSourceHttpDate": "Sat, 07 Nov 2026 18:16:09 GMT",
+      "previousObservedPrice": 21,
+      "previousObservedCurrency": "USD"
     },
     "aliases": [],
     "images": [],

@@ -1,5 +1,9 @@
 # Sweetheart Finds — Foundation stabilization (v1.1.0)
 
+Stage2 discovery development: see [engineering report](docs/STAGE_2_REPORT.md) and [source research](docs/STAGE_2_SOURCE_RESEARCH.md). Broad unattended product aggregation remains externally gated; no complete Stage2/Stage3-readiness claim is implied.
+
+Commands: `npm run test:database`, `npm run benchmark`, `npm run diagnose:sources`. The weekly workflow checks discovery profiles only. Initialize SQLite with both versioned SQL migrations. Restore a private table backup into a **new** file using `python3 scripts/restore_backup.py /private/backup.json /new/recovered.sqlite`; never commit the output. Catalog conflicts return409; reload and review before retrying. `UCP_PRIVATE_JWK` is an optional runtime secret holding the owned P256 signing key; the public key profile is versioned. Never commit the private key. Source policies remain fail-closed until authorized runtime access succeeds.
+
 An independent merchandise discovery application for Jordan. No Explorer code, repository, data, storage, or deployment is used.
 
 ## Run locally for $0

@@ -23,7 +23,9 @@ def fetch(url):
  req=urllib.request.Request(url,headers={'User-Agent':UA,'Accept':'text/html,application/json'})
  with urllib.request.urlopen(req,timeout=25) as r:
   if r.status!=200: raise ValueError('source returned '+str(r.status))
-  return r.read(2_000_000).decode()
+  data=r.read(2_000_001)
+  if len(data)>2_000_000:raise ValueError('Source response exceeds2MB')
+  return data.decode()
 def walk(obj):
  if isinstance(obj,dict):
   yield obj

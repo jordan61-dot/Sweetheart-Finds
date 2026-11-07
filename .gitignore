@@ -47,3 +47,11 @@ yarn-error.log*
 # Reproducible development fixtures
 __pycache__/
 /public/qa-responsive.html
+
+# Private recovery/collector scratch
+outputs/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.bundle
+__pycache__/
