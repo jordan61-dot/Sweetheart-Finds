@@ -43,9 +43,9 @@ CI on public GitHub standard Linux runners performs install, JavaScript and SQLi
 
 The21 JavaScript tests cover real baseline validation, all14 taxonomy memberships, source normalization, book relevance/collisions, aliases/Japanese search terms, price/null handling, stable IDs, safe URLs/imports, CSV quoting, idempotent favorites, wishlist operations, exact backup restoration, merge preservation, preference scoring, malicious reserved keys, future stock timestamps, and collector search fields. The5 isolated SQLite tests cover migration/FTS triggers, FK rollback, revision conflicts, currencies/null prices, and SQL-injection values staying data.
 
-Source review confirmed public catalog reads and account-scoped personal APIs, CAS personal updates, owner-only administrative paths, bounded JSON requests, and parameterized SQL. No real personal records were mutated. Production database snapshot contained zero account-personal rows. Browser-local records cannot be enumerated across the owner's devices; their preservation relies on unchanged origin/storage keys and the existing export/merge/exact-restore controls. A new deployment does not intentionally clear browser storage.
+Source review confirmed public catalog reads and account-scoped personal APIs, CAS personal updates, owner-only administrative paths, bounded JSON requests, and parameterized SQL. The pre-authentication snapshot contained zero account-personal rows. After owner sign-in, temporary QA personal records were created, tested and restored; no pre-existing personal record was removed. Browser-local records cannot be enumerated across the owner's devices; their preservation relies on unchanged origin/storage keys and the existing export/merge/exact-restore controls. A new deployment does not intentionally clear browser storage.
 
-The complete original24-test suite was recovered, rerun, and expanded to26 tests. Earlier Stage1 browser checks remain historical evidence; this remediation does not claim a fresh exhaustive control-by-control audit, authenticated owner administration, cross-device synchronization, browser-restart testing, or physical Galaxy/iPhone/mobile-network testing. These remain explicit validation limits. Do not confuse ordinary private-browser storage loss with a successful account sync.
+The complete original24-test suite was recovered, rerun, and expanded to26 tests. Earlier Stage1 browser checks remain historical evidence; this remediation does not claim a fresh exhaustive control-by-control audit, cross-device synchronization, browser-restart testing, or physical Galaxy/iPhone/mobile-network testing. Authenticated owner administration and focused account persistence/recovery checks were subsequently completed; see the addendum. These remain explicit validation limits. Do not confuse ordinary private-browser storage loss with a successful account sync.
 
 ## E. Live database reconciliation
 
@@ -62,7 +62,7 @@ The complete original24-test suite was recovered, rerun, and expanded to26 tests
 | Source labels |8|
 | Records missing source name/URL |0|
 | Unknown licensing classification |25|
-| Account-personal rows |0|
+| Account-personal rows before authenticated QA |0|
 | Product-category associations |83|
 
 Counts overlap across parent categories/collaborations. Category totals: LPS11; MLP3; Shopkins2; Num Noms3; Crumbs1; Lalaloopsy3; Monster High2; Sanrio21; Pompompurin3; Hello Kitty2; My Melody12; Usahana4; Mezzo Piano12; Justice4. No new active offer was invented. Zero active offers follows actual source coverage and unavailable retailer observations, not a database sync failure.13 image URLs do not guarantee successful image loading. Invalid/dead third-party source links and image availability have not all been reverified; neither a fabricated zero-error count nor universal image coverage is claimed.
@@ -91,15 +91,36 @@ No formal axe/WCAG certification, load test at thousands of products, memory/bat
 | Images/fonts | Source-authorized cover display, licensed Commons editorial image, free fonts with fallbacks; no paid image API/CDN account |
 | Scheduler/logging/backups | No scheduled job enabled; bounded in-app activity; private manual exports; no paid logging/backup service |
 
-Current official references: https://help.openai.com/en/articles/20001339-creating-and-using-chatgpt-sites and https://docs.github.com/en/actions/concepts/billing-and-usage . Sites documentation also announces metering/overages from January2027 above included allowances. No exposed tool in this session configures a hard account spending cap; therefore perpetual hosted $0 with guaranteed no-overage behavior is not verified. Keep local execution available and do not enable paid overages. This is a financial acceptance limitation, not a promise that future hosted traffic is unconditionally free.
+Current official references: https://help.openai.com/en/articles/20001339-creating-and-using-chatgpt-sites and https://docs.github.com/en/actions/concepts/billing-and-usage . A fresh read of the official Sites documentation on November 7 states that hosting is currently included with Plus/Pro and that shared usage limits apply. The earlier January2027 overage assertion is not supported by the current document and is withdrawn. No new subscription, credit purchase, automatic reload, billing account or paid hosting feature was enabled. This deployment relies on the owner's existing eligible ChatGPT plan; it is not independently free of that plan. Exact shared traffic/request quotas and a hard spending-cap control are not exposed by the available project tools. Future service changes cannot be guaranteed; retain portable source and backups and do not opt into paid hosting or usage.
 
 ## I. Stage 2 readiness and J. classification
 
-INCOMPLETE — CRITICAL ISSUES REMAIN for unconditional Stage2 approval: guaranteed hosted no-overage controls have not been established, and the complete requested authenticated production/administration and recovery audit remains unverified without an owner session. The existing app is preserved, public browsing is functional, GitHub source is complete, and substantial security remediation has been implemented. Stage2 must not begin on the strength of unperformed tests.
+PROVISIONALLY COMPLETE — NONBLOCKING ISSUES REMAIN. The identified source synchronization, anonymous public access, owner-authorization and reproducible-build defects are corrected. Focused authenticated production checks now demonstrate owner access, duplicate-safe real-record import, account wishlist/favorite/note persistence and backup recovery. No observed unresolved P0 application defect remains. This classification does not certify every requested audit scenario or authorize Stage2 to start.
 
-Further focused work: verify authenticated owner/non-owner boundaries and real ingestion/import against an isolated database; finish mobile/accessibility controls audit; validate large-catalog query behavior; evaluate remaining moderate tool advisories; establish enforceable free-hosting fail-closed controls or an independently verified free deployment fallback. Do not start mass discovery or fabricate active offers to clear a checklist.
+Remaining P1 validation/maintenance work: a separate authenticated non-owner session; exhaustive malformed-import/edit/merge concurrency integration tests; all-control mobile/accessibility regression; physical device/network checks; large-catalog load measurements; review of 16 moderate development-tool advisories; third-party link/image reverification. These are limitations on assurance and future scale, not demonstrated data loss or public-data exposure. Before Stage2 bulk ingestion, resolve edit/merge concurrency and measure large-catalog performance in an isolated environment. Hosting remains included with the existing plan under current documentation, with the portability and future-policy limits explained above.
 
 
 ## Post-publication verification addendum
 
 The final GitHub code checkout installed700 packages cleanly, passed21 JavaScript and5 SQLite tests, type checks and the upgraded production build. Anonymous production browser search returned four relevant Usahana records, product navigation worked, and a browser-local favorite survived reload and was then removed as a QA fixture. All14 production category-query relevance checks and seven HTTP route/access checks passed. A post-upgrade typo-correction regression was detected: copying a framework-proxied Request into the native Request constructor raised an illegal invocation. Correction uses a fresh URL-only GET Request; the production smoke script is its regression check. Source collector recheck of one allowed Schylling path timed out; no new active listing or successful ingestion was claimed. Forged identity headers were stripped/rejected (401), an anonymous admin POST returned401, and an unknown route returned404.
+
+
+## Authenticated owner verification — November 7, 2026
+
+After the owner completed browser authentication, the normal account-selection flow returned to Sweetheart Finds with “Saved to your account.” The owner-only catalog studio loaded its live statistics successfully.
+
+| Production browser check | Result |
+| --- | --- |
+| Owner administration | Passed: catalog overview and import review accessible |
+| Real-record import validation | Passed: existing Schylling SKU500, 1 valid record, 1 existing identity, 0 errors |
+| Confirmed import | Passed: accepted1, duplicate1; success activity recorded; 49 canonical products and11 offers retained |
+| Wishlist creation/persistence | Passed: temporary list survived reload with account-saved status |
+| Personal export | Passed: cabinet JSON downloaded through the application |
+| Backup merge | Completed after confirmation; existing test list remained a single list |
+| Favorite/note persistence | Passed: saved product and exact QA note remained after reload |
+| Exact recovery | Passed: exported pre-note cabinet restored; favorite removed and note blank; success status displayed |
+| QA cleanup | Passed: temporary list deleted; reload showed0 favorites and no lists, with account-saved status |
+
+The import re-exercised an authentic, previously collected source record; it did not claim a fresh external source verification or create a fake active offer. Its existing unavailable listing classification and observed timestamp were retained. The initial private database backup predates these tests. No QA wishlist, favorite or note remains. A private account container and administrative ingestion audit event may remain, as expected; neither is in the public repository. An independent authenticated non-owner account and physical devices were unavailable, so those checks remain unperformed.
+
+Release application source: GitHub commit fd90e1b1520f1f647a166655b42fcef83d476c55. Published Site version3 was built from managed source commit3798604b214bcf50c91bed76e4b3c282ab64ea69. This addendum is documentation-only and does not change the deployed application. The final source checkout again passed21 JavaScript tests,5 SQLite tests, TypeScript, production build and the23-scenario production HTTP smoke script. Hosted GitHub Actions execution was not independently confirmed; local clean-checkout results are the reproducibility evidence.
