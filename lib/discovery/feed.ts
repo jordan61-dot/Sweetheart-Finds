@@ -1,0 +1,27 @@
+import {retryAfterSeconds} from './transport.ts';
+import {z} from 'zod';
+import {normalizeProduct,stableId,csvRows,type Product} from '../domain.ts';
+export function publicUrl(value:string){const u=new URL(value);if(u.protocol!=='https:'||u.username||u.password||u.port||!u.hostname.includes('.')||/^(\d|\[)/.test(u.hostname)||/\.(local|internal|localhost)$/.test(u.hostname))throw Error('Use a public HTTPS hostname without credentials or a custom port');return u;}
+const https=z.string().max(2000).refine(v=>{try{publicUrl(v);return true;}catch{return false;}});
+export const feedSchema=z.object({id:z.string().regex(/^[a-z][a-z0-9-]{2,60}$/),name:z.string().min(3).max(120),url:https,format:z.enum(['json','csv']),enabled:z.boolean(),intervalHours:z.number().int().min(6).max(720),permissionUrl:https,permissionNote:z.string().min(30).max(2000),recurringAllowed:z.literal(true),durableAllowed:z.literal(true),imagesAllowed:z.boolean(),imageHosts:z.array(z.string().regex(/^[a-z0-9.-]+$/)).max(12),permissionExpiresAt:z.string().datetime(),mapping:z.record(z.string(),z.string().max(100)).default({})});
+export type Feed=z.infer<typeof feedSchema>;
+export type FeedRow={sourceId:string;variantId?:string;product:Product};
+export function assertFeed(f:Feed,hosts:string[],at=Date.now()){const u=publicUrl(f.url);if(!hosts.includes(u.hostname))throw Error('Feed hostname needs owner-controlled FEED_ALLOWED_HOSTS configuration');if(!f.enabled)throw Error('Feed is suspended');if(Date.parse(f.permissionExpiresAt)<=at)throw Error('Feed permission expired');}
+export function parseFeed(text:string,f:Feed,at:string):FeedRow[]{
+ if(new TextEncoder().encode(text).length>1500000)throw Error('Feed exceeds 1.5 MB; provide a smaller authorized export');
+ const parsed=f.format==='csv'?csvRows(text):JSON.parse(text);const rows=Array.isArray(parsed)?parsed:parsed.products;
+ if(!Array.isArray(rows)||!rows.length||rows.length>250)throw Error('Feed must contain 1–250 records; empty responses preserve prior offers');
+ const seen=new Set<string>();return rows.map((raw:any)=>{const r:any={...raw};for(const [target,key] of Object.entries(f.mapping))r[target]=raw[key];
+ const sourceId=z.string().min(1).max(200).parse(String(r.sourceId||'')),variantId=String(r.variantId||'');const identity=sourceId+'|'+variantId;if(seen.has(identity))throw Error('Duplicate source product/variant identity');seen.add(identity);
+ const url=publicUrl(r.url||r.sourceUrl).toString();if(new URL(url).hostname!==new URL(f.url).hostname&&!r.sourceUrl)throw Error('Supply sourceUrl for merchant URLs on another hostname');
+ const categories=typeof r.categories==='string'?r.categories.split('|'):r.categories;
+ const price=r.price===''||r.price==null?null:Number(r.price);if(r.availability&&!['available','unavailable','ended','unknown'].includes(r.availability))throw Error('Unsupported availability');
+ const p=normalizeProduct({title:r.title,brand:r.brand||'Unknown',type:r.type||'Other',categories,characters:r.characters||[],generation:r.generation||'',year:r.year?Number(r.year):null,identifiers:{...(r.identifiers||{}),sourceProduct:sourceId,sourceVariant:variantId},variants:variantId?[variantId]:[],source:f.name,sourceUrl:url,observedAt:at,confidence:'source-identified',id:stableId('p','feed:'+f.id+':'+identity),listings:[{id:stableId('l','feed:'+f.id+':'+identity),sourceId,variation:variantId,source:f.name,url,seller:r.seller||f.name,price,currency:z.string().regex(/^[A-Z]{3}$/).parse(r.currency),condition:r.condition||'Unknown',availability:r.availability||'unknown',observedAt:at,verification:'observed',shippingEligibility:r.shippingEligibility||'unknown'}]});
+ // Only feed-supplied photographs tied to this exact source product AND variant.
+ const images=Array.isArray(r.images)?r.images:[];p.images=[];
+ if(f.imagesAllowed)for(const image of images.slice(0,12)){const u=publicUrl(image.url);if(!f.imageHosts.includes(u.hostname))continue;if(image.sourceId!==sourceId||String(image.variantId||'')!==variantId)continue;if(!image.attribution)continue;p.images.push({url:u.toString(),source:f.permissionUrl,attribution:String(image.attribution).slice(0,500),permission:'owner-permitted'});}
+ return {sourceId,variantId,product:p};});
+}
+export async function readFeed(f:Feed,hosts:string[],etag?:string,modified?:string,fetcher:typeof fetch=fetch){assertFeed(f,hosts);const headers:Record<string,string>={'Accept':f.format==='json'?'application/json':'text/csv','User-Agent':'SweetheartFinds/2.3'};if(etag)headers['If-None-Match']=etag;if(modified)headers['If-Modified-Since']=modified;
+ const response=await fetcher(f.url,{headers,redirect:'error',signal:AbortSignal.timeout(15000)});if(response.status===304)return {unchanged:true as const};if(!response.ok)throw Object.assign(Error('Feed HTTP '+response.status),{retryAfter:retryAfterSeconds(response.headers.get('retry-after'))});const reader=response.body?.getReader();if(!reader)throw Error('Empty response');let length=0;const chunks:Uint8Array[]=[];try{while(true){const c=await reader.read();if(c.done)break;length+=c.value.length;if(length>1500000)throw Error('Feed exceeds 1.5 MB');chunks.push(c.value);}}finally{await reader.cancel();}const bytes=new Uint8Array(length);let offset=0;for(const c of chunks){bytes.set(c,offset);offset+=c.length;}return {unchanged:false as const,text:new TextDecoder().decode(bytes),etag:response.headers.get('etag'),modified:response.headers.get('last-modified')};
+}

@@ -1,0 +1,28 @@
+name: Collect permissioned merchant feeds
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 * * * *'
+permissions:
+  contents: read
+concurrency:
+  group: sweetheart-permissioned-collection
+  cancel-in-progress: false
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Invoke bounded collector
+        env:
+          COLLECTOR_TOKEN: ${{ secrets.SWEETHEART_COLLECTOR_TOKEN }}
+        run: |
+          if [ -z "$COLLECTOR_TOKEN" ]; then
+            echo '::warning::Collector is inactive: service credential is not configured. No source request made.'
+            exit 0
+          fi
+          curl --fail-with-body --silent --show-error --max-time 90 \
+            -X POST -H "Authorization: Bearer $COLLECTOR_TOKEN" \
+            -H 'Content-Type: application/json' \
+            --data '{}' \
+            'https://sweetheart-finds.jordanmullens12.chatgpt.site/api/automation/tick'

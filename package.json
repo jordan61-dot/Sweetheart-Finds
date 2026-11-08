@@ -1,6 +1,6 @@
 {
   "name": "sweetheart-finds",
-  "version": "2.0.0-stage2.2",
+  "version": "2.3.0-incomplete",
   "private": true,
   "engines": {
     "node": ">=22.13.0"
