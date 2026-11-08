@@ -77,3 +77,16 @@ At most two due feed pages run per tick, ten records/page, one image HEAD check 
 ## Stage 2 outlook
 
 Stage 2 remains incomplete. The application can now execute a permissioned feed-to-catalog pipeline, but genuine live merchandise and scheduled-execution evidence require approved source access and service activation. Stage 3 has not begun.
+
+
+## Continuation — November 8, 2026
+
+Production version 9 was deployed from `f537b40397c36a20653ff17c74f9dd64bfca922c`; GitHub implementation commit is `bb7816459031f352f367ab7b7b4d79da9d5519cf`. GitHub Verify foundation run 42448184093 succeeded. The independent production smoke suite passed its routes, authorization boundaries, all fourteen category queries, book sorting and typo correction. The new owner endpoint rejected anonymous requests (401), and the then-unconfigured service endpoint returned 503.
+
+The production Commons backfill completed all **74 products**, finding **five candidates**. None was auto-published; exact identity is unresolved. Product/offer counts remain **74/34**, with **14 image-source records (18.92%)**. As of the morning check, all prior stock observations had expired: **zero source-current offers**. This is expiration, not a claim that all offers sold.
+
+The shared-secret activation dependency has now been replaced in source by GitHub OIDC authentication. It pins the numeric repository ID 1449222249, owner ID 348051783, exact main-branch workflow, expected audience, issuer, public repository, hosted runner and permitted event types. JWT signature and time checks plus persistent one-use token claims prevent anonymous calls and replay. Forks and pull requests cannot invoke the writer. No long-lived scheduler secret or new account is required.
+
+The workflow now ticks every fifteen minutes; each source still retains its own due time and budget. It performs bounded eligible-feed work, resumable photo discovery and one existing-product image availability audit, retaining execution event/run IDs and history. A successful media audit verifies URL/MIME availability, not exact collectible identity. Real scheduled execution evidence must still be appended after it is observed; source code alone is insufficient.
+
+The repository remains public. No paid infrastructure was introduced. GitHub standard runners are covered by its public-repository free usage, while the existing Sites subscription remains a hosting dependency. Updated unit suite: 68 passing tests, including actual RSA signature verification and rejection of forged, expired, wrong-repository and wrong-workflow credentials.

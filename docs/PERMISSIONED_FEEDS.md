@@ -65,9 +65,9 @@ CSV supports the same simple fields, pipe-separated categories and explicit fiel
 ## Scheduler activation and proof
 
 1. Register a genuinely approved feed and run Update feed now. Confirm the records appear in public search and verify correct photos.
-2. Configure a random secret of at least 32 characters as `SWEETHEART_COLLECTOR_TOKEN` in both the Sites runtime and the existing GitHub repository's Actions secrets. Never commit it.
-3. GitHub's `Collect permissioned merchant feeds` workflow calls POST `/api/automation/tick` with the Bearer secret. It selects at most two due feeds; each retains its own interval and checkpoint. An hourly tick is not hourly retrieval for every source.
-4. Inspect the actual Actions execution and Catalog Studio execution histories. A missing secret warning means inactive; a configured cron expression is not success. Confirm catalog counts, price observations, search results and a subsequent idempotent run.
+2. The fixed main-branch GitHub workflow authenticates with a short-lived GitHub OIDC token. No shared secret is required. The deployed verifier pins the immutable repository/owner IDs and exact workflow identity.
+3. GitHub's `Collect permissioned merchant feeds` workflow calls POST `/api/automation/tick` with the signed short-lived identity token. It selects at most two due feeds; each retains its own interval and checkpoint. A fifteen-minute tick is not hourly retrieval for every source.
+4. Inspect the actual Actions execution and Catalog Studio execution histories. An authentication failure means no work was authorized; a configured cron expression is not success. Confirm catalog counts, price observations, search results and a subsequent idempotent run.
 5. Monitor overdue runs, source failures, image verification failures, and repository inactivity. Recover a failed/interrupted feed through the owner control after addressing its cause. Recovery does not reset daily request budgets.
 
-No live scheduler evidence exists until these steps succeed with a real permitted feed. Rollback: suspend feeds, disable the workflow, and redeploy prior source. Do not restore an older database over newer personal records. The current backup tool preserves new config-backed feed/media state without a migration.
+A successful maintenance execution does not establish live merchandise harvesting; that still requires a real permitted feed. Rollback: suspend feeds, disable the workflow, and redeploy prior source. Do not restore an older database over newer personal records. The current backup tool preserves new config-backed feed/media state without a migration.

@@ -1,28 +1,40 @@
 name: Collect permissioned merchant feeds
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/collect-permissioned-feeds.yml'
   schedule:
-    - cron: '23 * * * *'
+    - cron: '7,22,37,52 * * * *'
 permissions:
   contents: read
+  id-token: write
 concurrency:
   group: sweetheart-permissioned-collection
   cancel-in-progress: false
 jobs:
   collect:
+    if: github.repository == 'jordan61-dot/Sweetheart-Finds' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
-      - name: Invoke bounded collector
-        env:
-          COLLECTOR_TOKEN: ${{ secrets.SWEETHEART_COLLECTOR_TOKEN }}
+      - name: Authenticate with short-lived GitHub identity and run bounded maintenance
+        shell: bash
         run: |
-          if [ -z "$COLLECTOR_TOKEN" ]; then
-            echo '::warning::Collector is inactive: service credential is not configured. No source request made.'
-            exit 0
-          fi
-          curl --fail-with-body --silent --show-error --max-time 90 \
-            -X POST -H "Authorization: Bearer $COLLECTOR_TOKEN" \
-            -H 'Content-Type: application/json' \
-            --data '{}' \
-            'https://sweetheart-finds.jordanmullens12.chatgpt.site/api/automation/tick'
+          python3 - <<'SCRIPT'
+          import json, os, urllib.request, urllib.parse
+          endpoint='https://sweetheart-finds.jordanmullens12.chatgpt.site/api/automation/tick'
+          issuer=os.environ['ACTIONS_ID_TOKEN_REQUEST_URL']
+          issuer += ('&' if '?' in issuer else '?') + urllib.parse.urlencode({'audience':endpoint})
+          request=urllib.request.Request(issuer,headers={'Authorization':'Bearer '+os.environ['ACTIONS_ID_TOKEN_REQUEST_TOKEN']})
+          with urllib.request.urlopen(request,timeout=20) as response:
+              token=json.load(response)['value']
+          print('::add-mask::'+token)
+          request=urllib.request.Request(endpoint,data=b'{}',method='POST',headers={'Authorization':'Bearer '+token,'Content-Type':'application/json','User-Agent':'SweetheartFinds-Scheduler/2.3'})
+          with urllib.request.urlopen(request,timeout=120) as response:
+              result=json.load(response)
+          print(json.dumps(result,indent=2))
+          if result.get('errors'):
+              raise SystemExit('Maintenance completed with source errors; inspect the retained dashboard history.')
+          SCRIPT
