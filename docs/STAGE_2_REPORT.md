@@ -4,7 +4,7 @@ November7,2026. Baseline1.1 preserved; Stage3 has not started.
 
 ## Status
 
-Stage2 overall remains **INCOMPLETE** because operational merchant integrations, recurring product feeds and authorized imagery are still blocked. The stage2.2 recovery continuation is ready for publication. This release adds a substantial discovery foundation and genuine current merchandise. Broad unattended marketplace aggregation is not yet established. A source profile, mocked adapter or external search link is never counted as a working product collector.
+Stage2 overall remains **INCOMPLETE** because operational merchant integrations, recurring product feeds and authorized imagery are still blocked. The stage2.2 recovery continuation is published as Site version 7. This release adds a substantial discovery foundation and genuine current merchandise. Broad unattended marketplace aggregation is not yet established. A source profile, mocked adapter or external search link is never counted as a working product collector.
 
 ## Preservation and architecture
 
@@ -70,9 +70,20 @@ Stage2 cannot be certified fully complete while broad operational product APIs, 
 - Corrected integer minor-unit normalization for currencies including USD, JPY and KWD, without exchange-rate conversion. Conflicting strong identifiers take precedence over weaker matches. Transport rejects redirects and honors HTTP-date Retry-After values.
 - Verified live stored diagnostics: Sanrio, Mattel, JapanLA, Blippo and Toynk signed runtime probes all returned HTTP 401 on November 7 UTC. Open Library has a successful production reference lookup. No repeat probes were performed in this continuation.
 - Passed 50 JavaScript checks (including actual SQLite-backed job races and a full backup/restore round trip), 10 Python database checks, four profile-diagnostic checks, TypeScript checking and the production build after clean dependency installation. Framework sourcemap/dynamic-import warnings remain nonfatal.
-- Browser preview: migrations applied only to an isolated local database; 72 records loaded, Usahana search returned six relevant records, and a saved favorite persisted after reload. Local shell could not reach the browser daemon's loopback URL; browser QA itself succeeded. Physical phones, full screen-reader coverage and signed-in owner UI were not tested in this continuation.
+- Browser preview: migrations applied only to an isolated local database; 72 records loaded, Usahana search returned six relevant records, and a saved favorite persisted after reload. Local shell could not reach the browser daemon's loopback URL; browser QA itself succeeded. Physical phones, full screen-reader coverage were not tested in this continuation. Signed-in owner UI was subsequently verified in production.
 - No new paid service, API, credential purchase, billing setting or overage was enabled. Existing included hosting and public-repository CI remain the deployment path.
 
 ### Concrete external completion blockers
 
 Merchant integration needs accepted production client credentials or approved agent authentication from the retailer/platform. Recurring product collection requires a source permitting that use and a verified free execution path. Product photography requires suitable display/reuse rights. External search links and individual manual observations remain usable fallbacks; neither fulfills automatic multi-marketplace collection. Stage 3 has not begun.
+
+
+### Published verification
+
+Site version 7 deployed successfully at https://sweetheart-finds.jordanmullens12.chatgpt.site with managed source commit `10fa2912a37312afd8928f208444b07c35ba0653`. The matching GitHub implementation commit is `da3b44265e91ca753ae6757ab8e4fbed817117db`; its tree exactly matches the prepared GitHub worktree, including the preserved environment example.
+
+GitHub clean CI [run 42443762064](https://github.com/jordan61-dot/Sweetheart-Finds/actions/runs/42443762064) passed. Source-profile diagnostics [run 42443762073](https://github.com/jordan61-dot/Sweetheart-Finds/actions/runs/42443762073) passed on push. This is an observed diagnostic execution, not proof of a scheduled execution or product harvesting.
+
+All 25 post-deployment HTTP checks passed: public pages/search, all fourteen interest categories, alphabetical/type and typo matching, and anonymous rejection of personal, admin, discovery and full-backup endpoints. The owner session opened the deployed source dashboard and successfully queued/executed a real Usahana Open Library lookup; it completed in review state with no matching references and no next page. No merchandise or personal records were altered. Existing Monster High review/checkpoint data remained intact.
+
+The live catalog displayed 74 records. Freshness is evaluated dynamically; earlier reports of 22 current offers are historical observations, not a continuing stock guarantee. The merchant integrations remain authentication-blocked and the overall Stage 2 classification remains INCOMPLETE. No paid fallback was enabled.
