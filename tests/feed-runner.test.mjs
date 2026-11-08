@@ -12,3 +12,38 @@ test('failed source leaves the catalog intact and records recoverable failure',a
 test('checkpoint resumes without another feed request or duplicate products',async()=>{const sql=setup();fetchFixture(Array.from({length:11},(_,i)=>({...row,sourceId:'item'+i,images:[]})));await saveFeed(feed);assert.equal((await runFeed(feed.id)).complete,false);assert.equal(sql.prepare('SELECT count(*) n FROM products').get().n,10);await resetFeed(feed.id);globalThis.fetch=async()=>{throw Error('checkpoint must not fetch');};assert.equal((await runFeed(feed.id)).complete,true);assert.equal(sql.prepare('SELECT count(*) n FROM products').get().n,11);});
 test('active lease excludes concurrent collection and owner edits force transaction rollback',async()=>{const sql=setup();await saveFeed(feed);let finish;globalThis.fetch=async()=>new Promise(r=>finish=r);const running=runFeed(feed.id);while(!finish)await new Promise(r=>setImmediate(r));assert.equal((await runFeed(feed.id)).skipped,true);finish(Response.json([{...row,images:[]}]));await running;const revision=await catalogRevision();await catalogBatch([],revision);await assert.rejects(catalogBatch([],revision),/Catalog changed/);assert.equal(sql.prepare('SELECT count(*) n FROM products').get().n,1);});
 test('service authentication rejects missing or wrong credentials',async()=>{setup();await assert.rejects(authenticateCollector(new Request('https://site.example/tick')),/Unauthorized/);await authenticateCollector(new Request('https://site.example/tick',{headers:{authorization:'Bearer '+'x'.repeat(40)}}));});
+const {backfillNext,reviewMedia}=await import('../lib/discovery/media-backfill.ts');
+const {auditNextImage,maintenanceTick,imageHead}=await import('../lib/discovery/maintenance.ts');
+test('photo backfill upgrades the cursor and discovers newer products that sort earlier',async()=>{
+ const sql=setup();fetchFixture([{...row,sourceId:'z',images:[]},{...row,sourceId:'a',images:[]}]);await saveFeed(feed);await runFeed(feed.id);
+ const products=sql.prepare('SELECT id FROM products ORDER BY id').all();const oldAt='2026-01-01T00:00:00.000Z';
+ sql.prepare('UPDATE products SET added_at=? WHERE id=?').run('2025-01-01T00:00:00.000Z',products[1].id);
+ sql.prepare('INSERT INTO config(key,data) VALUES (?,?)').run('media-backfill',JSON.stringify({after:products[1].id,lastAt:oldAt,processed:1,complete:true}));
+ let requests=0;globalThis.fetch=async()=>{requests++;return Response.json({query:{pages:{}}});};
+ assert.equal((await backfillNext()).complete,false);assert.equal(requests,1);assert.equal(sql.prepare("SELECT count(*) n FROM config WHERE key LIKE 'media-scanned:%'").get().n,2);
+ assert.equal((await backfillNext()).complete,true);assert.equal(requests,1);
+});
+test('image audits checkpoint every gallery image and notice changed galleries',async()=>{
+ const sql=setup();fetchFixture();await saveFeed(feed);await runFeed(feed.id);const p=JSON.parse(sql.prepare('SELECT data FROM products').get().data);
+ p.images=Array.from({length:5},(_,i)=>({...p.images[0],url:'https://images.example/'+i+'.jpg'}));sql.prepare('UPDATE products SET data=? WHERE id=?').run(JSON.stringify(p),p.id);
+ let requests=0;globalThis.fetch=async(_url,options)=>{assert.equal(options.redirect,'manual');requests++;return new Response(null,{headers:{'content-type':'image/jpeg'}});};
+ assert.equal((await auditNextImage()).complete,false);assert.equal(requests,3);assert.equal((await auditNextImage()).complete,true);assert.equal(requests,5);assert.equal((await auditNextImage()).checked,0);
+ p.images[4].url='https://images.example/replacement.jpg';sql.prepare('UPDATE products SET data=? WHERE id=?').run(JSON.stringify(p),p.id);assert.equal((await auditNextImage()).complete,false);assert.equal(requests,8);
+});
+test('photo approval cannot overwrite a concurrent owner rejection',async()=>{
+ const sql=setup();fetchFixture();await saveFeed(feed);await runFeed(feed.id);const p=JSON.parse(sql.prepare('SELECT data FROM products').get().data);const key='media:'+p.id+':commons:1';
+ const media={productId:p.id,match:{decision:'review'},candidate:{url:'https://upload.wikimedia.org/test.jpg',licenseUrl:'https://creativecommons.org/licenses/by/4.0/',license:'CC-BY',attribution:'Fixture creator',sourceUrl:'https://commons.wikimedia.org/wiki/File:Test',expiresAt:'2030-01-01T00:00:00Z'}};
+ sql.prepare('INSERT INTO config(key,data) VALUES (?,?)').run(key,JSON.stringify(media));let finish;globalThis.fetch=async()=>new Promise(r=>finish=r);const approving=reviewMedia(key,true);while(!finish)await new Promise(r=>setImmediate(r));await reviewMedia(key,false);finish(new Response(null,{headers:{'content-type':'image/jpeg'}}));await assert.rejects(approving);
+ assert.equal(JSON.parse(sql.prepare('SELECT data FROM config WHERE key=?').get(key).data).review,'rejected');assert.equal(JSON.parse(sql.prepare('SELECT data FROM products').get().data).images.length,1);
+});
+test('maintenance records a real database history and excludes overlapping ticks',async()=>{
+ const sql=setup();fetchFixture([{...row,images:[]}]);await saveFeed(feed);let finish;globalThis.fetch=async()=>new Promise(r=>finish=r);const identity={event:'schedule',runId:'123',attempt:'1'};const running=maintenanceTick(identity);while(!finish)await new Promise(r=>setImmediate(r));assert.equal((await maintenanceTick(identity)).skipped,true);
+ const resolve=finish;globalThis.fetch=async()=>Response.json({query:{pages:{}}});resolve(Response.json([{...row,images:[]}]));const result=await running;assert.equal(result.errors.length,0);const state=JSON.parse(sql.prepare("SELECT data FROM config WHERE key='automation-runtime'").get().data);assert.equal(state.lastScheduledAt,result.at);assert.equal(state.runs.length,1);assert.equal(sql.prepare('SELECT count(*) n FROM products').get().n,1);
+});
+
+test('image redirects are bounded and confined to the approved HTTPS origin',async()=>{
+ let calls=[];globalThis.fetch=async(url)=>{calls.push(url);return calls.length===1?new Response(null,{status:302,headers:{location:'/resolved.jpg'}}):new Response(null,{headers:{'content-type':'image/jpeg'}});};
+ assert.equal((await imageHead('https://covers.openlibrary.org/start.jpg')).status,200);assert.equal(calls[1],'https://covers.openlibrary.org/resolved.jpg');
+ calls=[];globalThis.fetch=async(url)=>{calls.push(url);return new Response(null,{status:302,headers:{location:'https://unapproved.example/image.jpg'}});};assert.equal((await imageHead('https://covers.openlibrary.org/start.jpg')).status,302);assert.equal(calls.length,1);
+ calls=[];globalThis.fetch=async(url)=>{calls.push(url);return new Response(null,{status:302,headers:{location:'/loop.jpg'}});};assert.equal((await imageHead('https://covers.openlibrary.org/start.jpg')).status,302);assert.equal(calls.length,3);
+});
