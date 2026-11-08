@@ -1,6 +1,6 @@
-# Sweetheart Finds — Foundation stabilization (v1.1.0)
+# Sweetheart Finds — Stage 2 continuation (v2.0.0-stage2.2)
 
-Stage2 discovery development: see [engineering report](docs/STAGE_2_REPORT.md) and [source research](docs/STAGE_2_SOURCE_RESEARCH.md). Broad unattended product aggregation remains externally gated; no complete Stage2/Stage3-readiness claim is implied.
+Stage 2 remains INCOMPLETE due to merchant API authorization and recurring-feed/image permissions. The recovery continuation is implemented and tested. Stage2 discovery development: see [engineering report](docs/STAGE_2_REPORT.md) and [source research](docs/STAGE_2_SOURCE_RESEARCH.md). Broad unattended product aggregation remains externally gated; no complete Stage2/Stage3-readiness claim is implied.
 
 Commands: `npm run test:database`, `npm run benchmark`, `npm run diagnose:sources`. The weekly workflow checks discovery profiles only. Initialize SQLite with both versioned SQL migrations. Restore a private table backup into a **new** file using `python3 scripts/restore_backup.py /private/backup.json /new/recovered.sqlite`; never commit the output. Catalog conflicts return409; reload and review before retrying. `UCP_PRIVATE_JWK` is an optional runtime secret holding the owned P256 signing key; the public key profile is versioned. Never commit the private key. Source policies remain fail-closed until authorized runtime access succeeds.
 
@@ -17,6 +17,7 @@ python tests/database.test.py
 npm run typecheck
 npm run build
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_easy_red_shift.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0001_discovery_foundation.sql
 npm run dev
 ```
 
@@ -28,7 +29,7 @@ On ordinary portable local development, the starter provides loopback-only mock 
 
 React 19, TypeScript, Vinext/Vite, Cloudflare Worker, D1/SQLite, Drizzle migrations, Zod validation, Lucide icons. CSS and original SVG illustration implement the visual identity. DM Sans and DM Serif Display load through the free Google Fonts service (system fallbacks apply offline). No paid AI service is used.
 
-Seven application tables: products, product_categories, listings, observations, personal, ingestion, config. An FTS5 index and triggers provide token/prefix search; a bounded substring fallback handles partial terms. Products hold extensible schema-validated metadata and separate normalized seller offers. Asking-price micros are integers; null is unknown, and currencies are never silently converted.
+Foundation application tables: products, product_categories, listings, observations, personal, ingestion, config. An FTS5 index and triggers provide token/prefix search; a bounded substring fallback handles partial terms. Products hold extensible schema-validated metadata and separate normalized seller offers. Asking-price micros are integers; null is unknown, and currencies are never silently converted.
 
 Public Sites hosting and D1 are provided through the existing ChatGPT account. `.openai/hosting.json` contains the independent Site identity and DB binding. Hosting currently has no additional charge for the owner's existing Plus account; the official help page documents a 10 GB database limit per Site and shared limits. No billing account, credit card, overage setting, or paid key has been enabled. Future pricing is not controlled by this application. If included access changes, stop hosted use or use the local deployment; do not accept paid terms as a fallback.
 
@@ -55,6 +56,8 @@ Import batches: max 250 products / 1.5 MB. All rows validate before writes, and 
 - `docs/SOURCES.md`, `docs/EDITORIAL_SOURCES.md`: source permissions, current access limits, price conflicts, image licensing, and Stage 2 opportunities.
 
 Book covers link directly to the Open Library Covers API using source identifiers, as its display guidelines request. Underlying artwork rights stay with the original holders. Thirteen records have cover URLs; individual covers may be missing or fail to load. Other product images are deliberately withheld where reuse permission was not established. One licensed Commons photograph illustrates its own subject in an editorial section; it is not attached to unrelated products or represented as a sale listing. Attribution, source, and CC BY-SA 4.0 license are shown. Brand names are descriptive and do not imply affiliation.
+
+The Stage 2 catalog adds 23 manually reviewed identities/offers to the 49 foundation records. Availability is timestamped and expires; these records are not an automatic feed. Owner-only full backup export includes jobs, diagnostics and match reviews. Backups contain private account records and must not be published.
 
 ## Stage 2 handoff
 

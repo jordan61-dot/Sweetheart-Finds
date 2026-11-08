@@ -7,8 +7,8 @@ def get(path):
  body,code=r.stdout.rsplit('\n',1);return int(code),body,round(time.monotonic()-t,3)
 
 checks=[]
-for path in ['/','/category/usahana','/product/ref-cc4d1f43bf0330c0','/api/catalog?q=usahana','/api/catalog?type=Books','/api/personal','/api/admin']:
- code,body,seconds=get(path); expected=401 if path in ['/api/personal','/api/admin'] else 200
+for path in ['/','/category/usahana','/product/ref-cc4d1f43bf0330c0','/api/catalog?q=usahana','/api/catalog?type=Books','/api/personal','/api/admin','/api/discovery','/api/admin?backup=full']:
+ code,body,seconds=get(path); expected=401 if path in ['/api/personal','/api/admin','/api/discovery','/api/admin?backup=full'] else 200
  assert code==expected,(path,code,body[:100]);checks.append({'path':path,'status':code,'seconds':seconds})
 print(json.dumps(checks,indent=2))
 for category in ['littlest-pet-shop','my-little-pony','shopkins','num-noms','crumbs-sugar-cookie','lalaloopsy','monster-high','sanrio','pompompurin','hello-kitty','my-melody','usahana','mezzo-piano','justice-girls']:

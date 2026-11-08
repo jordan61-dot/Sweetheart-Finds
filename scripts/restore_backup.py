@@ -1,9 +1,12 @@
-import argparse,json,sqlite3
+import argparse,json,sqlite3,os
 from pathlib import Path
 p=argparse.ArgumentParser(description='Restore a private backup into a NEW isolated SQLite file; no network.');p.add_argument('backup',type=Path);p.add_argument('destination',type=Path);a=p.parse_args()
 if a.destination.exists():p.error('Destination exists. Existing data will not be overwritten.')
-raw=json.loads(a.backup.read_text());order=['products','listings','observations','product_categories','personal','config','ingestion'];tables=raw.get('tables')
+raw=json.loads(a.backup.read_text());order=['products','listings','observations','product_categories','personal','config','ingestion'];tables=raw.get('tables');version=raw.get('version',1)
+if version==2:order+=['discovery_jobs','source_health','match_reviews']
+elif version!=1:p.error('Unsupported backup version')
 if raw.get('format')!='sweetheart-d1-backup' or not isinstance(tables,dict) or set(tables)!=set(order):p.error('Invalid/incomplete backup')
+fd=os.open(a.destination,os.O_CREAT|os.O_EXCL|os.O_WRONLY,0o600);os.close(fd)
 con=sqlite3.connect(a.destination);con.execute('PRAGMA foreign_keys=ON');root=Path(__file__).resolve().parents[1]
 try:
  for f in sorted((root/'drizzle').glob('*.sql')):con.executescript(f.read_text())

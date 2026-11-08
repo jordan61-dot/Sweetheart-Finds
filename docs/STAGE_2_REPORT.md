@@ -4,7 +4,7 @@ November7,2026. Baseline1.1 preserved; Stage3 has not started.
 
 ## Status
 
-Stage2 implementation is under production verification. This release adds a substantial discovery foundation and genuine current merchandise. Broad unattended marketplace aggregation is not yet established. A source profile, mocked adapter or external search link is never counted as a working product collector.
+Stage2 overall remains **INCOMPLETE** because operational merchant integrations, recurring product feeds and authorized imagery are still blocked. The stage2.2 recovery continuation is ready for publication. This release adds a substantial discovery foundation and genuine current merchandise. Broad unattended marketplace aggregation is not yet established. A source profile, mocked adapter or external search link is never counted as a working product collector.
 
 ## Preservation and architecture
 
@@ -60,3 +60,19 @@ The original tests are retained. Added checks cover all14 query configurations, 
 ## Remaining acceptance limits / Stage3 readiness
 
 Stage2 cannot be certified fully complete while broad operational product APIs, permissioned recurring feeds, meaningful automatic multi-marketplace refresh and permitted imagery remain absent. The signed runtime handshake is an integration diagnostic, not approval to mass collect. Account/API approvals and retailer permissions are genuine external dependencies. Additional production-scale D1, exhaustive mobile/accessibility and separate non-owner-session checks remain. Source matching supports review; no uncertain record is automatically merged. Stage3 has not started and should not be accepted on the strength of unperformed discovery work.
+
+
+## Stage 2.2 continuation — November 7, 2026 (Eastern)
+
+- Recovered the retained unfinished patch against the deployed source, which matches GitHub main 661a941 except its excluded environment example. No schema, identity or personal-data migration was made.
+- Completed a separately testable discovery engine: atomic claims, lease checks on late responses, recovery after two minutes, three-attempt ceiling, shared daily source budget, Retry-After cooldown, and explicit next-page queueing capped at 20 pages per human-driven job. The retained review data is kept until the next request completes.
+- Full owner-only transactional backups now include discovery jobs, source diagnostics and match reviews. Restore supports foundation v1 and complete v2 snapshots into a new isolated file; it refuses overwriting an existing destination. Current catalog-sized snapshots are tested; very large full snapshots remain subject to Worker/D1 memory and response limits.
+- Corrected integer minor-unit normalization for currencies including USD, JPY and KWD, without exchange-rate conversion. Conflicting strong identifiers take precedence over weaker matches. Transport rejects redirects and honors HTTP-date Retry-After values.
+- Verified live stored diagnostics: Sanrio, Mattel, JapanLA, Blippo and Toynk signed runtime probes all returned HTTP 401 on November 7 UTC. Open Library has a successful production reference lookup. No repeat probes were performed in this continuation.
+- Passed 50 JavaScript checks (including actual SQLite-backed job races and a full backup/restore round trip), 10 Python database checks, four profile-diagnostic checks, TypeScript checking and the production build after clean dependency installation. Framework sourcemap/dynamic-import warnings remain nonfatal.
+- Browser preview: migrations applied only to an isolated local database; 72 records loaded, Usahana search returned six relevant records, and a saved favorite persisted after reload. Local shell could not reach the browser daemon's loopback URL; browser QA itself succeeded. Physical phones, full screen-reader coverage and signed-in owner UI were not tested in this continuation.
+- No new paid service, API, credential purchase, billing setting or overage was enabled. Existing included hosting and public-repository CI remain the deployment path.
+
+### Concrete external completion blockers
+
+Merchant integration needs accepted production client credentials or approved agent authentication from the retailer/platform. Recurring product collection requires a source permitting that use and a verified free execution path. Product photography requires suitable display/reuse rights. External search links and individual manual observations remain usable fallbacks; neither fulfills automatic multi-marketplace collection. Stage 3 has not begun.

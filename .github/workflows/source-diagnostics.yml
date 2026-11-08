@@ -3,6 +3,11 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '23 12 * * 1'
+  push:
+    branches: [main]
+    paths:
+      - scripts/check_source_profiles.py
+      - .github/workflows/source-diagnostics.yml
 permissions:
   contents: read
 concurrency:
@@ -14,5 +19,5 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - run: python3 scripts/check_source_profiles.py
+      - run: python3 scripts/check_source_profiles.py --summary "$GITHUB_STEP_SUMMARY"
 # No product harvesting, private credentials, production writes, paid runner or artifact uploads.
