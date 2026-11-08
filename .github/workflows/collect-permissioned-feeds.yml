@@ -23,7 +23,7 @@ jobs:
         shell: bash
         run: |
           python3 - <<'SCRIPT'
-          import json, os, urllib.request, urllib.parse
+          import json, os, urllib.request, urllib.parse, urllib.error
           endpoint='https://sweetheart-finds.jordanmullens12.chatgpt.site/api/automation/tick'
           issuer=os.environ['ACTIONS_ID_TOKEN_REQUEST_URL']
           issuer += ('&' if '?' in issuer else '?') + urllib.parse.urlencode({'audience':endpoint})
@@ -32,8 +32,12 @@ jobs:
               token=json.load(response)['value']
           print('::add-mask::'+token)
           request=urllib.request.Request(endpoint,data=b'{}',method='POST',headers={'Authorization':'Bearer '+token,'Content-Type':'application/json','User-Agent':'SweetheartFinds-Scheduler/2.3'})
-          with urllib.request.urlopen(request,timeout=120) as response:
-              result=json.load(response)
+          try:
+              with urllib.request.urlopen(request,timeout=120) as response:
+                  result=json.load(response)
+          except urllib.error.HTTPError as error:
+              print("Collector response:", error.code, error.read(2000).decode("utf-8", "replace"))
+              raise SystemExit(1)
           print(json.dumps(result,indent=2))
           if result.get('errors'):
               raise SystemExit('Maintenance completed with source errors; inspect the retained dashboard history.')
