@@ -137,3 +137,43 @@ Categories overlap. Unique products remain **74**, listings **34**, observations
 No retailer has supplied a recurring feed with durable-indexing and photo-display authorization, and no approved marketplace credentials are available. Public storefront accessibility is insufficient evidence. The prepared feed contract and application description allow owner-authorized activation without another architecture rewrite. External actions are limited to obtaining one approved merchant feed or approved marketplace access, then setting the relevant secure source configuration. Existing Commons candidates need exact-product review; five candidates are not five usable photos.
 
 Dedicated media tables, RSS/Atom/XML adapters, broader marketplace adapters, source-specific retention cleanup, comprehensive media administration, high-volume concurrency/load proof and full mobile/personal-storage regression remain unfinished engineering scope. No claim of full Stage 2.3 completion is justified. No paid service or billing was enabled. Stage 3 has not begun.
+
+## Continuation — November 8, 2026, 16:20 Eastern
+
+### Independent scheduled execution confirmed
+
+Four fresh scheduled runs completed successfully on their **first attempts**, without manual dispatch or retry:
+
+| GitHub run | Trigger time (UTC) | Eastern time | Result |
+| --- | --- | --- | --- |
+| 42511642855 | 18:46:16 | 13:46:16 | Passed |
+| 42515158288 | 19:27:47 | 14:27:47 | Passed |
+| 42519125796 | 20:14:41 | 15:14:41 | Passed |
+| 42522748986 | 20:57:52 | 15:57:52 | Passed |
+
+Direct logs from the first and last runs confirm signed GitHub authentication, production database history writes, completed backfill state and real image requests. The first image check returned JPEG/200; the last retained a 302 verification warning. All reported zero eligible merchant feeds. Thus recurring **maintenance** is proven; recurring **merchandise ingestion** remains unproven. Observed scheduler spacing remains roughly 40–47 minutes, despite a fifteen-minute cron expression.
+
+### Working shopper-triggered merchandise route
+
+Wildmart publishes a documented, unauthenticated product-discovery REST API. Its live endpoints returned actual Hello Kitty and Monster High products, product IDs, canonical retailer links, MDL prices and source stock fields on November 8. Its documentation requests links back to the canonical storefront and cache-header compliance. Its delivery page documents Moldova delivery; US delivery is not established.
+
+The new site search calls this service only after a signed-in shopper submits a query. It offers all fourteen interest presets, custom keywords and user-triggered cursor pagination. A bounded response normalizer excludes unrelated or unsafe records, preserves MDL, suppresses stale/unknown prices and stock, and displays the source's projection timestamp. It does not translate or embellish the retailer's product titles.
+
+Results expire after sixty seconds and are held only in component memory. The endpoint sends `Cache-Control: no-store`. They never enter products, listings, observations, FTS, favorites, local/session storage or database backups. Only global rate/cost counters and source cooldowns are persistent. The cap is 200 requests/day, one request per three seconds, with a ten-second timeout and 512 KiB body limit; redirects are rejected. Retailer 429/503 responses enforce cooldowns. No storefront scraping, account creation, credentials or payment is used.
+
+Durable catalog indexing and image reuse were **not** established. Therefore this source is not enrolled in unattended harvesting, and its images/descriptions are not copied. Product cards link to the merchant page to inspect photographs and exact variants. This is an operational alternative within the requested temporary shopper-discovery mode, not evidence that the primary autonomous collection acceptance criterion is complete.
+
+Primary sources:
+- https://wildmart.md/public-api/docs/
+- https://wildmart.md/public-api/openapi.json
+- https://wildmart.md/ro/achitare-si-livrare
+
+Other newly assessed routes: IndieStore's public API lists software/startup profiles, not these merchandise interests; Archive & Atlas exposes art/archive feeds with item-specific licensing and agreement-gated bulk data use. Neither is represented as a relevant authorized merchandise harvester. No repeated marketplace-authentication probing was performed.
+
+### Photography and monitoring improvements
+
+Catalog Studio now shows SQL-aggregated product/image coverage, recorded exact assignments, pending candidate reviews, image-check outcomes and each interest's coverage. Image URL counts remain explicitly separate from exact identity. Candidate review includes the actual product title, licensed Commons preview, image title, attribution and source/license links. Existing owner-only authorization remains in place.
+
+Fixed an additional monitoring defect: isolated feed errors returned by the feed runner now mark the containing maintenance execution unsuccessful. Previously they could appear in nested results while the top-level errors list stayed empty. Other sources still run, and prior valid catalog records remain preserved.
+
+Validation at this continuation: **81 JavaScript tests passed**, including temporary-retailer normalization, stale price/stock suppression, currencies, relevance/URL checks, pagination encoding, redirects, oversized bodies, rate limits, media coverage accounting and propagation of isolated feed failures. TypeScript passes. No new dependency, database schema migration, paid service or hosting identity change was introduced. Production browser verification follows deployment and must be distinguished from these fixture checks.

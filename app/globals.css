@@ -17,3 +17,5 @@
 @media(max-width:720px){.header-actions .text-link{font-size:10px;white-space:nowrap}.header-actions:has(>.text-link)>.icon-button{display:none}}
 
 .shopping-modes{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0}.discovery-studio{display:grid;gap:1.5rem}.discovery-job{padding:1rem 0;border-bottom:1px solid #eadde4}.discovery-job p{overflow-wrap:anywhere}.discovery-studio details{padding:.8rem}.comparison-scroll{overflow:auto;max-width:100%}.comparison-scroll th,.comparison-scroll td{padding:.7rem;text-align:left;border-bottom:1px solid #eadde4;white-space:nowrap}.discovery-studio select{max-width:100%;width:100%}
+
+.shopper-search{margin-block:28px}.shopper-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px}.shopper-grid h3{overflow-wrap:anywhere}.shopper-search .form-grid{align-items:end}.shopper-search .form-grid button{min-height:44px}
