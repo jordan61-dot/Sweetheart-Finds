@@ -1,5 +1,5 @@
-import MerchantFinds from './merchant-finds';
 'use client';
+import MerchantFinds from './merchant-finds';
 import {displayImages} from '../lib/domain';
 import { useEffect,useRef,useState } from 'react';
 import { ArrowRight,ArrowUpRight,Search,Heart,SlidersHorizontal,X,Check,Plus,ChevronDown,ChevronRight,ChevronLeft,Flower2,Sparkles,ShoppingBag,Gift,Bookmark,Settings2,Download,Upload,Link as LinkIcon,RefreshCw,ExternalLink,Sun,Moon,Menu,Star,Cat,BookOpen,LayoutGrid,Rows3,Clock,Info,ShieldCheck,AlertCircle,Trash2,Copy,CheckCircle2,Database,Globe,Palette,Package,ArrowLeft } from 'lucide-react';
