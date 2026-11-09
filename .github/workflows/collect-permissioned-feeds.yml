@@ -17,8 +17,11 @@ jobs:
   collect:
     if: github.repository == 'jordan61-dot/Sweetheart-Finds' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 8
     steps:
+      - uses: actions/checkout@v4
+      - name: Collect official Wildmart ACP snapshot when due
+        run: python3 scripts/collect_wildmart.py
       - name: Authenticate with short-lived GitHub identity and run bounded maintenance
         shell: bash
         run: |

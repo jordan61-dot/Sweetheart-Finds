@@ -1,3 +1,4 @@
+import {maintainACP} from './acp';
 import {env} from 'cloudflare:workers';
 import {db,now} from '../server';
 import type {Product} from '../domain';
@@ -30,9 +31,9 @@ export async function auditNextImage(){
 export async function maintenanceTick(identity:CollectorClaims|{event:'owner-triggered';runId:string;attempt:string}){
  const key='automation-runtime',at=now(),lease=crypto.randomUUID();await db().prepare("INSERT OR IGNORE INTO config(key,data) VALUES (?,'{}')").bind(key).run();
  const claimed=await db().prepare("UPDATE config SET data=json_set(data,'$.lease',?,'$.leaseUntil',?) WHERE key=? AND COALESCE(json_extract(data,'$.leaseUntil'),'')<=? RETURNING data").bind(lease,new Date(Date.now()+180000).toISOString(),key,at).first<{data:string}>();if(!claimed)return {skipped:true,reason:'Maintenance already running'};
- const prior=JSON.parse(claimed.data),errors:string[]=[];let feeds:any,media:any,audit:any;
- try{try{feeds=await tickFeeds();for(const result of feeds.results)if('error' in result)errors.push('Feed '+result.id+': '+result.error);}catch(e){errors.push('Feeds: '+(e as Error).message);}try{media=await backfillNext();}catch(e){errors.push('Media discovery: '+(e as Error).message);}try{audit=await auditNextImage();}catch(e){errors.push('Image audit: '+(e as Error).message);}
- const warnings=(audit?.results||[]).filter((r:any)=>r.status!=='reachable').map((r:any)=>'Photo audit: '+r.status+(r.httpStatus?' (HTTP '+r.httpStatus+')':''));const run={warnings,at,finishedAt:now(),event:identity.event,runId:identity.runId,attempt:identity.attempt,feeds,media,audit,errors};const next={leaseUntil:'',lastRun:run,lastScheduledAt:identity.event==='schedule'?at:prior.lastScheduledAt,lastSuccessfulAt:errors.length?prior.lastSuccessfulAt:at,nextExpectedAt:new Date(Date.now()+20*60000).toISOString(),runs:[run,...(prior.runs||[])].slice(0,30)};
+ const prior=JSON.parse(claimed.data),errors:string[]=[];let feeds:any,media:any,audit:any,merchantPhotos:any;
+ try{try{merchantPhotos=await maintainACP();}catch(e){errors.push('Merchant photos: '+(e as Error).message);}try{feeds=await tickFeeds();for(const result of feeds.results)if('error' in result)errors.push('Feed '+result.id+': '+result.error);}catch(e){errors.push('Feeds: '+(e as Error).message);}try{media=await backfillNext();}catch(e){errors.push('Media discovery: '+(e as Error).message);}try{audit=await auditNextImage();}catch(e){errors.push('Image audit: '+(e as Error).message);}
+ const warnings=(audit?.results||[]).filter((r:any)=>r.status!=='reachable').map((r:any)=>'Photo audit: '+r.status+(r.httpStatus?' (HTTP '+r.httpStatus+')':''));const run={warnings,at,finishedAt:now(),event:identity.event,runId:identity.runId,attempt:identity.attempt,feeds,media,audit,merchantPhotos,errors};const next={leaseUntil:'',lastRun:run,lastScheduledAt:identity.event==='schedule'?at:prior.lastScheduledAt,lastSuccessfulAt:errors.length?prior.lastSuccessfulAt:at,nextExpectedAt:new Date(Date.now()+20*60000).toISOString(),runs:[run,...(prior.runs||[])].slice(0,30)};
  await db().prepare("UPDATE config SET data=? WHERE key=? AND json_extract(data,'$.lease')=?").bind(JSON.stringify(next),key,lease).run();await db().prepare("DELETE FROM config WHERE key LIKE 'budget:%' AND substr(key,-10)<?").bind(new Date(Date.now()-35*86400000).toISOString().slice(0,10)).run();return run;
  }catch(e){await db().prepare("UPDATE config SET data=json_set(data,'$.leaseUntil','','$.lastError',?) WHERE key=? AND json_extract(data,'$.lease')=?").bind((e as Error).message,key,lease).run();throw e;}
 }

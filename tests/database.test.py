@@ -5,7 +5,7 @@ ROOT=Path(__file__).resolve().parents[1]
 class DatabaseTests(unittest.TestCase):
  def setUp(self):
   self.db=sqlite3.connect(':memory:');self.db.execute('PRAGMA foreign_keys=ON')
-  self.db.executescript((ROOT/'drizzle/0000_easy_red_shift.sql').read_text());self.db.executescript((ROOT/'drizzle/0001_discovery_foundation.sql').read_text());self.db.execute("INSERT INTO config VALUES ('catalog-revision','0')");self.db.commit()
+  self.db.executescript((ROOT/'drizzle/0000_easy_red_shift.sql').read_text());self.db.executescript((ROOT/'drizzle/0001_discovery_foundation.sql').read_text());self.db.executescript((ROOT/'drizzle/0002_current_merchant_feed.sql').read_text());self.db.execute("INSERT INTO config VALUES ('catalog-revision','0')");self.db.commit()
  def product(self,id='p1',title='My Melody Plush',search='my melody plush sanrio'):
   self.db.execute('INSERT INTO products VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',(id,title,id,'Sanrio','Plush','','Japan',None,'catalog','reviewed',search,json.dumps({'title':title,'images':[]}), '2026-11-07','2026-11-07',0))
  def test_migration_and_fts_trigger(self):
