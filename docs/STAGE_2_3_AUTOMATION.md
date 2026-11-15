@@ -37,3 +37,18 @@ Production GET `/api/merchant-feed` independently confirmed 69 stored records. F
 The next continuation adds rotating detail checks for up to twenty stale source IDs per workflow execution, paced at 1.2 seconds/request. The merchant expressly asks feed consumers to use live product lookups; these checks update only existing feed IDs and retain prior values on failures. A valid live response updates price, stock and source-observation time without duplicating the item. HTTP 429/503 stops the remaining batch. The original merchant images are not replaced by unrelated API search photos.
 
 The workflow also drains up to fifteen five-image batches, six seconds apart, so the initial 69-image queue can finish automatically in one bounded execution. It stops as soon as no more images need checking. Every batch retains a production execution record. This remains checkpointed, with no requirement for the owner to press update repeatedly. Total job timeout stays eight minutes. These refinements pass 87 JavaScript tests; production evidence follows publication.
+
+
+## November 15 production verification
+
+Site 17 deployed at 04:37:37 UTC on November 9 (November 8, 11:37 p.m. Eastern), managed commit `691573368ea250ac773f0c8d88daa825922bc48c`. GitHub `cf05719d78645d155e7f68a9c31a8ef37ca957a8` synchronizes that implementation and activates the live SKU refresh in Actions.
+
+Production history records 20 successful full imports from cron since activation. Latest recorded full import at this check was [43673187599](https://github.com/jordan61-dot/Sweetheart-Finds/actions/runs/43673187599), November 14 at 10:37 p.m. Eastern. It validated 99,180 source records and retained 69 distinct offers with zero additions, updates, removals or duplicates in that generation. Next eligible full import was November 15 at 4:37 a.m. Eastern, subject to scheduler delays.
+
+The matching push-triggered [workflow run 43686659898](https://github.com/jordan61-dot/Sweetheart-Finds/actions/runs/43686659898) verified 20 live SKU responses at 1:42 a.m. Eastern on November 15. Public pagination confirmed 19 in-stock, one out-of-stock and 49 stale records afterward. A distinct cron execution of the new rotating refresh was not yet observed. All 69 current-feed records have verified exact merchant photo references. The scheduled snapshot and associated photo maintenance have real production execution evidence.
+
+Current merchant results include 35 Monster High, 27 My Little Pony and seven Hello Kitty offers. The same seven Hello Kitty offers also count under Sanrio. The other ten interests retain historical and external search coverage. The canonical catalog remains 74 products. Historic photo backfill remains at five review candidates with no exact assignments. The original 34 offers were separate from the 69 current-feed offers.
+
+[GitHub verification 43686659850](https://github.com/jordan61-dot/Sweetheart-Finds/actions/runs/43686659850) passed for the synchronized implementation. Local release validation passed 87 JavaScript, 10 database and four diagnostics tests plus TypeScript and build. Production frontend rendering recovered in Site 16 and was verified with genuine product cards. Additional spending remains $0 with existing Sites hosting and a public GitHub repository.
+
+The core unattended publication and merchant-photo objectives are operational. The full Stage 2.3 scope remains incomplete, including broader authorized merchant and US shipping coverage, exact photographs for legacy records, and saving the separate merchant results to personal collections. Stage 3 has not started.
