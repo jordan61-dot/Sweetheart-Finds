@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/collect-permissioned-feeds.yml'
+      - 'scripts/collect_wildmart.py'
   schedule:
     - cron: '7,22,37,52 * * * *'
 permissions:

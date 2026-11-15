@@ -25,3 +25,15 @@ No added service, account, subscription, paid inference or billing is required. 
 ## Verification status
 
 Local end-to-end SQLite tests cover exact variant/price normalization, stable IDs, FTS, full replacement, stale generations, duplicates, unsafe links, mass-removal preservation, and automatic photo publication only after valid image responses. Production deployment and independent scheduled retrieval must be recorded below before claiming live activation. All fourteen interests retain configurations; actual source coverage is not assumed to cover every interest. Existing historical-photo backfill remains 74 processed, five uncertain candidates and zero automatic exact matches.
+
+## First actual unattended production execution
+
+GitHub run [42562419922](https://github.com/jordan61-dot/Sweetheart-Finds/actions/runs/42562419922) completed successfully on November 9 at 04:32:54 UTC (November 8, 23:32 Eastern). Trigger: **push**, not cron. Its collector downloaded and verified all 98,813 records in **3.33 seconds on the GitHub runner**, then published **69 new current-feed merchandise records**, with **69 exact source-variant image candidates**. Production database publication occurred at 04:32:52.678 UTC. Five images were independently checked and automatically published at 04:32:53–54. This is real unattended end-to-end publication; a separate cron execution still needs to be observed for the newly activated source.
+
+Production GET `/api/merchant-feed` independently confirmed 69 stored records. Full-snapshot next eligibility was 10:32:52 UTC. The initial Site 15 frontend had a misplaced React client directive and returned a page error while its API remained operational. The directive was corrected and Site 16 restored the page at 04:34:36 UTC. The correction is GitHub commit `8630e1fd431203141d6956f2e0bbd83474f47f92`, managed source `4e5e709ca2f116f39c1c5180391235cc9e3ff110`. No data loss occurred.
+
+## Additional automation
+
+The next continuation adds rotating detail checks for up to twenty stale source IDs per workflow execution, paced at 1.2 seconds/request. The merchant expressly asks feed consumers to use live product lookups; these checks update only existing feed IDs and retain prior values on failures. A valid live response updates price, stock and source-observation time without duplicating the item. HTTP 429/503 stops the remaining batch. The original merchant images are not replaced by unrelated API search photos.
+
+The workflow also drains up to fifteen five-image batches, six seconds apart, so the initial 69-image queue can finish automatically in one bounded execution. It stops as soon as no more images need checking. Every batch retains a production execution record. This remains checkpointed, with no requirement for the owner to press update repeatedly. Total job timeout stays eight minutes. These refinements pass 87 JavaScript tests; production evidence follows publication.
