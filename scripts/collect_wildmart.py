@@ -47,11 +47,19 @@ def main():
  if '--inspect' in sys.argv:
   p=collect();print(json.dumps({**{k:v for k,v in p.items() if k!='rows'},'matched':len(p['rows']),'examples':p['rows'][:3]},ensure_ascii=False));return
  state=call({'action':'acp-state'})
+ snapshot_failed=False
  if state.get('due'):
-  try:print(json.dumps(call(collect())))
-  except Exception as e:
-   print(json.dumps(call({'action':'acp-failure','message':str(e)[:300]})));raise
- else:print(json.dumps(state))
+  try:
+   print(json.dumps(call(collect())))
+  except Exception as error:
+   snapshot_failed=True
+   print('Full snapshot failed; continuing with existing offers and photo maintenance.',file=sys.stderr)
+   try:
+    print(json.dumps(call({'action':'acp-failure','message':str(error)[:300]})))
+   except Exception as reporting_error:
+    print('Could not record snapshot failure: '+type(reporting_error).__name__,file=sys.stderr)
+ else:
+  print(json.dumps({key:state.get(key) for key in ('due','lastSuccess','nextAt','count','failures')}))
  deadline=time.monotonic()+170
  for _ in range(4):
   stop=False
@@ -76,4 +84,5 @@ def main():
   if result.get('errors'):raise RuntimeError('Maintenance reported errors')
   if result.get('merchantPhotos',{}).get('checked',0)<5:break
   time.sleep(6)
+ if snapshot_failed:raise SystemExit('Full snapshot failed; see source history for retry timing.')
 if __name__=='__main__':main()
