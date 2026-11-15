@@ -52,17 +52,24 @@ def main():
   except Exception as e:
    print(json.dumps(call({'action':'acp-failure','message':str(e)[:300]})));raise
  else:print(json.dumps(state))
- plan=call({'action':'acp-refresh-plan'});results=[]
- for product_id in plan['ids']:
-  if not re.fullmatch(r'\d+',str(product_id)):raise ValueError('Invalid refresh ID')
-  try:
-   data=get('https://wildmart.md/api/public/v1/products/'+str(product_id)+'?lang=ro',131072);item=data.get('item',{})
-   results.append({'id':str(product_id),'updatedAt':data.get('data_updated_at'),'item':{k:item.get(k) for k in ['product_id','data_stale','canonical_url','price','availability']}})
-  except Exception as error:
-   results.append({'id':str(product_id),'error':type(error).__name__})
-   if getattr(error,'code',0) in (429,503):break
-  time.sleep(1.2)
- if results:print(json.dumps(call({'action':'refresh-acp','results':results})))
+ deadline=time.monotonic()+170
+ for _ in range(4):
+  stop=False
+  plan=call({'action':'acp-refresh-plan'});results=[]
+  for product_id in plan['ids']:
+   if time.monotonic()>=deadline:break
+   if not re.fullmatch(r'\d+',str(product_id)):raise ValueError('Invalid refresh ID')
+   try:
+    data=get('https://wildmart.md/api/public/v1/products/'+str(product_id)+'?lang=ro',131072);item=data.get('item',{})
+    results.append({'id':str(product_id),'updatedAt':data.get('data_updated_at'),'item':{k:item.get(k) for k in ['product_id','data_stale','canonical_url','price','availability']}})
+   except Exception as error:
+    results.append({'id':str(product_id),'error':type(error).__name__})
+    if getattr(error,'code',0) in (429,503):
+     stop=True
+     break
+   time.sleep(2)
+  if results:print(json.dumps(call({'action':'refresh-acp','results':results})))
+  if stop or len(results)<20:break
  # Finish a resumable image queue without waiting a day for five-photo ticks.
  for batch in range(15):
   result=call({});print(json.dumps({'photoBatch':batch,'merchantPhotos':result.get('merchantPhotos'),'errors':result.get('errors')}))
