@@ -60,3 +60,40 @@ GitHub commit `bb1329ac3c98414d734d2ccf2fb2a2520525ec1f` expands the existing wo
 ## Snapshot failure recovery
 
 Collector commit `a7274250fa5f0b38a42e1e55aa639869742846c2` keeps existing-offer refresh and photo maintenance running after a full snapshot fails, records the source error and preserves a failed workflow result. A simulated download outage verified that the failure report, stock update and photo maintenance all execute in order. The normal production [collector run](https://github.com/jordan61-dot/Sweetheart-Finds/actions/runs/43687962070) and [foundation verification](https://github.com/jordan61-dot/Sweetheart-Finds/actions/runs/43687962147) passed. The change runs in GitHub Actions and requires no new site deployment or spending.
+
+
+## Additional feed activation
+
+Prioritize merchant consent over another general-purpose crawler. The current scheduler already supports authorized JSON and CSV feeds, conditional retrieval, leases, retries, product/variant identity, matching, and source-linked photography. An existing export is sufficient when the merchant approves its use.
+
+| Lead | Verified access condition | Next action |
+| --- | --- | --- |
+| eBay Browse API | Production Buy API use requires an approved application. Official bulk feeds target eligible partners. | Apply for Browse production search and item lookup first. Request the exact display, image and caching rules for the approved use before enabling recurring collection. |
+| HobbyLink Japan | Official affiliate program provides a merchant contact path. A recurring product export and reuse rights are unverified. | Ask for a feed and US shipping fields. |
+| Independent specialty retailers | Current owner-configured JSON/CSV integration accepts permissioned exports. | Ask for an existing export limited to relevant merchandise and confirm refresh and display rights. |
+| Disney Store via CJ | CJ advertises a product feed and requires an active publisher account and application. | Lower priority since fit with the 14 collections is unverified. |
+| Agentsfeed and ACP directories | Protocol documentation describes public feed routes. It does not identify a relevant consenting merchant by itself. | Evaluate individual merchant listings when a matching catalog is found. |
+
+Official evidence:
+- https://developer.ebay.com/api-docs/buy/static/buy-requirements.html
+- https://partnernetwork.ebay.com/solutions/scale-listings-on-your-site-with-data-feeds
+- https://support.hlj.com/hc/en-us/articles/360006252733-Do-you-have-a-partnership-sponsorship-or-affiliate-program
+- https://public.cj.com/signup/publisher?advertiserId=2609575
+
+### Ready-to-send merchant request
+
+Subject: Product feed for Sweetheart Finds
+
+Hello, I’m looking to feature your relevant collectibles on Sweetheart Finds, a small shopping discovery site that links buyers directly to the original store. Do you offer an existing JSON or CSV catalog export for periodically refreshing product names, SKU or variant IDs, listing URLs, prices, and stock? We’re especially interested in Sanrio, Monster High, Littlest Pet Shop and related collectibles. If you offer a feed, please share its documentation, US shipping coverage, allowed refresh interval, and retention terms. Please also confirm whether we can display your supplied product image URLs alongside the corresponding listings. We can launch with listing text and links if photo display is unavailable. Site: https://sweetheart-finds.jordanmullens12.chatgpt.site
+
+### eBay production application description
+
+Sweetheart Finds helps shoppers discover character merchandise and vintage collectibles across 14 interests. We request production Browse search and item lookup access for relevant eBay listings, including listing identity, item condition, price/currency, availability, shipping to the United States and images when permitted. Buyers complete orders on eBay. We will attribute listings, link to the approved eBay destinations, follow freshness, retention and image rules, and keep partner credentials server-side. Please confirm whether recurring refresh of a bounded relevant listing set is permitted and, if so, the required retention window.
+
+### When access is issued
+
+1. Record the merchant's exact refresh, indexing, retention and image permissions. Continue with text and links if only that use is approved.
+2. For a compatible feed, allowlist its exact HTTPS hostname and any separately approved image hosts in Sites, then register it in Catalog Studio. Use a targeted export of at most 250 records and 1.5 MB, or build a dedicated streaming adapter for larger feeds.
+3. Verify one new real listing and one stable-ID refresh in production, then check the next scheduled execution. Use secure runtime configuration for credentials if the source requires them.
+
+No additional merchant has been activated by this evaluation. A confirmed approved feed or production credentials are still needed. No applications or external messages were sent.
