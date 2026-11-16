@@ -148,3 +148,12 @@ Exact-product reference thumbnails can be evaluated individually. Consider a sma
 The U.S. Copyright Office summarizes an example where a court found search-engine thumbnails used as pointers to source material supported fair use. That decision involved a general-purpose search engine and does not decide the outcome for a product catalog. [Perfect 10 v. Amazon summary](https://www.copyright.gov/fair-use/summaries/perfect10-amazon-9thcir2007.pdf)
 
 Mattel's official page establishes an exact candidate for the 2026 Fang Vote Abbey Bominable product. It is a first candidate for review of a source-linked identification thumbnail. A publication decision remains open. [Mattel product page](https://creations.mattel.com/pages/monster-high-2026-fang-vote-abbey-bominable-doll)
+
+## November 16 production follow-up
+
+- Signed eBay Marketplace Account Deletion delivery succeeded in production with HTTP 204. A separate read-only production Feed v1 check returned access error 1100 for the base OAuth token. The documented `buy.item.feed` OAuth scope was denied as `invalid_scope`, so the current key cannot fetch Curated Item Feed files. Support acknowledgment has arrived, with no grant observed.
+- Version 20 was tested with a signed-in production account. One live merchant favorite and one temporary gift-list entry survived navigation and reload and displayed the current offer. Both test changes were removed, and the app confirmed account sync. Existing personal records were preserved.
+- Aligned the offline eBay validator with the current schema. An end date is conditional, so a blank or omitted date is retained as unknown. Where the feed supplies a direct listing link, the validator retains an HTTPS eBay URL separately from the conditional affiliate link. Synthetic fixtures covered optional end dates, expiry and variant identity. No listings were imported.
+- Schylling advertises an official Image Bank through wholesale sales support. Its asset access is gated and Sweetheart Finds reuse rights remain unverified. Eleven existing Schylling product records already have source SKU evidence to use for matching after permission. [Official wholesale and image bank](https://schylling.com/wholesale/)
+
+Stage 2.3 remains incomplete pending a second authorized live feed and broader exact-photo coverage. All work in this follow-up required $0 additional spending.

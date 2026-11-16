@@ -10,7 +10,7 @@ from urllib.parse import urlsplit
 
 REQUIRED = {
     "itemId", "marketplaceId", "categoryId", "title", "priceValue",
-    "priceCurrency", "availability", "itemEndDate",
+    "priceCurrency", "availability",
 }
 INTERESTS = re.compile(
     r"littlest\s+pet\s+shop|my\s+little\s+pony|shopkins|num\s*noms|"
@@ -72,9 +72,10 @@ def inspect_feed(stream, *, file_id, snapshot_at, observed_at, max_rows, max_off
         if not re.fullmatch(r"[0-9]{1,12}", row["categoryId"]):
             raise ValueError("Invalid category ID")
 
-        end = utc(row["itemEndDate"])
+        end_date = row.get("itemEndDate")
+        end = utc(end_date) if end_date else None
         availability = AVAILABILITY.get(row["availability"], "unknown")
-        if end <= observed_at:
+        if end is not None and end <= observed_at:
             availability = "ended"
         try:
             price = Decimal(row["priceValue"])
@@ -92,9 +93,10 @@ def inspect_feed(stream, *, file_id, snapshot_at, observed_at, max_rows, max_off
             "price": format(price, "f"),
             "currency": "USD",
             "availability": availability,
-            "endsAt": end.isoformat(),
+            "endsAt": end.isoformat() if end is not None else None,
             "sourceFileId": file_id,
             "snapshotAt": snapshot_at.isoformat(),
+            "listingUrl": remote_reference(row.get("itemWebUrl"), {"www.ebay.com", "ebay.com"}),
             "affiliateUrl": remote_reference(row.get("itemAffiliateWebUrl"), {"www.ebay.com", "ebay.com"}),
             "listingImageCandidate": remote_reference(row.get("imageUrl"), {"i.ebayimg.com"}),
         }
