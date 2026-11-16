@@ -6,7 +6,7 @@ from decimal import Decimal, InvalidOperation
 import gzip
 import json
 import re
-from urllib.parse import urlsplit
+from urllib.parse import parse_qs, urlsplit
 
 REQUIRED = {
     "itemId", "marketplaceId", "categoryId", "title", "priceValue",
@@ -44,6 +44,18 @@ def remote_reference(value, domains):
     except ValueError:
         pass
     return None
+
+
+def listing_reference(value, item_id):
+    url = remote_reference(value, {"www.ebay.com", "ebay.com"})
+    if url is None:
+        return None
+    parsed = urlsplit(url)
+    _, listing, variation = item_id.split("|")
+    if not re.fullmatch(r"/itm/(?:[^/]+/)?" + listing + r"/?", parsed.path):
+        return None
+    variations = parse_qs(parsed.query, keep_blank_values=True).get("var")
+    return url if variations is None or variations == [variation] else None
 
 
 def inspect_feed(stream, *, file_id, snapshot_at, observed_at, max_rows, max_offers):
@@ -96,8 +108,8 @@ def inspect_feed(stream, *, file_id, snapshot_at, observed_at, max_rows, max_off
             "endsAt": end.isoformat() if end is not None else None,
             "sourceFileId": file_id,
             "snapshotAt": snapshot_at.isoformat(),
-            "listingUrl": remote_reference(row.get("itemWebUrl"), {"www.ebay.com", "ebay.com"}),
-            "affiliateUrl": remote_reference(row.get("itemAffiliateWebUrl"), {"www.ebay.com", "ebay.com"}),
+            "listingUrl": listing_reference(row.get("itemWebUrl"), item_id),
+            "affiliateUrl": listing_reference(row.get("itemAffiliateWebUrl"), item_id),
             "listingImageCandidate": remote_reference(row.get("imageUrl"), {"i.ebayimg.com"}),
         }
         existing = offers.get(item_id)
