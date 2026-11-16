@@ -30,7 +30,8 @@ async function publicKey(keyId: string, credentials: EbayCredentials) {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: new URLSearchParams({ grant_type: 'client_credentials', scope: 'https://api.ebay.com/oauth/api_scope' }),
-      redirect: 'error',
+      redirect: 'manual',
+      cache: 'no-store',
       signal: AbortSignal.timeout(4000),
     })
     if (!response.ok) throw new Error('eBay OAuth unavailable')
@@ -41,7 +42,8 @@ async function publicKey(keyId: string, credentials: EbayCredentials) {
 
   const response = await fetch(apiOrigin + '/commerce/notification/v1/public_key/' + keyId, {
     headers: { Authorization: 'Bearer ' + accessToken.value },
-    redirect: 'error',
+    redirect: 'manual',
+    cache: 'no-store',
     signal: AbortSignal.timeout(4000),
   })
   if (response.status === 404) return null
