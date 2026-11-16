@@ -157,3 +157,7 @@ Mattel's official page establishes an exact candidate for the 2026 Fang Vote Abb
 - Schylling advertises an official Image Bank through wholesale sales support. Its asset access is gated and Sweetheart Finds reuse rights remain unverified. Eleven existing Schylling product records already have source SKU evidence to use for matching after permission. [Official wholesale and image bank](https://schylling.com/wholesale/)
 
 Stage 2.3 remains incomplete pending a second authorized live feed and broader exact-photo coverage. All work in this follow-up required $0 additional spending.
+
+### Schylling Image Bank access check
+
+A registered account successfully authenticated on November 16. The signed-in library showed zero photos. The official Littlest Pet Shop keyword was visible, and following it returned an authorization denial. The gallery About page provided no image reuse terms. No gated assets were retrieved or published. The eleven exact Schylling SKU records remain ready for matching once an authorized asset path and display conditions are confirmed. Schylling lists its sales support contact on the [official wholesale page](https://schylling.com/wholesale/).
