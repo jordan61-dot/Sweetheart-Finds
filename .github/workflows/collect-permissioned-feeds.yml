@@ -22,8 +22,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Collect official Wildmart ACP snapshot when due
+        id: wildmart
         run: python3 scripts/collect_wildmart.py
       - name: Authenticate with short-lived GitHub identity and run bounded maintenance
+        if: ${{ !cancelled() && (steps.wildmart.outcome == 'success' || steps.wildmart.outcome == 'failure') }}
         shell: bash
         run: |
           python3 - <<'SCRIPT'
