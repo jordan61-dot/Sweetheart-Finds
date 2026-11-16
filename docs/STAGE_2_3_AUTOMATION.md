@@ -97,3 +97,38 @@ Sweetheart Finds helps shoppers discover character merchandise and vintage colle
 3. Verify one new real listing and one stable-ID refresh in production, then check the next scheduled execution. Use secure runtime configuration for credentials if the source requires them.
 
 No additional merchant has been activated by this evaluation. A confirmed approved feed or production credentials are still needed. No applications or external messages were sent.
+
+## November 16 scheduled production verification
+
+- [Scheduled detail refresh 43822741899](https://github.com/jordan61-dot/Sweetheart-Finds/actions/runs/43822741899) verified all 69 existing offers in four batches (20, 20, 20, 9). This independently verifies the expanded refresh on cron.
+- [Scheduled snapshot 43844521661](https://github.com/jordan61-dot/Sweetheart-Finds/actions/runs/43844521661) published at 4:58 a.m. Eastern. The runner validated 99,181 upstream records and 186,585,684 bytes in 3.21 seconds. The import retained 69 offers with zero reported additions, changes or removals. Photo maintenance verified ten due image references.
+- A production read across all three pages found 69 unique IDs, 69 verified photo references, 68 in-stock offers, one out of stock and zero stale at 5:06 a.m. Eastern. A second read returned the same ID set. Independent search queries returned 35 Monster High, 27 My Little Pony and 7 Hello Kitty offers. This is a point-in-time check. Actual cron delays can exceed Wildmart's 30-minute freshness window, so expired prices and stock continue to be hidden. US shipping remains unverified.
+- [Workflow change 7033a98](https://github.com/jordan61-dot/Sweetheart-Finds/commit/7033a9825e9d38bb6d91a249f17120e3fd7da09a) allows the independent maintenance step to run after a Wildmart step failure. GitHub still records the failed Wildmart step and fails the job. This gives future authorized feeds a maintenance pass even when the Wildmart collector exits early. The [production push run](https://github.com/jordan61-dot/Sweetheart-Finds/actions/runs/43845705131) and [foundation CI](https://github.com/jordan61-dot/Sweetheart-Finds/actions/runs/43845705073) passed. No live outage was induced. Local verification passed 87 JavaScript tests, 10 database tests, four diagnostics tests and TypeScript. This workflow-only change uses the existing live site and database with $0 additional required cost.
+
+## Second-source activation evidence
+
+### eBay Curated Item Feed
+
+The US Curated Item Feed (Buy Feed API v1) is the submitted access request. A support acknowledgment has arrived. Production feed permission and keyset enablement are pending. Production key enablement and Buy API approval are separate. Follow [Buy API production requirements](https://developer.ebay.com/api-docs/buy/buy-requirements.html) and [marketplace account deletion instructions](https://developer.ebay.com/marketplace-account-deletion). The published opt-out is for applications that do not persist eBay data. Confirm the notification requirement before enabling a persisted feed integration. Rotate the previously exposed certificate before use and enter the replacement directly in a secure runtime secret. Do not include secrets or private account details in evidence.
+
+Proposed data flow for review:
+
+```mermaid
+flowchart TD
+  A["Scheduled collector"] --> B["eBay OAuth and Feed v1 access"]
+  B --> C["Approved US feed files"]
+  C --> D["Filter and validate listings"]
+  D --> E["Expiring listing records"]
+  E --> F["Dedicated eBay results"]
+  F --> G["Approved eBay listing link"]
+```
+
+After written approval, use the server-side application token to query Feed v1 access and confirm the granted marketplace and categories before downloading any file. Process only granted files with bounded downloads, checkpoints and retry backoff. Keep the full REST item ID, including its variation component, as the source identity. An image supplied for a listing is evidence for that listing only. Keep the image a remote reference and display it only under granted terms. Confirm eligibility for price and availability refresh, how to identify removed listings, actual account limits, file cadence, approved links, image reuse and retention before publication.
+
+The [general eBay API license, section 8](https://developer.ebay.com/develop/api-license-agreement) requires visually separate public eBay content, prompt removal from the application when no longer public, and limits on displayed listing age. Its six-hour listing-age rule is a display limit, not a blanket six-hour storage grant. Apply the approved program terms and any tighter limits. Keep eBay out of the generic combined merchant view and permanent exports unless the approved terms expressly allow those uses. For approval screenshots, capture the live site's current search and merchant attribution, label eBay screen designs as proposed, and exclude admin panels and personal data. Official references: [Feed access and file retrieval](https://developer.ebay.com/api-docs/buy/static/api-feed.html) and [curated item schema](https://developer.ebay.com/api-docs/buy/feed/v1/schema/curated_item_feed).
+
+### Specialty retailers
+
+[Kidrobot](https://www.kidrobot.com/pages/kidrobot-affiliate-program) expressly offers a product catalog to approved Impact publishers. Its [Sanrio collection](https://www.kidrobot.com/collections/sanrio) confirms Hello Kitty and My Melody coverage. Access through Impact is currently unavailable. A direct retailer authorization would need to provide an official feed URL and confirm automated refresh, stock/price fields, shipping information, image reference rights, and retention. Keep [HobbyLink Japan](https://support.hlj.com/hc/en-us/articles/360006252733-Do-you-have-a-partnership-sponsorship-or-affiliate-program) as an independent contact path. No specialty retailer feed or photo rights have been activated from these leads.
+
+Stage 2.3 remains incomplete. A second authorized production feed, broad exact-photo coverage for the 74 reference products, and merchant-offer saving to favorites and gift lists remain open.
