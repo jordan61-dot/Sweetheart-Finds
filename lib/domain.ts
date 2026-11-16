@@ -11,15 +11,23 @@ export const productSchema=z.object({provenance:z.array(provenanceSchema).max(10
 export type Product=z.infer<typeof productSchema>;
 export type Listing=z.infer<typeof listingSchema>;
 export type Profile={franchises:string[];characters:string[];types:string[];aesthetics:string[];colors:string;budget:number|null;currency:string;desired:string;dislikes:string};
-export type Personal={favorites:string[];wishlists:{id:string;name:string;products:string[]}[];notes:Record<string,{text:string;status:string;target:number|null;variation:string;currency?:string}>;profile:Profile;history:string[];seen:string[]};
+export const merchantBookmarkSchema=z.object({title:z.string().trim().min(1).max(400)});
+export type MerchantBookmark=z.infer<typeof merchantBookmarkSchema>;
+export const isMerchantOfferId=(id:string)=>/^wildmart-wm-\d+$/.test(id);
+export type Personal={merchantBookmarks?:Record<string,MerchantBookmark>;favorites:string[];wishlists:{id:string;name:string;products:string[]}[];notes:Record<string,{text:string;status:string;target:number|null;variation:string;currency?:string}>;profile:Profile;history:string[];seen:string[]};
 export function emptyPersonal():Personal{return {favorites:[],wishlists:[],notes:{},profile:{franchises:[],characters:[],types:[],aesthetics:[],colors:'',budget:null,currency:'USD',desired:'',dislikes:''},history:[],seen:[]};}
 export const profileSchema=z.object({franchises:z.array(z.string().max(100)).max(50),characters:z.array(z.string().max(100)).max(80),types:z.array(z.string().max(100)).max(40),aesthetics:z.array(z.string().max(100)).max(40),colors:z.string().max(500),budget:z.number().min(0).nullable(),currency:z.string().regex(/^[A-Z]{3}$/),desired:z.string().max(3000),dislikes:z.string().max(3000)});
 export const noteSchema=z.object({text:z.string().max(5000),status:z.enum(['considering','owned','purchased','passed']),target:z.number().min(0).nullable(),variation:z.string().max(500),currency:z.string().regex(/^[A-Z]{3}$/).optional()});
-export const personalSchema=z.object({favorites:z.array(z.string().max(160)).max(20000),wishlists:z.array(z.object({id:z.string().max(160),name:z.string().trim().min(1).max(100),products:z.array(z.string().max(160)).max(20000)})).max(300),notes:z.record(safeId,noteSchema),profile:profileSchema,history:z.array(z.string().max(300)).max(30),seen:z.array(z.string().max(160)).max(3000)});
+export const personalSchema=z.object({merchantBookmarks:z.record(safeId,merchantBookmarkSchema).optional(),favorites:z.array(z.string().max(160)).max(20000),wishlists:z.array(z.object({id:z.string().max(160),name:z.string().trim().min(1).max(100),products:z.array(z.string().max(160)).max(20000)})).max(300),notes:z.record(safeId,noteSchema),profile:profileSchema,history:z.array(z.string().max(300)).max(30),seen:z.array(z.string().max(160)).max(3000)});
 export const opSchema=z.object({id:z.string().min(3).max(160),kind:z.enum(['favorite','wishlist-create','wishlist-rename','wishlist-delete','wishlist-item','note','profile','history','restore','restore-replace']),productId:safeId.optional(),listId:safeId.optional(),enabled:z.boolean().optional(),name:z.string().max(100).optional(),value:z.unknown().optional()});
 export type Operation=z.infer<typeof opSchema>;
 export function applyOperation(input:Personal,raw:unknown):Personal {const op=opSchema.parse(raw);const p=personalSchema.parse(structuredClone(input));if(p.seen.includes(op.id))return p;
 const pid=op.productId||'';
+if (isMerchantOfferId(pid) && op.enabled && (op.kind==='favorite'||op.kind==='wishlist-item')) {
+  const bookmark=op.value===undefined ? p.merchantBookmarks?.[pid] : merchantBookmarkSchema.parse(op.value);
+  if (!bookmark) throw Error('Merchant offer details required');
+  (p.merchantBookmarks??={})[pid]=bookmark;
+}
 switch(op.kind){
 case 'favorite': if(!pid)throw Error('Product required');p.favorites=p.favorites.filter(x=>x!==pid);if(op.enabled)p.favorites.push(pid);break;
 case 'wishlist-create':if(!op.listId||!op.name?.trim())throw Error('Wishlist name required');if(!p.wishlists.some(w=>w.id===op.listId))p.wishlists.push({id:op.listId,name:op.name.trim(),products:[]});break;
@@ -30,7 +38,11 @@ case 'note':if(!pid)throw Error('Product required');p.notes[pid]=noteSchema.pars
 case 'profile':p.profile=profileSchema.parse(op.value);break;
 case 'history':{const v=z.string().max(300).parse(op.value).trim();if(v)p.history=[v,...p.history.filter(h=>h!==v)].slice(0,20);break;}
 case 'restore-replace':{const restored=personalSchema.parse(op.value);restored.seen=[...p.seen,op.id].slice(-2000);return restored;}
-case 'restore':{const restored=personalSchema.parse(op.value);p.favorites=[...new Set([...p.favorites,...restored.favorites])];for(const w of restored.wishlists){const found=p.wishlists.find(x=>x.id===w.id);if(found)found.products=[...new Set([...found.products,...w.products])];else p.wishlists.push(w);}for(const [id,n] of Object.entries(restored.notes)){if(!p.notes[id])p.notes[id]=n;else if(JSON.stringify(p.notes[id])!==JSON.stringify(n)){p.notes[id].text+='\n\n[Restored note]\n'+n.text;}}break;}
+case 'restore':{const restored=personalSchema.parse(op.value);if(restored.merchantBookmarks)p.merchantBookmarks={...restored.merchantBookmarks,...p.merchantBookmarks};p.favorites=[...new Set([...p.favorites,...restored.favorites])];for(const w of restored.wishlists){const found=p.wishlists.find(x=>x.id===w.id);if(found)found.products=[...new Set([...found.products,...w.products])];else p.wishlists.push(w);}for(const [id,n] of Object.entries(restored.notes)){if(!p.notes[id])p.notes[id]=n;else if(JSON.stringify(p.notes[id])!==JSON.stringify(n)){p.notes[id].text+='\n\n[Restored note]\n'+n.text;}}break;}
+}
+if(p.merchantBookmarks&&(op.kind==='favorite'||op.kind==='wishlist-item'||op.kind==='wishlist-delete'||op.kind==='restore')){
+  const kept=new Set([...p.favorites,...p.wishlists.flatMap(w=>w.products)]);
+  for(const id of Object.keys(p.merchantBookmarks))if(!kept.has(id))delete p.merchantBookmarks[id];
 }
 p.seen=[...p.seen,op.id].slice(-2000);return personalSchema.parse(p);}
 export function canonicalUrl(url:string){const u=new URL(url);['utm_source','utm_medium','utm_campaign','utm_content','ref','fbclid','gclid'].forEach(k=>u.searchParams.delete(k));u.hash='';u.searchParams.sort();return u.toString().replace(/\/$/,'');}
