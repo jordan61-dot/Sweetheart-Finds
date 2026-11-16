@@ -140,3 +140,11 @@ Version 20 adds favorite and gift-list controls to Wildmart's live offer cards. 
 The source also includes a local, offline Curated Item Feed diagnostic. Synthetic tests confirmed distinct variation identities, expired offers and rejection of conflicting duplicates. It makes no eBay requests and publishes no listings. Feed approval, verified categories, actual file cadence, refresh and removal rules, and approved display and image reuse remain prerequisites for unattended integration.
 
 Local validation passed 88 JavaScript tests, 10 database tests, TypeScript and the production build. The live browse page showed favorite and gift-list controls. Live account mutation was left untested to avoid changing existing personal data. The project uses existing Sites hosting with no added charge. Stage 2.3 remains incomplete pending a second authorized feed and broader exact photography for reference products.
+
+## Product image review
+
+Exact-product reference thumbnails can be evaluated individually. Consider a small image that links straight to its source and helps users identify or distinguish a variant. Record the exact SKU or other identity evidence, image source and rights basis, why the display is needed, and whether it serves as a substitute for the original image. Check applicable source and feed terms independently. Honor explicit restrictions and provide a way to remove a disputed image. Automatic publication continues to use the rights granted by each feed or documented license. A thumbnail that is visually similar is insufficient proof of a product or variant match.
+
+The U.S. Copyright Office summarizes an example where a court found search-engine thumbnails used as pointers to source material supported fair use. That decision involved a general-purpose search engine and does not decide the outcome for a product catalog. [Perfect 10 v. Amazon summary](https://www.copyright.gov/fair-use/summaries/perfect10-amazon-9thcir2007.pdf)
+
+Mattel's official page establishes an exact candidate for the 2026 Fang Vote Abbey Bominable product. It is a first candidate for review of a source-linked identification thumbnail. A publication decision remains open. [Mattel product page](https://creations.mattel.com/pages/monster-high-2026-fang-vote-abbey-bominable-doll)
