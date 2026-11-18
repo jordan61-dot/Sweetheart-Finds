@@ -68,7 +68,7 @@ def main():
    snapshot_failed=True
    print('Full snapshot failed; continuing with existing offers and photo maintenance.',file=sys.stderr)
    try:
-    print(json.dumps(call({'action':'acp-failure','message':str(error)[:300]})))
+    print(json.dumps(call({'action':'acp-failure','message':str(error)[:300],'expectedLastSuccess':state.get('lastSuccess')})))
    except Exception as reporting_error:
     print('Could not record snapshot failure: '+type(reporting_error).__name__,file=sys.stderr)
  else:

@@ -172,3 +172,23 @@ test('a missed refresh write cannot count as a verified observation', async () =
   assert.equal(result.verified,0);
   assert.equal(JSON.parse(sql.prepare('SELECT data FROM merchant_feed_items').get().data).price,123.45);
 });
+
+test('a failed download cannot replace a suspension or a newer successful snapshot', async () => {
+  const {acpFailure,setACPEnabled}=await import('../lib/discovery/acp.ts');
+  const sql=setup(), run={runId:'1',event:'schedule'}, snapshot=acpFixture();
+  await publishACP(snapshot,run);
+  const current=await acpState();
+  assert.equal((await acpFailure('late failure','2000-01-01T00:00:00Z')).skipped,true);
+  assert.equal((await acpState()).failures,0);
+  const [racingFailure]=await Promise.all([acpFailure('racing failure',current.lastSuccess),setACPEnabled(false)]);
+  assert.equal(racingFailure.skipped,true);
+  assert.equal((await acpFailure('late failure',current.lastSuccess)).skipped,true);
+  const suspended=await acpState();
+  assert.equal(suspended.enabled,false);
+  assert.equal(suspended.digest,current.digest);
+  assert.equal(suspended.error,undefined);
+  await setACPEnabled(true);
+  assert.equal((await acpFailure('current failure',current.lastSuccess)).failed,true);
+  assert.equal((await acpState()).failures,1);
+  assert.equal(sql.prepare('SELECT count(*) n FROM merchant_feed_items').get().n,1);
+});

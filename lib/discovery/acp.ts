@@ -12,8 +12,20 @@ const record=z.object({id:z.string().regex(/^wm-\d+$/),title:z.string().min(2).m
 export const snapshot=z.object({action:z.literal('publish-acp'),updatedAt:z.string().datetime({offset:true}),digest:z.string().regex(/^sha256:[a-f0-9]{64}$/),bytes:z.number().int().positive().max(350000000),sourceCount:z.number().int().positive().max(200000),rows:z.array(record).max(1500),seconds:z.number().nonnegative().max(300)});
 export function normalizeACP(input:unknown){const s=snapshot.parse(input);const age=Date.now()-Date.parse(s.updatedAt);if(age< -30000||age>86400000)throw Error('Snapshot timestamp outside retention window');const items:any[]=[],ids=new Set<string>();for(const p of s.rows){for(const v of p.variants){const title=v.title||p.title,categories=classifyMerchandise(title);if(!categories.length)continue;const id='wildmart-'+v.id;if(ids.has(id))throw Error('Duplicate merchant variant');ids.add(id);const photos=v.media|| (p.variants.length===1?p.media:[])||[];const photo=photos.find(x=>x.type==='image'&&imageUrl(x.url));items.push({id,sourceProductId:p.id,variantId:v.id,title,categories,url:productUrl(v.url||p.url),price:v.price?v.price.amount/100:null,currency:'MDL',availability:v.availability?.status==='in_stock'&&v.availability.available!==true?'unknown':v.availability?.status||'unknown',observedAt:s.updatedAt,image:photo?{url:imageUrl(photo.url),status:'pending',identity:'exact-source-variant',sourceProductId:p.id,variantId:v.id,permission:ACP_POLICY,attribution:'Wildmart merchant product feed; remote display in retailer context',method:'remote-reference'}:null});}}return {...s,items};}
 export async function acpState(){const r=await db().prepare('SELECT data FROM config WHERE key=?').bind(key).first<{data:string}>();const state=JSON.parse(r?.data||'{}');return {...state,due:state.enabled!==false&&(!state.nextAt||state.nextAt<=now()),source:'Wildmart ACP',permissionUrl:ACP_POLICY};}
-async function saveState(s:any){await db().prepare('INSERT INTO config(key,data) VALUES (?,?) ON CONFLICT(key) DO UPDATE SET data=excluded.data').bind(key,JSON.stringify(s)).run();}
-export async function acpFailure(message:string){const s=await acpState();const failures=(s.failures||0)+1;const next={...s,failures,lastAttempt:now(),error:message.slice(0,300),nextAt:new Date(Date.now()+Math.min(6,failures)*3600000).toISOString()};await saveState(next);return {failed:true,failures,nextAt:next.nextAt};}
+export async function acpFailure(message:string, expectedLastSuccess?:string|null) {
+  const row=await db().prepare('SELECT data FROM config WHERE key=?').bind(key).first<{data:string}>();
+  const state=JSON.parse(row?.data || '{}');
+  if (state.enabled === false || (expectedLastSuccess !== undefined && (state.lastSuccess ?? null) !== expectedLastSuccess)) {
+    return {skipped:true};
+  }
+  const failures=(state.failures || 0)+1;
+  const nextAt=new Date(Date.now()+Math.min(6,failures)*3600000).toISOString();
+  const data=JSON.stringify({...state,failures,lastAttempt:now(),error:message.slice(0,300),nextAt});
+  const write=row ? db().prepare('UPDATE config SET data=? WHERE key=? AND data=? RETURNING key').bind(data,key,row.data)
+    : db().prepare('INSERT OR IGNORE INTO config(key,data) VALUES (?,?) RETURNING key').bind(key,data);
+  if (!await write.first()) return {skipped:true};
+  return {failed:true,failures,nextAt};
+}
 export async function publishACP(input: unknown, identity: {runId: string; event: string}) {
   const snapshot = normalizeACP(input);
   const stateRow = await db().prepare('SELECT data FROM config WHERE key=?').bind(key).first<{data:string}>();
@@ -78,7 +90,13 @@ export async function publishACP(input: unknown, identity: {runId: string; event
 }
 export async function maintainACP(){const state=await acpState();if(state.enabled===false)return {skipped:true};const rows=await db().prepare("SELECT id,data FROM merchant_feed_items WHERE json_extract(data,'$.image.url') IS NOT NULL AND (json_extract(data,'$.image.checkedAt') IS NULL OR json_extract(data,'$.image.checkedAt')<?) ORDER BY COALESCE(json_extract(data,'$.image.checkedAt'),''),id LIMIT 5").bind(new Date(Date.now()-7*86400000).toISOString()).all<{id:string;data:string}>();const results=[];for(const row of rows.results){const item=JSON.parse(row.data),url=imageUrl(item.image.url);let status='verification-failed',contentType='';try{if(url){const r=await fetch(url,{method:'HEAD',redirect:'manual',signal:AbortSignal.timeout(5000)});contentType=r.headers.get('content-type')||'';status=r.ok&&/^image\/(jpeg|png|webp|gif)$/i.test(contentType.split(';')[0].trim())?'verified':r.status===404||r.status===410?'broken':'verification-failed';}}catch{}const photo={...item.image,status,contentType,checkedAt:now()};await db().prepare("UPDATE merchant_feed_items SET data=json_set(data,'$.image',json(?)) WHERE id=? AND json_extract(data,'$.image.url')=?").bind(JSON.stringify(photo),row.id,item.image.url).run();results.push({id:row.id,status});}return {checked:results.length,results};}
 export async function acpOverview(){const state=await acpState();const counts=await db().prepare("SELECT COUNT(*) products,SUM(json_extract(data,'$.image.status')='verified') images,SUM(json_extract(data,'$.image.status')='pending') pending,SUM(json_extract(data,'$.image.status')='broken') broken FROM merchant_feed_items").first();return {state,counts};}
-export async function setACPEnabled(enabled:boolean){const s=await acpState();await saveState({...s,enabled});return {enabled};}
+export async function setACPEnabled(enabled:boolean) {
+  await db().prepare(`
+    INSERT INTO config(key,data) VALUES (?,json_object('enabled',json(?)))
+    ON CONFLICT(key) DO UPDATE SET data=json_set(config.data,'$.enabled',json(?))
+  `).bind(key,JSON.stringify(enabled),JSON.stringify(enabled)).run();
+  return {enabled};
+}
 // Recheck a rotating set of existing SKUs between full feed generations.
 export async function acpRefreshPlan(){const s=await acpState();if(s.enabled===false)return {ids:[]};const r=await db().prepare("SELECT id FROM merchant_feed_items WHERE COALESCE(json_extract(data,'$.lastVerificationAttempt'),json_extract(data,'$.observedAt'))<? ORDER BY COALESCE(json_extract(data,'$.lastVerificationAttempt'),json_extract(data,'$.observedAt')),id LIMIT 20").bind(new Date(Date.now()-30*60000).toISOString()).all<{id:string}>();return {ids:r.results.map(x=>x.id.replace('wildmart-wm-',''))};}
 export async function refreshACP(input:any, identity:{runId:string;event:string}) {
