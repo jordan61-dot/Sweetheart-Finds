@@ -49,4 +49,59 @@ class EbayFeedDiagnostics(unittest.TestCase):
         self.assertTrue(all(row['endsAt'] is None for row in result))
 
 
+wild_spec = importlib.util.spec_from_file_location(
+    'wildmart_runner', Path(__file__).resolve().parents[1] / 'scripts/collect_wildmart.py')
+wild = importlib.util.module_from_spec(wild_spec)
+wild_spec.loader.exec_module(wild)
+
+
+class WildmartCollection(unittest.TestCase):
+    def test_interests_in_variant_titles_and_aliases_reach_the_normalizer(self):
+        self.assertTrue(wild.is_candidate({'title':'Assorted toys','variants':[{'title':'Shoppies doll'}]}))
+        for title in ['LPS pets', 'Skullector doll', 'マイリトルポニー', 'U*SA*HA*NA tote', 'Limited Too Justice girls']:
+            self.assertTrue(wild.is_candidate({'title':title,'variants':[]}), title)
+        self.assertFalse(wild.is_candidate({'title':'Alps landscape','variants':[]}))
+
+    def run_detail(self, error=None, verified=1):
+        from unittest.mock import patch
+        import contextlib
+        calls = []
+        def service(payload):
+            action = payload.get('action','maintenance')
+            calls.append(action)
+            if action == 'acp-state': return {'due':False}
+            if action == 'acp-refresh-plan': return {'ids':['1','2']}
+            if action == 'refresh-acp': return {'attempted':len(payload['results']),'verified':verified}
+            return {'merchantPhotos':{'checked':0},'errors':[]}
+        with patch.object(wild,'call',side_effect=service), patch.object(wild,'get',side_effect=error,return_value={'item':{}}) as fetch, patch.object(wild.time,'sleep'), contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            try:
+                wild.main()
+                reason = None
+            except SystemExit as e:
+                reason = str(e)
+        return reason, calls, fetch.call_count
+
+    def test_complete_detail_outage_is_visible_after_maintenance(self):
+        reason, calls, count = self.run_detail(error=TimeoutError(),verified=0)
+        self.assertIsNotNone(reason)
+        self.assertEqual(calls[-1], 'maintenance')
+        self.assertEqual(count,2)
+
+    def test_throttling_stops_requests_and_preserves_independent_maintenance(self):
+        from urllib.error import HTTPError
+        reason,calls,count = self.run_detail(error=HTTPError('https://example.com/',429,'throttled',{},None),verified=0)
+        self.assertIsNotNone(reason)
+        self.assertEqual(count,1)
+        self.assertEqual(calls[-1], 'maintenance')
+
+    def test_partial_detail_refresh_is_reported(self):
+        reason,calls,count = self.run_detail(verified=1)
+        self.assertIsNotNone(reason)
+        self.assertEqual(calls[-1],'maintenance')
+        self.assertEqual(count,2)
+
+    def test_complete_detail_refresh_succeeds(self):
+        self.assertIsNone(self.run_detail(verified=2)[0])
+
+
 if __name__=='__main__':unittest.main()

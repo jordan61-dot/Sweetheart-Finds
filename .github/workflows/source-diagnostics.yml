@@ -18,6 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - run: python3 scripts/check_source_profiles.py --summary "$GITHUB_STEP_SUMMARY"
 # No product harvesting, private credentials, production writes, paid runner or artifact uploads.

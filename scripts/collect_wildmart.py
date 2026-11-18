@@ -4,7 +4,20 @@ MANIFEST='https://wildmart.md/acp/feeds/index.json'
 ENDPOINT='https://sweetheart-finds.jordanmullens12.chatgpt.site/api/automation/tick'
 UA='SweetheartFinds/2.3 (+https://github.com/jordan61-dot/Sweetheart-Finds)'
 # Broad prefilter only; the production normalizer applies all 14 taxonomies.
-RELEVANT=re.compile(r'littlest\s+pet\s+shop|my\s+little\s+pony|shopkins|num\s*noms|lalaloopsy|crumbs\s+sugar|monster\s+high|sanrio|pompompurin|hello\s+kitty|my\s+melody|usahana|mezzo\s+piano|justice|ウサハナ|メゾピアノ|ハローキティ|マイメロディ|ポムポムプリン|サンリオ',re.I)
+RELEVANT = re.compile(
+    r'\b(?:lps|mlp|purin)\b|littlest[\W_]*pet[\W_]*shop|my[\W_]*little[\W_]*pony|'
+    r'shopkins|shoppies|happy[\W_]*places|real[\W_]*littles|num[\W_]*noms?|lala[\W_]*loopsy|'
+    r'crumbs[\W_]*sugar|monster[\W_]*high|skullector|creepreproduction|sanrio|'
+    r'pom[\W_]*pom[\W_]*purin|hello[\W_]*kitty|my[\W_]*melody|u[\W_]*sa[\W_]*ha[\W_]*na|'
+    r'mezzo[\W_]*piano|justice|limited[\W_]*too|just[\W_]*for[\W_]*girls|'
+    r'マイリトルポニー|ナムノム|モンスターハイ|ウサハナ|うさはな|メゾ\s*ピアノ|ベリエちゃん|'
+    r'ハローキティ|キティちゃん|マイメロ|ポムポムプリン|サンリオ', re.I)
+
+def is_candidate(product):
+    return bool(RELEVANT.search(product.get('title', ''))) or any(
+        RELEVANT.search(variant.get('title') or '') for variant in product.get('variants', [])
+    )
+
 class NoRedirect(urllib.request.HTTPRedirectHandler):
  def redirect_request(self,*args,**kwargs): return None
 opener=urllib.request.build_opener(NoRedirect)
@@ -30,7 +43,7 @@ def collect():
    size+=len(line);digest.update(line)
    if len(line)>131072 or size>350_000_000 or time.monotonic()-start>240:raise ValueError('Stream budget exceeded')
    p=json.loads(line);count+=1
-   if RELEVANT.search(p.get('title','')):
+   if is_candidate(p):
     # Omit descriptions and unrelated fields; retain exact source identities.
     rows.append({k:p[k] for k in ['id','title','url','variants','media'] if k in p})
     if len(rows)>1500:raise ValueError('Relevant catalog exceeds safe import limit')
@@ -60,6 +73,8 @@ def main():
     print('Could not record snapshot failure: '+type(reporting_error).__name__,file=sys.stderr)
  else:
   print(json.dumps({key:state.get(key) for key in ('due','lastSuccess','nextAt','count','failures')}))
+ detail_failures = 0
+ throttled = False
  deadline=time.monotonic()+170
  for _ in range(4):
   stop=False
@@ -74,9 +89,20 @@ def main():
     results.append({'id':str(product_id),'error':type(error).__name__})
     if getattr(error,'code',0) in (429,503):
      stop=True
+     throttled=True
      break
    time.sleep(2)
-  if results:print(json.dumps(call({'action':'refresh-acp','results':results})))
+  if results:
+   summary = call({'action':'refresh-acp','results':results})
+   print(json.dumps(summary))
+   if summary.get('skipped'):
+    break
+   attempted, verified = summary['attempted'], summary['verified']
+   if attempted != len(results) or not 0 <= verified <= attempted:
+    raise ValueError('Invalid detail verification summary')
+   detail_failures += attempted - verified
+   if verified == 0:
+    stop = True
   if stop or len(results)<20:break
  # Finish a resumable image queue without waiting a day for five-photo ticks.
  for batch in range(15):
@@ -84,5 +110,13 @@ def main():
   if result.get('errors'):raise RuntimeError('Maintenance reported errors')
   if result.get('merchantPhotos',{}).get('checked',0)<5:break
   time.sleep(6)
- if snapshot_failed:raise SystemExit('Full snapshot failed; see source history for retry timing.')
+ failures = []
+ if snapshot_failed:
+  failures.append('Full snapshot failed; see source history for retry timing.')
+ if detail_failures:
+  failures.append(f'{detail_failures} attempted detail checks could not be verified.')
+ if throttled:
+  failures.append('The merchant returned 429/503; remaining detail requests were stopped.')
+ if failures:
+  raise SystemExit(' '.join(failures))
 if __name__=='__main__':main()

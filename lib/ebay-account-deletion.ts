@@ -17,39 +17,68 @@ export function ebayChallenge(request: Request, token?: string) {
   return Response.json({ challengeResponse }, { headers: noStore })
 }
 
+class RetryableLookup extends Error {}
+
+function checkUpstream(response: Response, operation: string) {
+  if (response.ok) return;
+  const message = operation + ' returned HTTP ' + response.status;
+  if ([408, 500, 502, 503, 504].includes(response.status) && !response.headers.has('Retry-After')) {
+    throw new RetryableLookup(message);
+  }
+  throw new Error(message);
+}
+
 async function publicKey(keyId: string, credentials: EbayCredentials) {
   const cached = signingKeys.get(keyId)
   if (cached && cached.expiresAt > Date.now()) return cached.pem
   if (!credentials.appId || !credentials.certId) throw new Error('eBay notification credentials unavailable')
 
-  if (!accessToken || accessToken.expiresAt <= Date.now()) {
-    const response = await fetch(apiOrigin + '/identity/v1/oauth2/token', {
-      method: 'POST',
-      headers: {
-        Authorization: 'Basic ' + btoa(credentials.appId + ':' + credentials.certId),
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({ grant_type: 'client_credentials', scope: 'https://api.ebay.com/oauth/api_scope' }),
-      redirect: 'manual',
-      cache: 'no-store',
-      signal: AbortSignal.timeout(4000),
-    })
-    if (!response.ok) throw new Error('eBay OAuth unavailable')
-    const token = await response.json() as { access_token?: string; expires_in?: number }
-    if (!token.access_token || !Number.isFinite(token.expires_in)) throw new Error('Invalid eBay OAuth response')
-    accessToken = { value: token.access_token, expiresAt: Date.now() + (token.expires_in! - 60) * 1000 }
+  // Share a deadline and one retry across both calls on a cold Worker.
+  const deadline = Date.now() + 10_000;
+  const signal = () => AbortSignal.timeout(Math.max(1, Math.min(5_000, deadline - Date.now())));
+  for (let attempt = 0; ; attempt++) {
+    try {
+      if (!accessToken || accessToken.expiresAt <= Date.now()) {
+        const response = await fetch(apiOrigin + '/identity/v1/oauth2/token', {
+          method: 'POST',
+          headers: {
+            Authorization: 'Basic ' + btoa(credentials.appId + ':' + credentials.certId),
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams({ grant_type: 'client_credentials', scope: 'https://api.ebay.com/oauth/api_scope' }),
+          redirect: 'manual',
+          cache: 'no-store',
+          signal: signal(),
+        });
+        checkUpstream(response, 'eBay OAuth');
+        const token = await response.json() as { access_token?: string; expires_in?: number };
+        if (!token.access_token || !Number.isFinite(token.expires_in)) throw new Error('Invalid eBay OAuth response');
+        accessToken = { value: token.access_token, expiresAt: Date.now() + (token.expires_in! - 60) * 1000 };
+      }
+      const usedToken = accessToken;
+      const response = await fetch(apiOrigin + '/commerce/notification/v1/public_key/' + keyId, {
+        headers: { Authorization: 'Bearer ' + usedToken.value },
+        redirect: 'manual',
+        cache: 'no-store',
+        signal: signal(),
+      });
+      if (response.status === 404) return null;
+      if (response.status === 401) {
+        if (accessToken === usedToken) accessToken = undefined;
+        if (!response.headers.has('Retry-After')) throw new RetryableLookup('eBay signing key rejected bearer token');
+      }
+      checkUpstream(response, 'eBay signing key');
+      const { key } = await response.json() as { key?: string };
+      return cacheKey(keyId, key);
+    } catch (error) {
+      const transient = error instanceof RetryableLookup || error instanceof TypeError ||
+        (error instanceof Error && ['TimeoutError','AbortError'].includes(error.name));
+      if (!transient || attempt > 0 || Date.now() >= deadline) throw error;
+    }
   }
+}
 
-  const response = await fetch(apiOrigin + '/commerce/notification/v1/public_key/' + keyId, {
-    headers: { Authorization: 'Bearer ' + accessToken.value },
-    redirect: 'manual',
-    cache: 'no-store',
-    signal: AbortSignal.timeout(4000),
-  })
-  if (response.status === 404) return null
-  if (response.status === 401) accessToken = undefined
-  if (!response.ok) throw new Error('eBay signing key unavailable')
-  const { key } = await response.json() as { key?: string }
+function cacheKey(keyId: string, key?: string) {
   const encoded = key?.match(/-----BEGIN PUBLIC KEY-----\s*([A-Za-z0-9+/=\s]+?)\s*-----END PUBLIC KEY-----/)?.[1]
   if (!encoded || encoded.length > 2048) throw new Error('Invalid eBay public key')
   const pem = '-----BEGIN PUBLIC KEY-----\n' + encoded.replace(/\s+/g, '') + '\n-----END PUBLIC KEY-----'

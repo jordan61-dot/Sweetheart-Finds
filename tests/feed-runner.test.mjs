@@ -61,3 +61,114 @@ test('ACP photos publish only exact source variant after valid image response',a
 test('ACP replacement removes omitted variants and their FTS entries, preserving stable identities',async()=>{const sql=setup(),s=acpFixture();s.rows.push({...s.rows[0],id:'wm-124',title:'Monster High doll',variants:[{...s.rows[0].variants[0],id:'wm-124'}]});await publishACP(s,{runId:'1',event:'schedule'});const first=sql.prepare("SELECT first_seen FROM merchant_feed_items WHERE id='wildmart-wm-123'").get().first_seen;await publishACP({...s,digest:'sha256:'+'b'.repeat(64),rows:s.rows.slice(0,1)},{runId:'2',event:'schedule'});assert.equal(sql.prepare('SELECT COUNT(*) n FROM merchant_feed_items').get().n,1);assert.equal(sql.prepare("SELECT COUNT(*) n FROM merchant_feed_search WHERE merchant_feed_search MATCH 'monster'").get().n,0);assert.equal(sql.prepare('SELECT first_seen FROM merchant_feed_items').get().first_seen,first);assert.throws(()=>normalizeACP({...s,updatedAt:'2020-01-01T00:00:00Z'}),/timestamp/);});
 const {acpRefreshPlan,refreshACP}=await import('../lib/discovery/acp.ts');
 test('scheduled SKU refresh updates price and stock while failed lookups preserve prior observations',async()=>{const sql=setup();await publishACP(acpFixture(),{runId:'1',event:'schedule'});const item={product_id:123,data_stale:false,canonical_url:'https://wildmart.md/ro/product/kitty',price:{currency:'MDL',mode:'fixed',current:'99.00'},availability:'out_of_stock'};assert.equal((await refreshACP({results:[{id:'123',updatedAt:new Date().toISOString(),item}]},{runId:'2',event:'schedule'})).verified,1);let p=JSON.parse(sql.prepare('SELECT data FROM merchant_feed_items').get().data);assert.equal(p.price,99);assert.equal(p.availability,'out_of_stock');assert.deepEqual((await acpRefreshPlan()).ids,[]);await refreshACP({results:[{id:'123',error:'HTTPError'}]},{runId:'3',event:'schedule'});p=JSON.parse(sql.prepare('SELECT data FROM merchant_feed_items').get().data);assert.equal(p.price,99);assert.equal(p.availability,'out_of_stock');});
+
+test('a due, unchanged full feed clears an outage and advances the schedule without refreshing stock', async () => {
+  const sql = setup();
+  const snapshot = {...acpFixture(), updatedAt: new Date(Date.now() - 3600000).toISOString()};
+  const run = {runId: '1', event: 'schedule'};
+  await publishACP(snapshot, run);
+  sql.prepare("UPDATE config SET data=json_set(data,'$.nextAt','2020-01-01T00:00:00Z','$.failures',2,'$.error','offline') WHERE key='wildmart-acp'").run();
+  const before = sql.prepare('SELECT * FROM merchant_feed_items').get();
+  const result = await publishACP(snapshot, {...run, runId: '2'});
+  const state = await acpState();
+  assert.equal(result.unchanged, true);
+  assert.equal(state.due, false);
+  assert.equal(state.failures, 0);
+  assert.ok(!state.error);
+  assert.equal(state.history[0].runId, '2');
+  assert.deepEqual(sql.prepare('SELECT * FROM merchant_feed_items').get(), before);
+  await publishACP(snapshot, run);
+  assert.equal((await acpState()).history.length, 2);
+});
+
+test('mass replacement is measured by lost identities even if the total stays constant', async () => {
+  const sql = setup();
+  const snapshot = acpFixture();
+  await publishACP(snapshot, {runId:'1', event:'schedule'});
+  const row = snapshot.rows[0];
+  const newRow = {...row, id:'wm-999', variants:[{...row.variants[0],id:'wm-999'}]};
+  await assert.rejects(publishACP({...snapshot, rows:[newRow], digest:'sha256:'+'b'.repeat(64)},
+    {runId:'2',event:'schedule'}), /removal/i);
+  assert.equal(sql.prepare('SELECT id FROM merchant_feed_items').get().id, 'wildmart-wm-123');
+});
+
+test('late snapshots and detail responses preserve a newer price and photo checkpoint', async () => {
+  const sql = setup();
+  const base = Date.now();
+  const snapshot = {...acpFixture(), updatedAt:new Date(base-600000).toISOString()};
+  const run = {runId:'1',event:'schedule'};
+  await publishACP(snapshot, run);
+  globalThis.fetch = async () => new Response(null,{status:404});
+  await maintainACP();
+  const recent = new Date(base-60000).toISOString();
+  const item = {product_id:123, data_stale:false, canonical_url:snapshot.rows[0].url,
+    price:{currency:'MDL',mode:'fixed',current:'99.00'}, availability:'out_of_stock'};
+  await refreshACP({results:[{id:'123',updatedAt:recent,item}]},run);
+  await publishACP({...snapshot, updatedAt:new Date(base-300000).toISOString(), digest:'sha256:'+'b'.repeat(64)},run);
+  const stale = await refreshACP({results:[{id:'123',updatedAt:snapshot.updatedAt,item}]},run);
+  assert.equal(stale.verified,0);
+  const saved = JSON.parse(sql.prepare('SELECT data FROM merchant_feed_items').get().data);
+  assert.equal(saved.price,99);
+  assert.equal(saved.availability,'out_of_stock');
+  assert.equal(saved.observedAt,recent);
+  assert.equal(saved.image.status,'broken');
+  assert.equal((await maintainACP()).checked,0);
+});
+
+test('merchant fractional pagination returns a usable whole page', async () => {
+  setup();
+  await publishACP(acpFixture(), {runId:'1',event:'schedule'});
+  const {GET} = await import('../app/api/merchant-feed/route.ts');
+  const response = await GET(new Request('https://site.example/api/merchant-feed?page=1.1'));
+  assert.equal(response.status,200);
+  const data = await response.json();
+  assert.equal(data.page,1);
+  assert.equal(data.items.length,1);
+});
+
+test('bookmarks distinguish omitted offers from an aged or suspended feed', async () => {
+  const sql=setup(), run={runId:'1',event:'schedule'}, snapshot=acpFixture();
+  await publishACP(snapshot,run);
+  const {GET} = await import('../app/api/merchant-feed/route.ts');
+  const ids=['wildmart-wm-123','wildmart-wm-999'];
+  const lookup=async()=>await (await GET(new Request('https://site.example/api/merchant-feed?ids='+ids.join(',')))).json();
+  const current=await lookup();
+  assert.deepEqual(current.unconfirmedIds,[]);
+  assert.equal(current.items.length,1);
+  sql.prepare("UPDATE merchant_feed_items SET updated_at='2000-01-01T00:00:00Z'").run();
+  assert.deepEqual((await lookup()).unconfirmedIds,[ids[0]]);
+  sql.prepare("UPDATE config SET data=json_set(data,'$.lastSuccess','2000-01-01T00:00:00Z') WHERE key='wildmart-acp'").run();
+  assert.deepEqual((await lookup()).unconfirmedIds,ids);
+  sql.prepare("UPDATE config SET data=json_set(data,'$.enabled',json('false')) WHERE key='wildmart-acp'").run();
+  const suspended=await lookup();
+  assert.deepEqual(suspended.items,[]);
+  assert.deepEqual(suspended.unconfirmedIds,ids);
+});
+
+test('snapshot rolls back if a concurrent photo check changed an item', async () => {
+  const sql=setup(), snapshot=acpFixture(), run={runId:'1',event:'schedule'};
+  await publishACP(snapshot,run);
+  const database=globalThis.testFeedEnv.DB;
+  const batch=database.batch.bind(database);
+  database.batch=async statements=>{
+    sql.prepare("UPDATE merchant_feed_items SET data=json_set(data,'$.image.status','verified')").run();
+    return batch(statements);
+  };
+  await assert.rejects(publishACP({...snapshot,digest:'sha256:'+'e'.repeat(64)},run));
+  const {generation,data}=sql.prepare('SELECT generation,data FROM merchant_feed_items').get();
+  assert.equal(generation,snapshot.digest);
+  assert.equal(JSON.parse(data).image.status,'verified');
+  assert.equal((await acpState()).history.length,1);
+  assert.equal(sql.prepare('SELECT COUNT(*) n FROM catalog_write_guards').get().n,0);
+});
+
+test('a missed refresh write cannot count as a verified observation', async () => {
+  const sql=setup(), snapshot=acpFixture(), run={runId:'1',event:'schedule'};
+  await publishACP(snapshot,run);
+  sql.exec('CREATE TRIGGER miss_detail BEFORE UPDATE OF data ON merchant_feed_items BEGIN SELECT RAISE(IGNORE); END;');
+  const item={product_id:123,data_stale:false,canonical_url:snapshot.rows[0].url,
+    availability:'out_of_stock',price:{currency:'MDL',mode:'fixed',current:'10.00'}};
+  const result=await refreshACP({results:[{id:'123',updatedAt:new Date().toISOString(),item}]},run);
+  assert.equal(result.verified,0);
+  assert.equal(JSON.parse(sql.prepare('SELECT data FROM merchant_feed_items').get().data).price,123.45);
+});

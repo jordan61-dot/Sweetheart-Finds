@@ -1,6 +1,8 @@
 'use client';
 
 import {useEffect,useState} from 'react';
+import {useMerchantClock} from './use-merchant-clock';
+import {merchantObservationIsFresh} from '../lib/merchant-freshness';
 import type {Operation,Personal} from '../lib/domain';
 
 type SaveProps={
@@ -27,7 +29,8 @@ export function MerchantSaveControls({id,title,personal,ready,act}:SaveProps&{id
   </div>;
 }
 
-type LiveOffer={id:string;url:string;availability:string};
+type LiveOffer={id:string;url:string;availability:string;observedAt:string};
+type OfferLookup={items:LiveOffer[];unconfirmedIds?:string[]};
 
 export function SavedMerchantOffers({ids,personal,ready,act,favorites,activeList}:SaveProps&{ids:string[];favorites:boolean;activeList:string}){
   const [page,setPage]=useState(1);
@@ -35,7 +38,8 @@ export function SavedMerchantOffers({ids,personal,ready,act,favorites,activeList
   const currentPage=Math.min(page,pages||1);
   const pageIds=ids.slice((currentPage-1)*24,currentPage*24);
   const key=pageIds.join(',');
-  const [lookup,setLookup]=useState<{key:string;items:LiveOffer[];failed?:boolean}>();
+  const [lookup,setLookup]=useState<OfferLookup & {key:string;failed?:boolean}>();
+  const clock=useMerchantClock(lookup?.items);
   useEffect(()=>{
     if(!key)return;
     const controller=new AbortController();
@@ -43,8 +47,8 @@ export function SavedMerchantOffers({ids,personal,ready,act,favorites,activeList
       try{
         const response=await fetch('/api/merchant-feed?'+new URLSearchParams({ids:key}),{signal:controller.signal,cache:'no-store'});
         if(!response.ok)throw Error('Unable to refresh offers');
-        const data=await response.json() as {items:LiveOffer[]};
-        if(!controller.signal.aborted)setLookup({key,items:data.items});
+        const data=await response.json() as OfferLookup;
+        if(!controller.signal.aborted)setLookup({key,items:data.items,unconfirmedIds:data.unconfirmedIds});
       }catch{
         if(!controller.signal.aborted)setLookup({key,items:[],failed:true});
       }
@@ -60,8 +64,9 @@ export function SavedMerchantOffers({ids,personal,ready,act,favorites,activeList
       {pageIds.map(id=>{
         const offer=lookup?.key===key?lookup.items.find(item=>item.id===id):undefined;
         const title=personal.merchantBookmarks?.[id]?.title||'Saved Wildmart offer';
-        const state=offer?(offer.availability==='in_stock'?'Retailer reported in stock':offer.availability==='out_of_stock'?'Retailer reported sold out':'Check stock at Wildmart'):
-          lookup?.key!==key?'Checking current offer…':lookup.failed?'Could not check the retailer feed.':'Offer no longer appears in the current retailer feed.';
+        const availability=offer && merchantObservationIsFresh(offer.observedAt,clock) ? offer.availability : 'stale';
+        const state=offer?(availability==='in_stock'?'Retailer reported in stock':availability==='out_of_stock'?'Retailer reported sold out':'Check stock at Wildmart'):
+          lookup?.key!==key?'Checking current offer…':lookup.failed?'Could not check the retailer feed.':lookup.unconfirmedIds?.includes(id)?'The retailer feed cannot currently confirm this offer.':'Offer was absent from the last verified retailer feed.';
         return <article className="merchant-card" key={id}><div className="merchant-copy">
           <h3>{title}</h3><p>{state}</p>
           {offer&&<a className="text-link" href={offer.url} target="_blank" rel="noreferrer">Visit Wildmart ↗</a>}
