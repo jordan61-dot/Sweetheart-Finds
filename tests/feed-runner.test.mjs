@@ -48,6 +48,21 @@ test('image redirects are bounded and confined to the approved HTTPS origin',asy
  calls=[];globalThis.fetch=async(url)=>{calls.push(url);return new Response(null,{status:302,headers:{location:'/loop.jpg'}});};assert.equal((await imageHead('https://covers.openlibrary.org/start.jpg')).status,302);assert.equal(calls.length,3);
 });
 const {mediaOverview}=await import('../lib/discovery/media-overview.ts');
+test('edition cover coverage counts current displayed book editions independently of collectible-photo assignments',async()=>{
+  const sql=setup(), {productStatements}=await import('../lib/server.ts'), {normalizeProduct}=await import('../lib/domain.ts');
+  const catalog=JSON.parse(fs.readFileSync(new URL('../data/catalog.json',import.meta.url),'utf8'));
+  const book=normalizeProduct(catalog.find(p=>p.id==='openlibrary-OL17400503W'));
+  await catalogBatch(productStatements(book),await catalogRevision());
+  let {metrics}=await mediaOverview();
+  assert.equal(metrics.picturedEditions,1);
+  assert.equal(metrics.identityAssigned,0);
+  for(const expiresAt of ['2020-01-01T00:00:00Z','2040-01-01T00:00:00Z']){
+    sql.prepare("UPDATE products SET data=json_set(data,'$.images[0].expiresAt',?) WHERE id=?").run(expiresAt,book.id);
+    assert.equal((await mediaOverview()).metrics.picturedEditions,Date.parse(expiresAt)>Date.now()?1:0);
+  }
+  sql.prepare('UPDATE products SET archived=1 WHERE id=?').run(book.id);
+  assert.equal((await mediaOverview()).metrics.picturedEditions,0);
+});
 test('media metrics distinguish image URLs from exact approved assignments',async()=>{const sql=setup();fetchFixture();await saveFeed(feed);await runFeed(feed.id);const stats=await mediaOverview();assert.equal(stats.metrics.total,1);assert.equal(stats.metrics.withImages,1);assert.equal(stats.metrics.identityAssigned,1);sql.prepare("DELETE FROM config WHERE key LIKE 'media:%'").run();assert.equal((await mediaOverview()).metrics.identityAssigned,0);});
 test('isolated feed failures mark maintenance unsuccessful without losing history',async()=>{const sql=setup();await saveFeed(feed);globalThis.fetch=async()=>new Response(null,{status:503});const run=await maintenanceTick({event:'schedule',runId:'456',attempt:'1'});assert.ok(run.errors.some(e=>e.includes('Feed fixture-feed')));const state=JSON.parse(sql.prepare("SELECT data FROM config WHERE key='automation-runtime'").get().data);assert.equal(state.lastSuccessfulAt,undefined);assert.equal(state.lastRun.runId,'456');});
 
