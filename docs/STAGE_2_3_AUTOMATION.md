@@ -175,3 +175,7 @@ Pludor documents a public shopping discovery feed, while section 6 of its [terms
 ## Retailer XML, RSS and Atom feeds
 
 The registered retailer collector now accepts product XML, RSS 2.0 and Atom 1.0. The source owner can configure these formats in Catalog Studio under the existing recurring and durable permission agreement. A SQLite integration test imports a fixture through registration, updates a price under the same product identity and confirms that malformed replacement XML preserves the existing offer. See [participating retailer integration](PERMISSIONED_FEEDS.md#authorized-xml-exports) for the supported fields and an XML example. These formats do not activate a merchant, publish photos or change source permissions.
+
+## Photo decision queue
+
+Catalog Studio opens photo decisions with active products awaiting review. The owner can switch to the full decision history, including prior rejections and records whose products were archived. Both views display 20 decisions per page. The queue count and pending view use the same eligibility rules, so prior decisions cannot push new candidates out of reach.

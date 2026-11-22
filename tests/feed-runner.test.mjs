@@ -229,3 +229,35 @@ test('registered RSS ingests into SQLite, retains stable offers and preserves th
   assert.equal(sql.prepare('SELECT data FROM products WHERE id=?').get(stored.id).data,refreshed);
   assert.equal(sql.prepare('SELECT count(*) n FROM listings').get().n,1);
 });
+
+test('photo review pages surface pending candidates beyond 100 historical decisions',async()=>{
+ const {mediaReviewPage}=await import('../lib/discovery/media-overview.ts');
+ const sql=setup();
+ fetchFixture([{...row,images:[]}]);
+ await saveFeed(feed);
+ await runFeed(feed.id);
+ const {id}=sql.prepare('SELECT id FROM products').get();
+ const add=sql.prepare('INSERT INTO config(key,data) VALUES (?,?)');
+ const candidate={productId:id,candidate:{url:'https://upload.wikimedia.org/example.jpg'},match:{decision:'review'}};
+ for(let index=0;index<110;index++) add.run('media:a:'+String(index).padStart(3,'0'),JSON.stringify({...candidate,review:'rejected'}));
+ for(let index=0;index<22;index++) add.run('media:b:'+String(index).padStart(3,'0'),JSON.stringify(candidate));
+ add.run('media:b:missing',JSON.stringify({...candidate,productId:'missing'}));
+ add.run('media:b:failed',JSON.stringify({...candidate,candidate:null}));
+ const first=await mediaReviewPage('pending');
+ assert.equal(first.entries.length,20);
+ assert.equal(first.entries[0].key,'media:b:000');
+ const last=await mediaReviewPage('pending',first.next);
+ assert.deepEqual(last.entries.map(entry=>entry.key),['media:b:020','media:b:021']);
+ assert.equal(last.next,null);
+ assert.equal((await mediaOverview()).reviews.awaiting,22);
+ let cursor='', seen=[];
+ do {
+   const page=await mediaReviewPage('all',cursor);
+   seen.push(...page.entries.map(entry=>entry.key));
+   cursor=page.next;
+ } while(cursor);
+ assert.equal(new Set(seen).size,134);
+ sql.prepare('UPDATE products SET archived=1 WHERE id=?').run(id);
+ assert.deepEqual((await mediaReviewPage('pending')).entries,[]);
+ assert.equal((await mediaOverview()).reviews.awaiting,0);
+});
