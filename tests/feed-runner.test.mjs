@@ -369,3 +369,35 @@ test('an active feed consumes no scheduler slot',async()=>{
  fetchFixture([{...row,images:[]}]);
  assert.deepEqual((await tickFeeds()).results.map(result=>result.id),['bbb','ccc']);
 });
+
+test('photo audit checks the public edition cover and replaces old ISBN audit status',async()=>{
+ const sql=setup();
+ const {productStatements,now}=await import('../lib/server.ts');
+ const {normalizeProduct}=await import('../lib/domain.ts');
+ const catalog=JSON.parse(fs.readFileSync(new URL('../data/catalog.json',import.meta.url),'utf8'));
+ const book=normalizeProduct(catalog.find(product=>product.id==='openlibrary-OL21116258W'));
+ await catalogBatch(productStatements(book),await catalogRevision());
+ sql.prepare('INSERT INTO config(key,data) VALUES (?,?)').run('image-audit:'+book.id,
+  JSON.stringify({at:now(),gallery:JSON.stringify(book.images),complete:true,results:[{url:book.images[0].url,status:'broken'}]}));
+ const calls=[];
+ globalThis.fetch=async url=>{
+  calls.push(url);
+  return new Response(null,{headers:{'content-type':'Image/JPEG; charset=binary'}});
+ };
+ assert.deepEqual((await mediaOverview()).audit,[]);
+ assert.equal((await auditNextImage()).checked,1);
+ assert.deepEqual(calls,['https://covers.openlibrary.org/b/id/10408106-M.jpg?default=false']);
+ assert.deepEqual((await mediaOverview()).audit,[{status:'reachable',total:1}]);
+ assert.equal((await auditNextImage()).checked,0);
+});
+
+test('owner maintenance does not move the deadline for the next scheduled execution',async()=>{
+ const sql=setup();
+ const expected='2026-01-01T00:00:00.000Z';
+ sql.prepare('INSERT INTO config(key,data) VALUES (?,?)').run('automation-runtime',JSON.stringify({lastScheduledAt:expected,nextExpectedAt:expected}));
+ await maintenanceTick({event:'owner-triggered',runId:'manual',attempt:'1'});
+ const state=JSON.parse(sql.prepare("SELECT data FROM config WHERE key='automation-runtime'").get().data);
+ assert.equal(state.nextExpectedAt,expected);
+ assert.equal(state.lastScheduledAt,expected);
+ assert.equal(state.lastRun.runId,'manual');
+});

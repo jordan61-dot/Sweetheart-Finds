@@ -187,3 +187,7 @@ When a registered feed configuration changes, the next collection starts with a 
 ## Retailer galleries and collection order
 
 The retailer collector verifies each supplied photo against the exact source product and variant. A checkpoint processes up to ten products and makes at most twelve photo requests. When it reaches the budget, the next run resumes with the next product. Existing gallery entries count toward the twelve-photo product limit. Failed feed verifications remain in the decision history and can be retried by the collector. Scheduled collection processes the longest-waiting eligible feeds first.
+
+## Image audit and scheduler reporting
+
+The availability audit follows the catalog's public edition-cover selection. Coverage counts use that same URL, so an old ISBN audit cannot label the displayed edition cover broken. A check whose gallery changes in flight is discarded. Same-origin redirects share a five-second deadline, and maintenance warnings show outcomes from the current audit batch. Owner-triggered maintenance leaves the next scheduled deadline intact.
