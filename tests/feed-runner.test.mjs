@@ -343,3 +343,29 @@ test('oldest due feeds get the bounded scheduler slots ahead of recently due fee
  fetchFixture([{...row,images:[]}]);
  assert.deepEqual((await tickFeeds()).results.map(result=>result.id),['bbb','ccc']);
 });
+
+test('consecutive failures are retained after successful recovery',async()=>{
+ const {feedOverview}=await import('../lib/discovery/feed-runner.ts');
+ setup();
+ await saveFeed(feed);
+ for(const status of [503,502]){
+   globalThis.fetch=async()=>new Response(null,{status});
+   await assert.rejects(runFeed(feed.id),new RegExp(String(status)));
+   await resetFeed(feed.id);
+ }
+ fetchFixture();
+ await runFeed(feed.id);
+ const [item]=await feedOverview();
+ assert.deepEqual(item.state.runs.map(run=>run.error||'success'),['success','Feed HTTP 502','Feed HTTP 503']);
+ assert.equal(item.state.failures,0);
+});
+
+test('an active feed consumes no scheduler slot',async()=>{
+ const {tickFeeds}=await import('../lib/discovery/feed-runner.ts');
+ const sql=setup();
+ for(const id of ['aaa','bbb','ccc'])await saveFeed({...feed,id});
+ sql.prepare('INSERT INTO config(key,data) VALUES (?,?)')
+   .run('feed-state:aaa',JSON.stringify({lease:'running',leaseUntil:new Date(Date.now()+60000).toISOString()}));
+ fetchFixture([{...row,images:[]}]);
+ assert.deepEqual((await tickFeeds()).results.map(result=>result.id),['bbb','ccc']);
+});
