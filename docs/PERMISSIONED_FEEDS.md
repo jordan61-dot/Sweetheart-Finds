@@ -1,6 +1,6 @@
 # Participating retailer integration
 
-This format requires no paid software or external integration account. The retailer hosts an HTTPS JSON or CSV export on infrastructure it already controls. Hosting a public file does not by itself grant redistribution permission.
+This format requires no paid software or external integration account. The retailer hosts an HTTPS JSON, CSV, XML, RSS or Atom export on infrastructure it already controls. Hosting a public file does not by itself grant redistribution permission.
 
 Obtain written permission covering recurring retrieval, durable product/price/stock indexing, retention, permissible refresh frequency, and separately the specified images. Retain a public evidence URL or a non-sensitive statement referencing a privately retained agreement. Record an expiry/review deadline. Do not use this durable pipeline for Shopify Catalog temporary shopper results.
 
@@ -71,3 +71,23 @@ CSV supports the same simple fields, pipe-separated categories and explicit fiel
 5. Monitor overdue runs, source failures, image verification failures, and repository inactivity. Recover a failed/interrupted feed through the owner control after addressing its cause. Recovery does not reset daily request budgets.
 
 A successful maintenance execution does not establish live merchandise harvesting; that still requires a real permitted feed. Rollback: suspend feeds, disable the workflow, and redeploy prior source. Do not restore an older database over newer personal records. The current backup tool preserves new config-backed feed/media state without a migration.
+
+
+## Authorized XML exports
+
+Set `format` to `xml` for `products/product`, `rss` for RSS 2.0 `rss/channel/item`, or `atom` for Atom 1.0 `feed/entry`. Each record needs a stable source identity, title, absolute product URL, currency, and at least one supported interest ID. Plain-text child fields use the JSON contract names. The existing field mapping accepts merchant column names. For XML, repeated categories or pipe-separated interest IDs are supported. The following abbreviated retailer export is a fixture.
+
+```xml
+<products>
+  <product>
+    <sourceId>fixture-123</sourceId><variantId>pink</variantId>
+    <title>My Melody plush</title><categories>my-melody</categories>
+    <url>https://merchant.example/products/123-pink</url>
+    <price>19.99</price><currency>USD</currency>
+  </product>
+</products>
+```
+
+RSS can supply a GUID, link and category. Atom can supply an entry ID, alternate HTML link and category term. Both can supply Google Merchant fields in the namespace `http://base.google.com/ns/1.0`. The importer recognizes `g:id`, `g:brand`, `g:price` (amount and currency), and `g:availability`. An explicit sourceId takes precedence. Keep each variant's merchant identity stable. Supply catalog interest IDs directly or map an existing merchant field containing those IDs to `categories`. Only in-stock and out-of-stock Merchant values set a definite availability. A feed without a price still needs its currency field.
+
+The XML importer takes scalar product fields only. Image enclosures and image links do not enter the gallery. Merchants supplying authorized, attributed variant photos can use the documented JSON image contract. XML document types and nested markup in mapped fields are rejected. The same size, row, permission, host, retry and transaction limits apply to all formats.

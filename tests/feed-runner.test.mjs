@@ -207,3 +207,25 @@ test('a failed download cannot replace a suspension or a newer successful snapsh
   assert.equal((await acpState()).failures,1);
   assert.equal(sql.prepare('SELECT count(*) n FROM merchant_feed_items').get().n,1);
 });
+
+test('registered RSS ingests into SQLite, retains stable offers and preserves them after a malformed replacement',async()=>{
+  const sql=setup();
+  await saveFeed({...feed,format:'rss'});
+  const item='<item><guid>fixture-01</guid><title>My Melody plush</title><category>my-melody</category><link>https://merchant.example/01</link><m:price>19 USD</m:price></item>';
+  const catalog='<rss version="2.0" xmlns:m="http://base.google.com/ns/1.0"><channel>'+item+'</channel></rss>';
+  let body=catalog;
+  globalThis.fetch=async()=>new Response(body,{headers:{'content-type':'application/rss+xml'}});
+  assert.equal((await runFeed(feed.id)).complete,true);
+  const stored=sql.prepare('SELECT id,data FROM products').get();
+  assert.equal(JSON.parse(stored.data).listings[0].price,19);
+  await resetFeed(feed.id);
+  body=catalog.replace('19 USD','18 USD');
+  await runFeed(feed.id);
+  const refreshed=sql.prepare('SELECT data FROM products WHERE id=?').get(stored.id).data;
+  assert.equal(JSON.parse(refreshed).listings[0].price,18);
+  await resetFeed(feed.id);
+  body=catalog.replace('</channel></rss>','<item>');
+  await assert.rejects(runFeed(feed.id));
+  assert.equal(sql.prepare('SELECT data FROM products WHERE id=?').get(stored.id).data,refreshed);
+  assert.equal(sql.prepare('SELECT count(*) n FROM listings').get().n,1);
+});

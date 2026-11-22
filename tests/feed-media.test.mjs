@@ -16,3 +16,45 @@ const candidate={url:'https://images.example/pink.jpg',sourceUrl:product.sourceU
 test('only verified exact product and variant may auto-publish',()=>{assert.equal(matchImage(product,candidate,Date.parse(at)).decision,'approved');for(const change of [{sourceVariant:undefined},{verifiedAt:undefined},{sourceUrl:'https://another.example/item'},{contentType:'text/html'}])assert.equal(matchImage(product,{...candidate,...change},Date.parse(at)).decision,'review');});
 test('conflicting variant, identifiers, generation and expired rights reject',()=>{assert.equal(matchImage(product,{...candidate,sourceVariant:'blue'},Date.parse(at)).decision,'rejected');assert.equal(matchImage({...product,generation:'G1'},{...candidate,generation:'G3'},Date.parse(at)).decision,'rejected');assert.equal(matchImage(product,{...candidate,expiresAt:at},Date.parse(at)).decision,'rejected');assert.equal(matchImage({...product,identifiers:{gtin:'123456789'}},{...candidate,identifiers:{gtin:'987654321'}},Date.parse(at)).decision,'rejected');});
 test('generic character art never becomes an exact product photograph',()=>{assert.equal(matchImage(product,{...candidate,sourceProduct:undefined,title:product.title},Date.parse(at)).decision,'review');});
+
+const xmlProduct = '<sourceId>123</sourceId><variantId>pink</variantId><title>My Melody plush</title><url>https://merchant.example/item/123</url><currency>USD</currency><categories>my-melody</categories>';
+test('XML retailer rows retain JSON catalog identities and supported field mappings',()=>{
+ const mapped = xmlProduct.replaceAll('sourceId','sku').replace('<title>My Melody plush</title>', '<title><![CDATA[My Melody & friends]]></title>');
+ const config = feedSchema.parse({...feed,format:'xml',mapping:{sourceId:'sku'}});
+ const [entry] = parseFeed('<products><product>'+mapped+'</product></products>',config,at);
+ assert.equal(entry.product.title,'My Melody & friends');
+ assert.equal(entry.product.id,product.id);
+ assert.equal(entry.product.listings[0].price,null);
+});
+
+test('RSS and Atom preserve listing data, resolve namespaces, and omit unapproved artwork',async()=>{
+ const google = '<m:id>123</m:id><m:price>19.00 USD</m:price><m:availability>in_stock</m:availability><m:image_link>https://images.example/test.jpg</m:image_link>';
+ for(const format of ['atom','rss']){
+  const atom = format==='atom';
+  const root = atom ? 'feed' : 'rss';
+  const wrapper = atom ? 'entry' : 'channel><item';
+  const location = atom ? '<id>other</id><link rel="self" href="https://merchant.example/feed"/><link href="https://merchant.example/item/123"/><category term="my-melody"/>' : '<guid>other</guid><link>https://merchant.example/item/123</link><category>my-melody</category>';
+  const body = '<'+root+' xmlns:m="http://base.google.com/ns/1.0"'+(atom?' xmlns="http://www.w3.org/2005/Atom"':' version="2.0"')+'><'+wrapper+'><title>My Melody plush</title>'+location+google+(atom?'</entry></feed>':'</item></channel></rss>');
+  const config = feedSchema.parse({...feed,format});
+  const received = await readFeed(config,['merchant.example'],undefined,undefined,async(_,options)=>{
+   assert.match(options.headers.Accept,new RegExp(format));return new Response(body);
+  });
+  const [entry] = parseFeed(received.text,config,at);
+  assert.equal(entry.sourceId,'123');assert.equal(entry.product.sourceUrl,row.url);
+  assert.equal(entry.product.listings[0].price,19);assert.equal(entry.product.listings[0].availability,'available');
+  assert.deepEqual(entry.product.images,[]);
+ }
+});
+
+test('XML rejects malformed, ambiguous, oversized or unsupported catalogs before publishing rows',()=>{
+ const config={...feed,format:'xml'};
+ for(const body of [
+  '<rss/>', '<products><other><product>'+xmlProduct+'</product></other></products>',
+  '<!DOCTYPE products><products><product>'+xmlProduct+'</product></products>',
+  '<products><product>'+xmlProduct+'</product>',
+  '<products><product>'+xmlProduct+'<sourceId>456</sourceId></product></products>',
+  '<products><product>'+xmlProduct.replace('My Melody plush','<b>My Melody</b>')+'</product></products>',
+  '<products>'+'<product/>'.repeat(251)+'</products>',
+  '<products>'+'<x>'.repeat(32)+'</x>'.repeat(32)+'</products>'
+ ]) assert.throws(()=>parseFeed(body,config,at));
+});
