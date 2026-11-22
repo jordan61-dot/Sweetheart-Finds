@@ -261,3 +261,46 @@ test('photo review pages surface pending candidates beyond 100 historical decisi
  assert.deepEqual((await mediaReviewPage('pending')).entries,[]);
  assert.equal((await mediaOverview()).reviews.awaiting,0);
 });
+
+test('edited feed mapping discards prior checkpoints and validators before the next fetch',async()=>{
+ const sql=setup();
+ fetchFixture(Array.from({length:11},(_,i)=>({...row,sourceId:'item'+i,images:[]})));
+ await saveFeed(feed);
+ assert.equal((await runFeed(feed.id)).complete,false);
+ const {checkpoint}= (await (await import('../lib/discovery/feed-runner.ts')).feedOverview())[0];
+ assert.equal(checkpoint,10);
+ await saveFeed({...feed,mapping:{price:'newPrice'}});
+ globalThis.fetch=async(_,options)=>{
+   assert.equal(options.headers['If-None-Match'],undefined);
+   return Response.json([{...row,sourceId:'item0',newPrice:12,images:[]}]);
+ };
+ assert.equal((await runFeed(feed.id)).complete,true);
+ assert.equal(sql.prepare('SELECT count(*) n FROM products').get().n,10);
+ assert.equal(sql.prepare('SELECT count(*) n FROM listings WHERE price_micros=12000000').get().n,1);
+});
+
+test('expired feed permission stops scheduled collection without a source failure',async()=>{
+ setup();
+ const {feedOverview,tickFeeds}=await import('../lib/discovery/feed-runner.ts');
+ await saveFeed({...feed,permissionExpiresAt:'2000-01-01T00:00:00Z'});
+ globalThis.fetch=async()=>{assert.fail('Expired feed must not be contacted');};
+ assert.equal((await feedOverview())[0].permissionExpired,true);
+ assert.equal((await tickFeeds()).eligible,0);
+ await assert.rejects(runFeed(feed.id),/permission expired/);
+});
+
+test('saving during an active collection leaves its configuration untouched',async()=>{
+ const sql=setup();
+ await saveFeed(feed);
+ let finish;
+ globalThis.fetch=async()=>new Promise(resolve=>{finish=resolve;});
+ const running=runFeed(feed.id);
+ while(!finish)await new Promise(resolve=>setImmediate(resolve));
+ try {
+   await assert.rejects(saveFeed({...feed,imagesAllowed:false}),/collector is active/);
+   assert.equal(JSON.parse(sql.prepare("SELECT data FROM config WHERE key='feed:fixture-feed'").get().data).imagesAllowed,true);
+ } finally {
+   finish(Response.json([{...row,images:[]}]));
+   await running;
+ }
+});

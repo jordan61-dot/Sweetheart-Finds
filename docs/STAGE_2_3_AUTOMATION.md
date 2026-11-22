@@ -179,3 +179,7 @@ The registered retailer collector now accepts product XML, RSS 2.0 and Atom 1.0.
 ## Photo decision queue
 
 Catalog Studio opens photo decisions with active products awaiting review. The owner can switch to the full decision history, including prior rejections and records whose products were archived. Both views display 20 decisions per page. The queue count and pending view use the same eligibility rules, so prior decisions cannot push new candidates out of reach.
+
+## Feed configuration and permission changes
+
+When a registered feed configuration changes, the next collection starts with a fresh download under the new mapping and permission settings. It discards the old checkpoint and HTTP validators while preserving existing catalog records, the daily request budget and execution history. A concurrent collector lease blocks configuration edits. Expired permissions stop new scheduled requests, and permission must still be valid when a collector commits a page.
