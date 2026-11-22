@@ -1,5 +1,5 @@
 """Official ACP snapshot consumer. No storefront scraping, image downloads or disk cache."""
-import hashlib,json,os,re,sys,time,urllib.request,urllib.parse
+import hashlib,json,os,re,sys,time,urllib.error,urllib.request,urllib.parse
 MANIFEST='https://wildmart.md/acp/feeds/index.json'
 ENDPOINT='https://sweetheart-finds.jordanmullens12.chatgpt.site/api/automation/tick'
 UA='SweetheartFinds/2.3 (+https://github.com/jordan61-dot/Sweetheart-Finds)'
@@ -29,8 +29,26 @@ def get(url,limit=65536):
 def feed_url(url):
  if not re.fullmatch(r'https://wildmart\.md/acp/feeds/[a-zA-Z0-9-]+/ro/(metadata\.json|products\.jsonl)',url):raise ValueError('Unapproved feed URL')
  return url
+class ManifestUnavailable(Exception):
+    """The merchant no longer serves the configured manifest at its published URL."""
+
+def read_manifest():
+    try:
+        return get(MANIFEST)
+    except urllib.error.HTTPError as error:
+        if error.code not in (404, 410):
+            raise
+        raise ManifestUnavailable(f'Wildmart ACP manifest returned HTTP {error.code}') from error
+
+def report_deferral(reason, next_at):
+    message = f'{reason}. Collection deferred until {next_at}. No offers refreshed by this step.'
+    print(f'::warning title=Wildmart feed unavailable::{message}', flush=True)
+    if os.environ.get('GITHUB_STEP_SUMMARY'):
+        with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
+            print(message, file=summary)
+
 def collect():
- start=time.monotonic();m=get(MANIFEST)
+ start=time.monotonic();m=read_manifest()
  if m.get('publication_mode')!='offline_full_replacement':raise ValueError('Feed contract changed')
  f=next(x for x in m['feeds'] if x['locale']=='ro-MD')
  if not 0<f['bytes']<=350_000_000 or not 0<f['product_count']<=200000:raise ValueError('Feed resource budget exceeded')
@@ -61,9 +79,33 @@ def main():
   p=collect();print(json.dumps({**{k:v for k,v in p.items() if k!='rows'},'matched':len(p['rows']),'examples':p['rows'][:3]},ensure_ascii=False));return
  state=call({'action':'acp-state'})
  snapshot_failed=False
+ # A missing manifest invalidates the basis for further scheduled SKU checks.
+ # Independent site maintenance still runs in the following workflow step.
+ if not state.get('due') and state.get('enabled') is not False and state.get('failures') and state.get('nextAt'):
+  reason = state.get('error')
+  if reason in ('Wildmart ACP manifest returned HTTP 404','Wildmart ACP manifest returned HTTP 410'):
+   report_deferral(reason, state['nextAt'])
+   return
+  # Older runners recorded a generic HTTP error. Confirm the affected endpoint
+  # before treating an existing retry window as a merchant outage.
+  if reason in ('HTTP Error 404: Not Found','HTTP Error 410: Gone'):
+   try:
+    read_manifest()
+   except ManifestUnavailable as error:
+    report_deferral(str(error), state['nextAt'])
+    return
  if state.get('due'):
   try:
    print(json.dumps(call(collect())))
+  except ManifestUnavailable as error:
+   retry = call({'action':'acp-failure','message':str(error),'expectedLastSuccess':state.get('lastSuccess')})
+   if retry.get('skipped'):
+    print('Snapshot state changed during collection. The next run will read current state.')
+    return
+   if not retry.get('failed') or not retry.get('nextAt'):
+    raise RuntimeError('The site did not confirm recording the feed outage')
+   report_deferral(str(error), retry['nextAt'])
+   return
   except Exception as error:
    snapshot_failed=True
    print('Full snapshot failed; continuing with existing offers and photo maintenance.',file=sys.stderr)

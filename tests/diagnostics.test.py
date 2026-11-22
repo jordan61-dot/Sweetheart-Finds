@@ -81,6 +81,37 @@ class WildmartCollection(unittest.TestCase):
                 reason = str(e)
         return reason, calls, fetch.call_count
 
+    def test_missing_manifest_records_backoff_and_skips_detail_refresh(self):
+        from unittest.mock import patch
+        from urllib.error import HTTPError
+        missing = HTTPError(wild.MANIFEST,404,'Not Found',{},None)
+        with patch.object(wild,'get',side_effect=missing) as fetch, patch.object(
+            wild,'call',side_effect=[{'due':True,'lastSuccess':'old'},{'failed':True,'nextAt':'later'}]
+        ) as service, patch.object(wild,'report_deferral') as warn:
+            wild.main()
+        fetch.assert_called_once_with(wild.MANIFEST)
+        self.assertEqual(service.call_args.args[0], {'action':'acp-failure',
+            'message':'Wildmart ACP manifest returned HTTP 404','expectedLastSuccess':'old'})
+        warn.assert_called_once_with('Wildmart ACP manifest returned HTTP 404','later')
+
+    def test_confirmed_manifest_outage_waits_without_contacting_merchant(self):
+        from unittest.mock import patch
+        reason = 'Wildmart ACP manifest returned HTTP 410'
+        with patch.object(wild,'get') as fetch, patch.object(wild,'call',return_value={
+            'due':False,'failures':1,'error':reason,'nextAt':'later'
+        }) as service, patch.object(wild,'report_deferral') as warn:
+            wild.main()
+        fetch.assert_not_called()
+        service.assert_called_once_with({'action':'acp-state'})
+        warn.assert_called_once_with(reason,'later')
+
+    def test_unrecorded_outage_is_a_job_failure(self):
+        from unittest.mock import patch
+        with patch.object(wild,'collect',side_effect=wild.ManifestUnavailable('missing')), patch.object(
+            wild,'call',side_effect=[{'due':True},{}]
+        ), self.assertRaises(RuntimeError):
+            wild.main()
+
     def test_complete_detail_outage_is_visible_after_maintenance(self):
         reason, calls, count = self.run_detail(error=TimeoutError(),verified=0)
         self.assertIsNotNone(reason)
