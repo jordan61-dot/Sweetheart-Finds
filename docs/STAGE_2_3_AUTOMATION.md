@@ -183,3 +183,7 @@ Catalog Studio opens photo decisions with active products awaiting review. The o
 ## Feed configuration and permission changes
 
 When a registered feed configuration changes, the next collection starts with a fresh download under the new mapping and permission settings. It discards the old checkpoint and HTTP validators while preserving existing catalog records, the daily request budget and execution history. A concurrent collector lease blocks configuration edits. Expired permissions stop new scheduled requests, and permission must still be valid when a collector commits a page.
+
+## Retailer galleries and collection order
+
+The retailer collector verifies each supplied photo against the exact source product and variant. A checkpoint processes up to ten products and makes at most twelve photo requests. When it reaches the budget, the next run resumes with the next product. Existing gallery entries count toward the twelve-photo product limit. Failed feed verifications remain in the decision history and can be retried by the collector. Scheduled collection processes the longest-waiting eligible feeds first.

@@ -2,6 +2,7 @@ import {db,now} from '../server';
 import type {Product} from '../domain';
 import {picturedWorkIds, withEditionCover} from '../open-library-covers';
 const reviewablePhoto = `p.archived=0
+  AND json_extract(c.data,'$.feed') IS NULL
   AND json_extract(c.data,'$.match.decision')='review'
   AND json_extract(c.data,'$.review') IS NULL
   AND json_extract(c.data,'$.candidate.url') IS NOT NULL`;

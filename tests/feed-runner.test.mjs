@@ -304,3 +304,42 @@ test('saving during an active collection leaves its configuration untouched',asy
    await running;
  }
 });
+
+test('verified retailer gallery resumes within a bounded batch and never queues failed merchant photos for manual approval',async()=>{
+ const {mediaReviewPage}=await import('../lib/discovery/media-overview.ts');
+ const sql=setup();
+ const images=Array.from({length:12},(_,index)=>({...row.images[0],url:'https://images.example/'+index+'.jpg'}));
+ let requests=0;
+ globalThis.fetch=async(url,options)=>{
+  if(options.method==='HEAD'){
+   requests++;
+   return url===images[0].url?new Response(null,{status:404}):new Response(null,{headers:{'content-type':'image/jpeg'}});
+  }
+  return Response.json([{...row,images},{...row,sourceId:'other',images:[{...images[0],sourceId:'other',url:'https://images.example/other.jpg'}]}]);
+ };
+ await saveFeed(feed);
+ assert.equal((await runFeed(feed.id)).complete,false);
+ assert.equal(requests,12);
+ const stored=JSON.parse(sql.prepare('SELECT data FROM products').get().data);
+ assert.equal(stored.images.length,11);
+ assert.equal(stored.images[0].url,images[1].url);
+ const failed=(await mediaReviewPage('all')).entries.find(entry=>entry.candidate.url===images[0].url);
+ assert.equal(failed.match.decision,'review');
+ await assert.rejects(reviewMedia(failed.key,true),/automated source verification/);
+ assert.equal((await mediaReviewPage('pending')).entries.length,0);
+ await resetFeed(feed.id);
+ assert.equal((await runFeed(feed.id)).complete,true);
+ assert.equal(requests,13);
+ assert.equal(sql.prepare('SELECT count(*) n FROM products').get().n,2);
+});
+
+test('oldest due feeds get the bounded scheduler slots ahead of recently due feeds',async()=>{
+ const {tickFeeds}=await import('../lib/discovery/feed-runner.ts');
+ const sql=setup();
+ for(const id of ['aaa','bbb','ccc']){
+  await saveFeed({...feed,id});
+  sql.prepare('INSERT INTO config(key,data) VALUES (?,?)').run('feed-state:'+id,JSON.stringify({nextAt:id==='aaa'?'2026-01-01T00:00:00Z':'2025-01-01T00:00:00Z'}));
+ }
+ fetchFixture([{...row,images:[]}]);
+ assert.deepEqual((await tickFeeds()).results.map(result=>result.id),['bbb','ccc']);
+});
